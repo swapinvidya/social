@@ -9,6 +9,86 @@
 
 
 @section('content')
+@can('isAdmin')
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h6>Daily new registartions</h6>
+                    <div>
+                        <canvas id="user_reg" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>   
+        </div>
+        <div class="col-md-4">
+           <div class="row">
+                <div class="col-12">
+                    <x-adminlte-small-box title="{{$user_count}}" text="User Reg" icon="fas fa-user-plus text-white"
+                    theme="pink" url="#" url-text="View all users"/>
+                </div>
+           </div>
+           <div class="row">
+                <div class="col-12" style="padding-top: 10px">
+                    <x-adminlte-small-box title="{{$totalActiveUsers}}" text="Online Users" icon="fas fa-user-plus text-white"
+                        theme="teal" url="#" url-text="View all users"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                  <h4>User Registarions</h4>
+                  @php
+                  $heads = [
+                                'ID',
+                                'Name',
+                                ['label' => 'Phone', 'width' => 40],
+                                ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+                            ];
+                  
+                  $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                                  <i class="fa fa-lg fa-fw fa-pen"></i>
+                              </button>';
+                  $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+                                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                                </button>';
+                  $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
+                                     <i class="fa fa-lg fa-fw fa-eye"></i>
+                                 </button>';
+                  
+                  $config = [
+                    'data' => [
+                            [22, 'John Bender', '+02 (123) 123456789', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+                            [19, 'Sophia Clemens', '+99 (987) 987654321', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+                            [3, 'Peter Sousa', '+69 (555) 12367345243', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+                        ],
+                      'order' => [[1, 'asc']],
+                      'columns' => [null, null, null, ['orderable' => false]],
+                  ];
+                  @endphp
+                  
+                  {{-- Minimal example / fill data using the component slot --}}
+                  <x-adminlte-datatable id="table1" :heads="$heads">
+                      @foreach($users as $row)
+                          <tr>
+                                <td>{{$row->id}}</td>
+                                <td>{{$row->name}}</td>
+                                <td>{{$row->id}}</td>
+                                <td>@php echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'; @endphp</td>
+                          </tr>
+                      @endforeach
+                  </x-adminlte-datatable>         
+              </div>
+            </div>
+        </div>
+    </div>
+
+@endcan
+
+@can('isClient')
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -112,24 +192,20 @@
           </div>
       </div>
   </div>
+@endcan
+
 @stop
 @section('js')
    
    
-    <script>
+<script>  
+    $(document).ready(function() {
       var text_count = @json($text_count);
       var image_count = @json($image_count);
       var video_count = @json($video_count);
       var date_array = @json($date_array);
 
-        $(document).ready(function() {
-            $("select").change(function(){
-                if($(this).text() != "Chef")
-                    {
-                        alert('GMT '+$(this).val()+' time offset applied');
-                    }
-              });
-        });       
+         
             
             const labels = date_array;
 
@@ -157,12 +233,61 @@
             data: data,
             options: {}
             };
+            
 
             var myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
+                          document.getElementById('myChart'),
+                          config
+                        );
 
+            
+            
+            $("select").change(function(){
+                if($(this).text() != "Chef")
+                    {
+                        alert('GMT '+$(this).val()+' time offset applied');
+                        myChart.update();
+                    }
+                     
+              });
+
+              
+        }); 
        
-    </script>    
+</script>  
+
+<script>  
+    $(document).ready(function() {
+      var text_count = @json($text_count);
+      var image_count = @json($image_count);
+      var video_count = @json($video_count);
+      var date_array = @json($date_array);
+
+         
+            
+            const labels = date_array;
+
+            const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Text',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: text_count,
+            }]
+            };
+            const config = {
+            type: 'line',
+            data: data,
+            options: {}
+            };
+            var user_reg = new Chart(
+                          document.getElementById('user_reg'),
+                          config
+                        );
+
+              
+        }); 
+       
+</script> 
 @stop
