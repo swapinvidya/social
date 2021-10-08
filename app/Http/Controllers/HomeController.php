@@ -40,26 +40,42 @@ class HomeController extends Controller
         // Total active sessions
         $totalActiveUsers = 1;
 
-        //dd($totalActiveUsers);
-
         $users = User::all();
         $user_count = User::count();
         //data for chart
-        $today = Carbon::now();
+        $today = Carbon::today();
         $date_array = array();
         $date_count = array();
+        $reg_count = array();
+        $fulldate_array = array();
 
         $i = 0;
         while ($i < 7) {
-            array_push( $date_array, $today->subDays($i)->format('M-d') );
+            array_push( $date_array, Carbon::today()->subDays($i)->format('M-d') );
+            array_push( $fulldate_array, Carbon::today()->subDays($i));
             $i++;
         }
+
+        if(! empty( $fulldate_array ) ){
+            foreach($fulldate_array as $date){
+               // $reg_count = User::where( 'created_at', '>', $date )->get()->count();
+               if (User::where( 'created_at', '>', $date )->get()->count() != null){
+                        $ct = User::whereDate('created_at', $date )->get()->count();
+                    }
+               else{
+                        $ct = 0;
+                    }
+                array_push($reg_count,$ct);
+            }
+        }
         
+       // dd($reg_count);
         $text_count=array(12,15,19,25,28,30,27);
         $image_count=array(7,15,5,10,14,10,25);
         $video_count=array(20,15,15,20,20,17,10);
        
-        return view('home',compact('users','totalActiveUsers','user_count','date_array','text_count','image_count','video_count'));
+       // dd($reg_count,$text_count);
+        return view('home',compact('users','reg_count','totalActiveUsers','user_count','date_array','text_count','image_count','video_count'));
     }
 
     public function getNotification(Request $request)

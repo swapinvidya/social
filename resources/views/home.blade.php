@@ -45,7 +45,7 @@
                   $heads = [
                                 'ID',
                                 'Name',
-                                ['label' => 'Phone', 'width' => 40],
+                                ['label' => 'Status', 'width' => 40],
                                 ['label' => 'Actions', 'no-export' => true, 'width' => 5],
                             ];
                   
@@ -76,7 +76,13 @@
                           <tr>
                                 <td>{{$row->id}}</td>
                                 <td>{{$row->name}}</td>
-                                <td>{{$row->id}}</td>
+                                <td>
+                                    @if(Cache::has('user-is-online-' . $row->id))
+                                        <span class="text-success">Online</span>
+                                    @else
+                                        <span class="text-secondary">Offline</span>
+                                    @endif
+                                </td>
                                 <td>@php echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'; @endphp</td>
                           </tr>
                       @endforeach
@@ -258,11 +264,8 @@
 
 <script>  
     $(document).ready(function() {
-      var text_count = @json($text_count);
-      var image_count = @json($image_count);
-      var video_count = @json($video_count);
+      var reg_count = @json($reg_count);
       var date_array = @json($date_array);
-
          
             
             const labels = date_array;
@@ -273,7 +276,7 @@
                 label: 'Text',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: text_count,
+                data: reg_count,
             }]
             };
             const config = {

@@ -275,9 +275,47 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'Administrator',
+            'text' => 'Settings',
             'url'  => '#',
             'can' => 'isAdmin',
+            'icon' => 'fas fa-fw fa-cog',
+            'submenu' => [
+                [
+                    'text' => 'Package Settings',
+                    'url'  => 'menu/child1',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Services Settings',
+                    'url'  => 'menu/child2',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Site Settings',
+                    'url'  => 'menu/child2',
+                    'icon' => 'fas fa-fw fa-edit',
+                ],
+            ],
+        ],
+
+        [
+            'text' => 'Payment Gateway',
+            'url'  => '#',
+            'can' => 'isAdmin',
+            'icon' => 'fas fa-fw fa-rupee-sign',
+            'submenu' => [
+                [
+                    'text' => 'Setup Gateway',
+                    'url'  => 'menu/child1',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Statements',
+                    'url'  => 'menu/child2',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+               
+            ],
         ],
 
         [
