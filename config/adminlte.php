@@ -306,7 +306,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Setup Gateway',
-                    'url'  => 'menu/child1',
+                    'url'  => '/gateway_config',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
