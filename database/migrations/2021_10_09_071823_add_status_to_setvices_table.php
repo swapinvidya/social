@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGatewaysTable extends Migration
+class AddStatusToSetvicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateGatewaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('gateways', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-           
+        Schema::table('services', function (Blueprint $table) {
+           $table->string('status')->nullable()->default('Disabled');
         });
     }
 
@@ -27,6 +25,8 @@ class CreateGatewaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gateways');
+        Schema::table('services', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 }

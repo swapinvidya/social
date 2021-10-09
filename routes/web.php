@@ -26,3 +26,12 @@ Auth::routes();
 Route::get('/getNotifications','HomeController@getNotification');
 
 Route::get('/gateway_config','GatewayController@index');
+
+Route::get('/package_config', 'PackageController@index');
+
+Route::get('/service_config', 'ServiceController@index');
+Route::post('/add_service','ServiceController@add');
+Route::post('/mod_save/{id}','ServiceController@mod');
+
+Route::post('/edit_service','ServiceController@edit_service');
+Route::post('/service_del','ServiceController@delete_service');

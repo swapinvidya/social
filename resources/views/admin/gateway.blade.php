@@ -11,7 +11,7 @@
     icon="fas fa-lg fa-cog" >
     <div class="row">
         <div class="col-6">
-            <strong class="text-primary">Enable / Disable Test Mode</strong>
+            <strong class="text-primary">Enable Test Mode</strong>
         </div>
         <div class="col-6">
             <div class="custom-control custom-switch">
@@ -24,20 +24,22 @@
     
     <div class="row mt-2" id="testmod" style="display:none">
         <div class="col-12">
-            <div class="card-header">
-                <h2>Mocker</h2>
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="form-group">
-                    <label for="exampleInputPassword1">Service</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" value="MOCKER_SERVICE" readonly>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-            <div class="card-footer">
-                {footer}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Mocker</h2>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                        <label for="exampleInputPassword1">Service</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1" value="MOCKER_SERVICE" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    {footer}
+                </div>
             </div>
         </div>    
     </div>

@@ -282,12 +282,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Package Settings',
-                    'url'  => 'menu/child1',
+                    'url'  => '/package_config',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Services Settings',
-                    'url'  => 'menu/child2',
+                    'url'  => '/service_config',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
@@ -658,6 +658,16 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'BsCustomFileInput' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
                 ],
             ],
         ],
