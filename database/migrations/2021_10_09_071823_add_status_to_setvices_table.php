@@ -14,7 +14,7 @@ class AddStatusToSetvicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-           $table->string('status')->nullable()->default('Disabled');
+           $table->boolean('status')->nullable()->default(false);
         });
     }
 
