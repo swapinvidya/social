@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Package;
 use Illuminate\Http\Request;
 use App\Service;
+use App\service_in_package;
 use File;
 
 class ServiceController extends Controller
@@ -70,8 +72,14 @@ class ServiceController extends Controller
     }
 
     public function delete_service(Request $request){
+        $ids = service_in_package::where('service_name',$request->input('id'))->pluck('id');
+        $package_ids = service_in_package::where('service_name',$request->input('id'))->pluck('package_id');
+        Package::whereIn('id', $package_ids)->delete();
+        service_in_package::whereIn('id', $ids)->delete();
+        //dd($package_ids);
         File::delete(Service::find($request->input('id'))->logo);
         Service::findOrFail($request->input('id'))->delete();
+       
         return redirect()->back();
      }
 }

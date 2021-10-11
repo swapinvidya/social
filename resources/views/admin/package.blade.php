@@ -9,6 +9,15 @@
 @stop
 
 @section('content')
+@if($serv_all->count() == 0)
+<div class="row">
+    <div class="col-12">
+        <x-adminlte-callout theme="warning" title="Warning! Service Not Enabled">
+            Please Add Services before creating packages
+        </x-adminlte-callout>
+    </div>
+</div>
+@else
 <div class="row">
     <div class="col-md-12">
         <x-adminlte-card title="Add New Service" theme="primary"  icon="fas fa-lg fa-plus"
@@ -147,6 +156,7 @@
                 {{-- Minimal example / fill data using the component slot --}}
                 <x-adminlte-datatable id="table1" :heads="$heads" compressed>
                     @foreach ($packages as $data)
+                       
                         <tr>
                             <td>{{$data->id}}</td>
                             <td>
@@ -154,7 +164,8 @@
                             </td>
                             <td><nobr>
                                 @foreach ($data->service_in_package as $item)
-                                    <img src="{{$services->find($item->service_name)->logo}}" width="15px"/> &nbsp;
+                                    <img src="{{$serv_all->find($item->service_name)->logo}}" width="20px" 
+                                    @if(!$serv_all->find($item->service_name)->status) style="-webkit-filter: grayscale(1); filter: grayscale(1);" @endif/> &nbsp;
                                 @endforeach
                                 <nobr>
                             </td>  
@@ -271,7 +282,7 @@
                                             <div class="col-8 mb-2">
                                                 <label>Package Services</label><br>
                                                 @foreach ($data->service_in_package as $item)
-                                                    <img src="{{$services->find($item->service_name)->logo}}" width="15px"/> &nbsp;
+                                                    <img src="{{$serv_all->find($item->service_name)->logo}}" width="15px"/> &nbsp;
                                                 @endforeach
                                             </div>
                                         </div>
@@ -410,7 +421,8 @@
                             </div>
                             </div>
                         </div> Modal Show-->
-
+                       
+                       
                     @endforeach
                 </x-adminlte-datatable>
             </div>
@@ -418,10 +430,11 @@
        
     </div>
 </div>
+@endif
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')

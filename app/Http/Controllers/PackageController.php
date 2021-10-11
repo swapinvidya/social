@@ -12,7 +12,8 @@ class PackageController extends Controller
   public function index(){
       $packages = Package::all();
       $services = Service::where('status',true)->get();
-      return view('admin.package',compact("packages","services"));
+      $serv_all = Service::all();
+      return view('admin.package',compact("packages","services","serv_all"));
 
   }
 
@@ -40,6 +41,9 @@ class PackageController extends Controller
   }
 
   public function delete_service(Request $request){
+
+    $ids = service_in_package::where('package_id',$request->input('id'))->pluck('id');
+    service_in_package::whereIn('id', $ids)->delete();
     Package::findOrFail($request->input('id'))->delete();
     return redirect()->back();
   }

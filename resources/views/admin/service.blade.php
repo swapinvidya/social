@@ -131,7 +131,10 @@
                                 </button>
                                 </div>
                                 <div class="modal-body text-center">
-                                <strong class="text-danger">Warning : This Cannot be undone!</strong>
+                                <strong class="text-danger">Warning : This Cannot be undone!</strong><br>
+                                <img src="{{$data->logo}}" width="150px"><br>
+                                <strong>{{$data->name}}</strong><br>
+                                <p class="text-dange">All the Packages with {{$data->name}} will be deleted and users will be downgraded! this cannot be undone</p>
                                 </div>
                                 
                                 <div class="modal-footer">
