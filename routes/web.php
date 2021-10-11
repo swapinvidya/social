@@ -28,6 +28,10 @@ Route::get('/getNotifications','HomeController@getNotification');
 Route::get('/gateway_config','GatewayController@index');
 
 Route::get('/package_config', 'PackageController@index');
+Route::post('/add_package','PackageController@add');
+//Route::post('/mod_save/{id}','PackageController@mod');
+Route::post('/edit_package','PackageController@edit_service');
+Route::post('/package_del','PackageController@delete_service');
 
 Route::get('/service_config', 'ServiceController@index');
 Route::post('/add_service','ServiceController@add');
