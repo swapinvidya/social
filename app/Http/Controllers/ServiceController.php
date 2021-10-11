@@ -12,7 +12,8 @@ class ServiceController extends Controller
 {
     public function index(){
         $service = service::all();
-        return view ('admin.service',compact('service'));
+        $pkg = service_in_package::all();
+        return view ('admin.service',compact('service','pkg'));
     }
 
     public function add(Request $request){

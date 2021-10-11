@@ -130,11 +130,22 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
-                                <div class="modal-body text-center">
+                                <div class="modal-body">
                                 <strong class="text-danger">Warning : This Cannot be undone!</strong><br>
-                                <img src="{{$data->logo}}" width="150px"><br>
+                                <div class="text-center">
+                                    <img src="{{$data->logo}}" width="150px">
+                                </div>
                                 <strong>{{$data->name}}</strong><br>
-                                <p class="text-dange">All the Packages with {{$data->name}} will be deleted and users will be downgraded! this cannot be undone</p>
+                                <p class="text-dange">All the Packages with {{$data->name}} will be deleted and users will be downgraded! Following users / packages would be affected</p>
+                                <p>
+                                    <ol>
+                                        @foreach ($pkg->where('service_name',$data->id) as $list)
+                                            @if ($list->service_to_package != null)
+                                                <li>Name : {{$list->service_to_package->name}} | Users Enrolled : NA</li>
+                                            @endif
+                                        @endforeach
+                                    </ol>    
+                                </p>
                                 </div>
                                 
                                 <div class="modal-footer">
