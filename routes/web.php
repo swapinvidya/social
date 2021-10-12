@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\testController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,3 +40,6 @@ Route::post('/mod_save/{id}','ServiceController@mod');
 
 Route::post('/edit_service','ServiceController@edit_service');
 Route::post('/service_del','ServiceController@delete_service');
+
+Route::post('/t', 'testController@fb');
+Route::get('/fb', 'testController@index');
