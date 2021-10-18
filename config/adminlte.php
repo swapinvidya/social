@@ -353,12 +353,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Connect Account',
-                    'url'  => 'menu/child1',
+                    'url'  => '/connect',
                     'icon' => 'fas fa-fw fa-plug',
                 ],
                 [
                     'text' => 'Manage Account',
-                    'url'  => 'menu/child2',
+                    'url'  => '/manage',
                     'icon' => 'fas fa-fw fa-edit',
                 ],
             ],

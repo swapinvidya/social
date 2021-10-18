@@ -31,8 +31,12 @@ class AuthServiceProvider extends ServiceProvider
          });
         
          /* define a manager user role */
-         Gate::define('isClient', function($user) {
-             return $user->user_type == 'Client';
+        Gate::define('isClient', function($user) {
+             return $user->user_type == 'Client' & $user->package_type !== "Demo";
          });
+
+        Gate::define('isNopkg', function($user) {
+            return $user->package_type == "Demo";
+        });
     }
 }

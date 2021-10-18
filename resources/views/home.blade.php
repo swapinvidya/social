@@ -200,6 +200,111 @@
   </div>
 @endcan
 
+@can('isNopkg')
+Please Purchase A Package or continue Demo
+<div class="row">
+@foreach ($packages as $item)
+    <div class="col-md-4">
+        <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <img src="https://picsum.photos/200/200?random={{$item->id}}" width="100px" alt="Card image cap">
+                            <h5 class="card-text">{{$item->name}}</h5>
+                            <p class="card-text">
+                                @php $service_ids = $item->service_in_package->pluck('service_name'); @endphp
+                                @foreach($services->find($service_ids) as $l)
+                                    <img src="{{$l->logo}}" width="20">&nbsp;&nbsp;
+                                @endforeach
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <small>
+                                @if ($item->White_Label)
+                                    White Label <i class="fa fa-check text-success"></i>
+                                @else
+                                    White Label <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Feeds)
+                                    Feeds <i class="fa fa-check text-success"></i>
+                                @else
+                                    Feeds <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Analytics)
+                                    Analytics <i class="fa fa-check text-success"></i>
+                                @else
+                                    Analytics <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Inbox)
+                                    Inbox <i class="fa fa-check text-success"></i>
+                                @else
+                                    Inbox <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Content_Calendar)
+                                    Content Calendar <i class="fa fa-check text-success"></i>
+                                @else
+                                    Content Calendar <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Bulk_Scheduling)
+                                    Bulk Scheduling <i class="fa fa-check text-success"></i>
+                                @else
+                                    Bulk Scheduling <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Curated_Content)
+                                    Curated Content <i class="fa fa-check text-success"></i>
+                                @else
+                                    Curated Content <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Facebook_Ads)
+                                    Facebook Ads <i class="fa fa-check text-success"></i>
+                                @else
+                                    Facebook Ads <i class="fa fa-ban text-danger"></i>
+                                @endif
+                                |
+                                @if ($item->Concierge_Setup)
+                                    Concierge Setup <i class="fa fa-check text-success"></i>
+                                @else
+                                    Concierge Setup <i class="fa fa-ban text-danger"></i>
+                                @endif
+                            </small>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            <div class="card-footer">
+                <button href="#" class="btn btn-success">INR {{$item->price}}</button>
+                <a href="#" class="btn btn-primary">Buy Now</a>
+            </div>
+        </div>
+    </div>
+@endforeach
+</div>
+<h5 class="text-center text-info">Or</h5>
+<div class="row mt-5">
+    <div class="col-2">
+
+    </div>
+    <div class="col-8">
+        <form action="/continue_demo" method="POST">
+        @csrf
+        <input type="hidden" name="id" value = "{{Auth::id()}}"required>
+        <button type="submit" class="btn btn-danger btn-block" ">Continue Demo </button>
+        </form>
+    </div>
+    <div class="col-2">
+        
+    </div>
+</div>
+@endcan
+
 @stop
 @section('js')
    

@@ -26,6 +26,8 @@ Auth::routes();
 
 Route::get('/getNotifications','HomeController@getNotification');
 
+Route::post('/continue_demo','HomeController@postDemo');
+
 Route::get('/gateway_config','GatewayController@index');
 
 Route::get('/package_config', 'PackageController@index');
@@ -40,6 +42,9 @@ Route::post('/mod_save/{id}','ServiceController@mod');
 
 Route::post('/edit_service','ServiceController@edit_service');
 Route::post('/service_del','ServiceController@delete_service');
+
+Route::get('/connect','AccountsController@connect_account');
+Route::get('/manage','AccountsController@manage_account');
 
 Route::post('/t', 'testController@fb');
 Route::get('/fb', 'testController@index');
