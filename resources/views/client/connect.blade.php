@@ -26,10 +26,17 @@
         <div class="col-md-2">
             <div class="card text-center shadow p-3 mb-5 bg-white rounded">
                 <div class="card-body">
-                    <img src="{{$data->logo}}" width="100px" alt="Card image cap">
-                    <h5 class="card-text">{{$data->name}}</h5>
-                    <p class="card-text">{{$data->note}}</p>
-                    <a href="#" class="btn btn-primary">Connect</a>
+                    @if($data->status)
+                        <img src="{{$data->logo}}" width="100px" alt="Card image cap">
+                        <h5 class="card-text">{{$data->name}}</h5>
+                        <p class="card-text">{{$data->note}}</p>
+                        <a href="#" class="btn btn-primary">Connect</a>
+                    @else
+                        <img src="{{$data->logo}}" width="100px" alt="Card image cap"  style="-webkit-filter: grayscale(1); filter: grayscale(1);" >
+                        <h5 class="card-text text-muted">{{$data->name}}</h5>
+                        <p class="card-text text-muted">{{$data->note}}</p>
+                        <button type="button" class="btn btn-secondary" disabled>Disabled</button>
+                    @endif
                 </div>
             </div>
         </div>

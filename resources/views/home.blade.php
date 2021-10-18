@@ -280,8 +280,8 @@ Please Purchase A Package or continue Demo
                 </div>            
             </div>
             <div class="card-footer">
-                <button href="#" class="btn btn-success">INR {{$item->price}}</button>
-                <a href="#" class="btn btn-primary">Buy Now</a>
+                <button href="/package_buy?uid={{Auth::id()}}&price={{$item->price}}" class="btn btn-outline-success" disabled>INR {{$item->price}}</button>
+                <a href="/package_buy?uid={{Auth::id()}}&price={{$item->price}}&pkg={{$item->id}}" class="btn btn-primary">Buy Now</a>
             </div>
         </div>
     </div>

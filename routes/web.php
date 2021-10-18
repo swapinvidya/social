@@ -48,3 +48,6 @@ Route::get('/manage','AccountsController@manage_account');
 
 Route::post('/t', 'testController@fb');
 Route::get('/fb', 'testController@index');
+
+Route::get('/package_buy','payController@buy');
+Route::post('/indipay/response','payController@response');
