@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\ayrshare;
 use App\Package;
 use Illuminate\Http\Request;
 use App\Service;
 use App\service_in_package;
 use File;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
     public function index(){
         $service = service::all();
         $pkg = service_in_package::all();
+        
         return view ('admin.service',compact('service','pkg'));
     }
 

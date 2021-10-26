@@ -27,10 +27,17 @@
             <div class="card text-center shadow p-3 mb-5 bg-white rounded">
                 <div class="card-body">
                     @if($data->status)
-                        <img src="{{$data->logo}}" width="100px" alt="Card image cap">
-                        <h5 class="card-text">{{$data->name}}</h5>
-                        <p class="card-text">{{$data->note}}</p>
-                        <a href="#" class="btn btn-primary">Connect</a>
+                        @if($ayr_cnt)
+                            <img src="{{$data->logo}}" width="100px" alt="Card image cap">
+                            <h5 class="card-text">{{$data->name}}</h5>
+                            <p class="card-text">{{$data->note}}</p>
+                            <button type="button" class="btn btn-outline-success" disabled>Connected</button>
+                        @else
+                            <img src="{{$data->logo}}" width="100px" alt="Card image cap">
+                            <h5 class="card-text">{{$data->name}}</h5>
+                            <p class="card-text">{{$data->note}}</p>
+                            <a href="/connect/{{$data->id}}" class="btn btn-primary">Connect</a>
+                        @endif
                     @else
                         <img src="{{$data->logo}}" width="100px" alt="Card image cap"  style="-webkit-filter: grayscale(1); filter: grayscale(1);" >
                         <h5 class="card-text text-muted">{{$data->name}}</h5>

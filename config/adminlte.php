@@ -372,7 +372,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create Post',
-                    'url'  => 'menu/child1',
+                    'url'  => '/create_posts',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
@@ -673,6 +673,21 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
+                ],
+            ],
+        ],
+        'Summernote' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.css',
                 ],
             ],
         ],

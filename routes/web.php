@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\testController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,9 @@ Route::get('/fb', 'testController@index');
 
 Route::get('/package_buy','payController@buy');
 Route::post('/indipay/response','payController@response');
+
+Route::get('/connect/{id}','AyrshareController@connect');
+
+Route::get('/create_posts', 'PostController@index');
+
+Route::post('/dd', 'PostController@post');

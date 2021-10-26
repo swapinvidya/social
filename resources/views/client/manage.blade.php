@@ -7,7 +7,18 @@
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
+    <p>Your Connected Accounts Are</p>
+    
+    <ol>
+        @foreach ($services as $item)
+            @if($item->status)
+                <li class= text-success>{{$item->name}} <i class="fa fa-check"></i> </li>
+            @else
+                <li class="text-mute">{{$item->name}} <i class="fa fa-ban"></i></li>
+            @endif
+        @endforeach
+    </ol>
+     
 @stop
 
 @section('css')
