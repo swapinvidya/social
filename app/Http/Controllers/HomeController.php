@@ -140,28 +140,26 @@ class HomeController extends Controller
         // time: The time since notification was created on the server.
         // At next, we define a hardcoded variable with the explained format,
         // but you can assume this data comes from a database query.
+
+       $posts = Post::where('user_id',Auth::id())->get();
     
         $notifications = [
             [
                 'icon' => 'fas fa-fw fa-envelope',
-                'text' => rand(0, 10) . ' new messages',
-                'time' => rand(0, 10) . ' minutes',
+                'text' => $posts->where('media_type','text')->where('created_at', '>=', Carbon::today())->count() . ' New Text Posts',
+                'time' => $posts->first()->updated_at->diffForHumans(),
             ],
             [
-                'icon' => 'fas fa-fw fa-users text-primary',
-                'text' => rand(0, 10) . ' friend requests',
-                'time' => rand(0, 60) . ' minutes',
+                'icon' => 'fas fa-fw fa-image text-primary',
+                'text' => $posts->where('media_type','image')->where('created_at', '>=', Carbon::today())->count() . ' New Image Posts',
+                'time' => $posts->first()->updated_at->diffForHumans(),
             ],
             [
-                'icon' => 'fas fa-fw fa-file text-danger',
-                'text' => rand(0, 10) . ' new reports',
-                'time' => rand(0, 60) . ' minutes',
+                'icon' => 'fas fa-fw fa-video text-danger',
+                'text' => $posts->where('media_type','video')->where('created_at', '>=', Carbon::today())->count() . ' New Video Posts',
+                'time' => $posts->first()->updated_at->diffForHumans(),
             ],
-            [
-                'icon' => 'fas fa-fw fa-envelope',
-                'text' => rand(0, 10) . ' new messages',
-                'time' => rand(0, 10) . ' minutes',
-            ],
+           
         ];
     
         // Now, we create the notification dropdown main content.

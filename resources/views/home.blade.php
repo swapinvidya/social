@@ -205,10 +205,9 @@
                             </td>
                         </tr>
                         <x-adminlte-modal id="modalPurple{{$row->id}}" title="API Response" theme="purple"
-                            icon="fas fa-bolt">
+                            icon="fas fa-code">
                             @isset($row->file)
                                 <img src='{{$row->file}}' width="175px" class="text-center">
-                                <hr>
                             @endisset 
                                 {{$row->response}}  
                         </x-adminlte-modal>
