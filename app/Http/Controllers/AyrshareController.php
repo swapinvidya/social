@@ -34,7 +34,6 @@ class AyrshareController extends Controller
            // dd($response,$info['http_code']);
             curl_close($curl);
 
-
             if ($info['http_code'] == 200)
             
                         {

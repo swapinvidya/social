@@ -58,3 +58,4 @@ Route::get('/connect/{id}','AyrshareController@connect');
 Route::get('/create_posts', 'PostController@index');
 
 Route::post('/dd', 'PostController@post');
+Route::post('/tt', 'PostController@test');

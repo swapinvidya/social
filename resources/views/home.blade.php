@@ -96,10 +96,10 @@
 
 @can('isClient')
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-7">
             <div class="card">
               <div class="card-body">
-                  <h4>Daily Usage Chart</h4>
+                  <h4>Weakly Usage Chart</h4>
                   <label>Select Time Zone</label>
                   <select name="timezone_offset" id="timezone-offset" class="form-control" >
                     <option value="-12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
@@ -149,18 +149,16 @@
               </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
+      <div class="col-md-5">
           <div class="card">
             <div class="card-body">
                 <h4>Posting History</h4>
                 @php
                 $heads = [
                     'ID',
-                    'Account Name',
-                    ['label' => 'Queued', 'width' => 40],
-                    ['label' => 'Error', 'no-export' => true, 'width' => 5],
+                    'Post',
+                    'status',
+                    'Action'
                 ];
                 
                 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -186,12 +184,34 @@
                 
                 {{-- Minimal example / fill data using the component slot --}}
                 <x-adminlte-datatable id="table1" :heads="$heads">
-                    @foreach($config['data'] as $row)
+                    @foreach($posts as $row)
+                    @php
+                        $json = $row->response;
+                        $obj = json_decode($json);
+                        $content = $obj->post;
+                        $status = $obj->status;
+                    @endphp
                         <tr>
-                            @foreach($row as $cell)
-                                <td>{!! $cell !!}</td>
-                            @endforeach
+                            <td>{{$row->id}}</td>
+                            <td>{{$row->post}}</td>
+                            <td>{{$status}}</td>
+                            <td>
+                                <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+                                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                                </button>
+                                <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-toggle="modal" data-target="#modalPurple{{$row->id}}" title="Details">
+                                     <i class="fa fa-lg fa-fw fa-eye"></i>
+                                </button>
+                            </td>
                         </tr>
+                        <x-adminlte-modal id="modalPurple{{$row->id}}" title="API Response" theme="purple"
+                            icon="fas fa-bolt">
+                            @isset($row->file)
+                                <img src='{{$row->file}}' width="175px" class="text-center">
+                                <hr>
+                            @endisset 
+                                {{$row->response}}  
+                        </x-adminlte-modal>
                     @endforeach
                 </x-adminlte-datatable>         
             </div>

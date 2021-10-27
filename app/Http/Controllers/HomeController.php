@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use App\User;
 use App\sessions;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Post;
 
 class HomeController extends Controller
 {
@@ -50,6 +52,9 @@ class HomeController extends Controller
         $date_count = array();
         $reg_count = array();
         $fulldate_array = array();
+        $text_count = array();
+        $image_count=array();
+        $video_count=array();
 
         $i = 0;
         while ($i < 7) {
@@ -70,17 +75,59 @@ class HomeController extends Controller
                 array_push($reg_count,$ct);
             }
         }
+
+
+        if(! empty( $fulldate_array ) ){
+            foreach($fulldate_array as $date){
+               // $reg_count = User::where( 'created_at', '>', $date )->get()->count();
+               if (Post::where('user_id',Auth::id())->where('media_type','text')->where( 'created_at', '>', $date )->get()->count() != null){
+                        $cct = Post::where('user_id',Auth::id())->where('media_type','text')->whereDate('created_at', $date )->get()->count();
+                    }
+               else{
+                        $cct = 0;
+                    }
+                array_push($text_count,$cct);
+            }
+        }
+
+        if(! empty( $fulldate_array ) ){
+            foreach($fulldate_array as $date){
+               // $reg_count = User::where( 'created_at', '>', $date )->get()->count();
+               if (Post::where('user_id',Auth::id())->where('media_type','image')->where( 'created_at', '>', $date )->get()->count() != null){
+                        $ccct = Post::where('user_id',Auth::id())->where('media_type','image')->whereDate('created_at', $date )->get()->count();
+                    }
+               else{
+                        $ccct = 0;
+                    }
+                array_push($image_count,$ccct);
+            }
+        }
+
+        if(! empty( $fulldate_array ) ){
+            foreach($fulldate_array as $date){
+               // $reg_count = User::where( 'created_at', '>', $date )->get()->count();
+               if (Post::where('user_id',Auth::id())->where('media_type','video')->where( 'created_at', '>', $date )->get()->count() != null){
+                        $cccct = Post::where('user_id',Auth::id())->where('media_type','video')->whereDate('created_at', $date )->get()->count();
+                    }
+               else{
+                        $cccct = 0;
+                    }
+                array_push($image_count,$ccct);
+            }
+        }
         
        // dd($reg_count);
-        $text_count=array(12,15,19,25,28,30,27);
-        $image_count=array(7,15,5,10,14,10,25);
-        $video_count=array(20,15,15,20,20,17,10);
+       // $text_count=array(12,15,19,25,28,30,27);
+        //$image_count=array(7,15,5,10,14,10,25);
+        //$video_count=array(20,15,15,20,20,17,10);
 
         $packages = Package::all();
         $services = Service::all();
+
+        $posts = Post::where('user_id',Auth::id())->get();
        
        // dd($reg_count,$text_count);
-        return view('home',compact('users','reg_count','totalActiveUsers','user_count','date_array','text_count','image_count','video_count','packages','services'));
+        return view('home',compact('users','reg_count','totalActiveUsers','user_count','date_array','text_count','image_count','video_count','packages','services','posts'));
     }
 
     public function getNotification(Request $request)

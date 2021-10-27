@@ -320,7 +320,7 @@ return [
 
         [
             'text' => 'Dashboard',
-            'url'  => '#',
+            'url'  => '/home',
             'icon' => 'fas fa-fw fa-laptop',
             'can' => 'isClient',
         ],

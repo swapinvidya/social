@@ -8,7 +8,7 @@
 
 @section('content')
     <p>Your Connected Accounts Are</p>
-    
+    error!!
     <ol>
         @foreach ($services as $item)
             @if($item->status)

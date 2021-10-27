@@ -11,7 +11,10 @@ class Post extends Model
         'user_id',
         'response',
         'schedule',
-        'file'
+        'file',
+        'shorten',
+        'media_url',
+        'media_type'
 
     ];
 }
