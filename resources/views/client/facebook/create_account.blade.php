@@ -33,6 +33,7 @@
                             <form action="/save_account" method="POST">
                                 @csrf
                                 <img src="{{$item->image}}" width="100px"><br>
+                                <input value="{{$item->id}}" name="page_id" hidden>
                                 <label for="Inp{{$item->id}}">Account Name</label>
                                 <input type="text" class="form-control" id="Inp{{$item->id}}" value = "{{$item->name}}" name="name"aria-describedby="emailHelp" placeholder="Enter email">
                                 <small id="emailHelp" class="form-text text-muted">You can Give a new name.</small>

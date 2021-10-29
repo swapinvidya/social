@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use Illuminate\Http\Request;
 use App\Service;
 use App\Package;
@@ -93,11 +94,28 @@ class AccountsController extends Controller
     public function manage_account (){
         $services = Service::all();
         $packages = Package::all();
-        return view('client.manage',compact('services','packages'));
+        $FacebookID = FacebookID::all();
+        $FacebookPage = FacebookPage::all();
+        $Account = Account::all();
+        return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account'));
     }
 
     public function save_account(Request $request){
-        dd($request);
+        $done = Account::create([
+                    'user_id' => Auth::id(),
+                    'page_id' => $request->input('page_id'),
+                    'page_token'=> FacebookPage::find($request->input('page_id'))->page_token,
+                    'name' => $request->input('name'),
+                ]);
+
+        if ($done){
+                return redirect('/home');
+            }
+
+        else{
+
+                dd("Something went worng !");
+            }
     }
 
     
