@@ -24,12 +24,17 @@ class PostController extends Controller
     public function post(Request $request){
         //dd($request);
         //Get user details
-
+        
         $user_package_type = Auth::user()->package_type;
-        $user_service_ids = Package::find($user_package_type)->service_in_package->pluck('service_name');
-        $user_service_names = Service::whereIn('id', $user_service_ids)->pluck('name')->toArray();
+        try{
+                $user_service_ids = Package::find($user_package_type)->service_in_package->pluck('service_name');
+                $user_service_names = Service::whereIn('id', $user_service_ids)->pluck('name')->toArray();
+            }
+        catch (\Exception $e){
+                dd("CONFIG ERROR PACKAGE NOT SET");
+            }
 
-        if (in_array("Ayrshare", $user_service_names)){
+        if (in_array("Ankit", $user_service_names)){
             
             //key
             $s_id = Service::where('name','Ayrshare')->first()->id;
@@ -104,7 +109,7 @@ class PostController extends Controller
             
             Post::create([
                 "post" => $post,
-                "user_id" => 9,
+                "user_id" => Auth::id(),
                 'response' => $response,
                 'schedule' => false,
                 'file' => $path,

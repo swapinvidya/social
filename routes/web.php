@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\testController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Request;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,5 +58,24 @@ Route::get('/connect/{id}','AyrshareController@connect');
 
 Route::get('/create_posts', 'PostController@index');
 
-Route::post('/dd', 'PostController@post');
+//Route::post('/dd', 'PostController@post');
 Route::post('/tt', 'PostController@test');
+
+
+
+
+
+Route::group(['prefix' => 'auth/facebook', 'middleware' => 'auth'], function () {
+    Route::get('/', [\App\Http\Controllers\SocialController::class, 'redirectToProvider']);
+    Route::get('/callback', [\App\Http\Controllers\SocialController::class, 'handleProviderCallback']);
+});
+
+Route::get('/fb_name', 'FacebookController@fb_connect');
+Route::get('/dd', 'FacebookController@fb_post');
+
+
+Route::get('/create_account_fb','AccountsController@create_account_fb');
+Route::post('/save_account', 'AccountsController@save_account');
+
+
+

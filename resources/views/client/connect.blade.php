@@ -18,35 +18,107 @@
         }   
     @endphp
     <h4 class="text-success">Active Package : {{$ap}}</h4>
-    
+
     @if($ap !== "Invalid package" )
     
     <div class="row">
         @foreach($services as $data)
-        <div class="col-md-2">
-            <div class="card text-center shadow p-3 mb-5 bg-white rounded">
-                <div class="card-body">
+            <div class="col-md-3">
+            <!-- Widget: user widget style 1 -->
+                <div class="card card-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
                     @if($data->status)
-                        @if($ayr_cnt)
-                            <img src="{{$data->logo}}" width="100px" alt="Card image cap">
-                            <h5 class="card-text">{{$data->name}}</h5>
-                            <p class="card-text">{{$data->note}}</p>
-                            <button type="button" class="btn btn-outline-success" disabled>Connected</button>
+                        @if($connection_status[$data->id])
+                            <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
+                                <h3 class="widget-user-username text-right">{{$data->name}}</h3>
+                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success">Refresh</a></h5>
+                            </div>
+                            <div class="widget-user-image">
+                                <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                <div class="col-sm-6 border-right">
+                                    <div class="description-block">
+                                    <h5 class="description-header">3,200</h5>
+                                    <span class="description-text">ACCOUNTS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="description-block">
+                                    <h5 class="description-header">35</h5>
+                                    <span class="description-text">QUOTA</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
                         @else
-                            <img src="{{$data->logo}}" width="100px" alt="Card image cap">
-                            <h5 class="card-text">{{$data->name}}</h5>
-                            <p class="card-text">{{$data->note}}</p>
-                            <a href="/connect/{{$data->id}}" class="btn btn-primary">Connect</a>
+                            <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
+                                <h3 class="widget-user-username text-right">{{$data->name}}</h3>
+                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-primary">Connect</a></h5>
+                            </div>
+                            <div class="widget-user-image">
+                                <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                <div class="col-sm-6 border-right">
+                                    <div class="description-block">
+                                    <h5 class="description-header">3,200</h5>
+                                    <span class="description-text">ACCOUNTS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="description-block">
+                                    <h5 class="description-header">35</h5>
+                                    <span class="description-text">QUOTA</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
                         @endif
                     @else
-                        <img src="{{$data->logo}}" width="100px" alt="Card image cap"  style="-webkit-filter: grayscale(1); filter: grayscale(1);" >
-                        <h5 class="card-text text-muted">{{$data->name}}</h5>
-                        <p class="card-text text-muted">{{$data->note}}</p>
-                        <button type="button" class="btn btn-secondary" disabled>Disabled</button>
+                        <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
+                            <h3 class="widget-user-username text-right">{{$data->name}}</h3>
+                            <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success">Refresh</a></h5>
+                        </div>
+                        <div class="widget-user-image">
+                            <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                            <div class="col-sm-6 border-right">
+                                <div class="description-block">
+                                <h5 class="description-header">3,200</h5>
+                                <span class="description-text">ACCOUNTS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="description-block">
+                                <h5 class="description-header">35</h5>
+                                <span class="description-text">QUOTA</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
                     @endif
-                </div>
+                </div>             
             </div>
-        </div>
         @endforeach
     </div>
     @else
