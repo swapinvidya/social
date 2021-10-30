@@ -12,6 +12,8 @@ use App\ayrshare;
 
 use App\FacebookID;
 use App\FacebookPage;
+use App\ProfileQuota;
+
 use phpDocumentor\Reflection\Types\Null_;
 
 
@@ -88,16 +90,26 @@ class AccountsController extends Controller
 
     public function create_account_fb (){
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
-        return view('client.facebook.create_account',compact('fb_pages'));
+        $Account = Account::where('user_id',Auth::id())->pluck('page_id');
+        return view('client.facebook.create_account',compact('fb_pages','Account'));
     }
 
     public function manage_account (){
         $services = Service::all();
         $packages = Package::all();
-        $FacebookID = FacebookID::all();
-        $FacebookPage = FacebookPage::all();
-        $Account = Account::all();
-        return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account'));
+        $FacebookID = FacebookID::where('user_id',Auth::id())->get();
+        $FacebookPage = FacebookPage::where('user_id',Auth::id())->get();
+        $Account = Account::where('user_id',Auth::id())->get();
+
+        //Qoutas
+        //find package in force
+        $usr_pkg = Auth::user()->package_type;
+        $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;
+        $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
+
+        return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account','Ac_qouta_total',
+        'Ac_qouta_used', 'Ac_qouta_avilable'));
     }
 
     public function save_account(Request $request){
@@ -106,9 +118,16 @@ class AccountsController extends Controller
                     'page_id' => $request->input('page_id'),
                     'page_token'=> FacebookPage::find($request->input('page_id'))->page_token,
                     'name' => $request->input('name'),
+                    'provider' => $request->input('provider'),
                 ]);
 
         if ($done){
+
+                $q = ProfileQuota::updateOrCreate(
+                        ['user_id' => Auth::id()],
+                        ['user_id' => Auth::id()]
+                    )->increment('used_qouta');
+
                 return redirect('/home');
             }
 

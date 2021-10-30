@@ -34,7 +34,7 @@ class FacebookRepository
         ];
 
         //$redirectUri = config('app.url') . '/auth/facebook/callback';
-        $redirectUri = 'https://9e33-103-57-85-12.ngrok.io/auth/facebook/callback';
+        $redirectUri = 'https://f261-103-57-85-12.ngrok.io/auth/facebook/callback';
 
         return $helper->getLoginUrl($redirectUri, $permissions);
     }

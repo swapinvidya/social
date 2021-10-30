@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\Logic\Providers\FacebookRepository;
+use App\ProfileQuota;
 
 class SocialController extends Controller
 {
@@ -35,6 +36,8 @@ class SocialController extends Controller
             'user_id' => Auth::id(),
             'fb_token' => $accessToken
         ]);
+
+        
 
         $d = FacebookID::find($f_id->id)->fb_token;
         $page = $this->facebook->getPages($d);

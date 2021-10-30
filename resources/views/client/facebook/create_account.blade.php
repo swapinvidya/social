@@ -8,19 +8,31 @@
 
 @section('content')
     <div class="card">
-        <img src="https://picsum.photos/300/50" class="card-img-top" alt="...">
+        <img src="https://picsum.photos/400/20" class="card-img-top" alt="...">
         <div class="card-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <label>Select Your Page</label>
                         @foreach ($fb_pages as $item)
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-check ml-2">
-                                    <input class="form-check-input rd_page" type="radio" value="{{$item->id}}" name="page" id="radio{{$item->id}}">
+                                    <input class="form-check-input rd_page" type="radio" value="{{$item->id}}" name="page" id="radio{{$item->id}}"
+                                    if (in_array("Glenn", $people))
+                                    @php
+                                        if (in_array($item->id, $Account->toArray())){
+                                            echo "disabled";
+                                        }    
+                                    @endphp
+                                    >
                                     <label class="form-check-label" for="radio{{$item->id}}">
                                         <img src="{{$item->image}}" width="21px"  style="border-radius: 50%;"> {{$item->name}}
+                                        @php
+                                        if (in_array($item->id, $Account->toArray())){
+                                            echo '<i class="fa fa-check text-success" aria-hidden="true"></i>&nbspConnected';
+                                        }    
+                                        @endphp
                                     </label>
                                 </div>
                             </div>
@@ -34,6 +46,7 @@
                                 @csrf
                                 <img src="{{$item->image}}" width="100px"><br>
                                 <input value="{{$item->id}}" name="page_id" hidden>
+                                <input value="{{$item->provider}}" name="provider" hidden>
                                 <label for="Inp{{$item->id}}">Account Name</label>
                                 <input type="text" class="form-control" id="Inp{{$item->id}}" value = "{{$item->name}}" name="name"aria-describedby="emailHelp" placeholder="Enter email">
                                 <small id="emailHelp" class="form-text text-muted">You can Give a new name.</small>

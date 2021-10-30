@@ -10,6 +10,7 @@ class Account extends Model
         'user_id',
         'page_id',
         'page_token',
-        'name'
+        'name',
+        'provider'
     ];
 }

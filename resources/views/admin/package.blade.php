@@ -68,10 +68,10 @@
                     <input type="number" class="form-control" name="accounts_no" placeholder="No of Accounts Supported" required/>
                 </div>
                 <div class="col-md-4">
-                    <input type="number" class="form-control" name="no_of_users" placeholder="No of Users Supported" required/>
+                    <input type="number" class="form-control" name="no_of_users" placeholder="No of Profiles Supported" required/>
                 </div>
                 <div class="col-md-4">
-                    <input type="number" class="form-control" name="no_of_clients" placeholder="No of Client Supported" required/>
+                    <input type="number" class="form-control" name="no_of_clients" placeholder="No of Groups Supported" required/>
                 </div>
             </div>
             <div class="row">
@@ -176,8 +176,8 @@
                             <td>
                                 <small>
                                     A/c's : {{$data->accounts_no}}<br>
-                                    Users : {{$data->no_of_users}}<br>
-                                    Clients : {{$data->no_of_clients}}
+                                    Profiles : {{$data->no_of_users}}<br>
+                                    Groups : {{$data->no_of_clients}}
                                 </small>
                             </td>
                             <td>
