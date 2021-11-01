@@ -2,6 +2,8 @@
 
 @section('title', 'Post')
 @section('plugins.Summernote', true)
+@section('plugins.BootstrapSelect', true)
+
 @section('content_header')
     <h1>Create a Post</h1>
 @stop
@@ -46,12 +48,40 @@
                             ],
                         ]
                         @endphp
+                        <div class="row">
+                            <div class="col-8">
+                                <x-adminlte-text-editor name="teConfig" label="Type Your Post" label-class="text-danger"
+                                igroup-size="sm" placeholder="Write some text..." :config="$config"/>
+                            </div>
+                            <div class="col-4">
+                                @php
+                                $config = [
+                                    "title" => "Select multiple options...",
+                                    "liveSearch" => true,
+                                    "liveSearchPlaceholder" => "Search...",
+                                    "showTick" => true,
+                                    "actionsBox" => true,
+                                ];
+                            @endphp
+                            <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Categories"
+                                label-class="text-danger" igroup-size="sm" :config="$config" multiple required>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-red">
+                                        <i class="fas fa-tag"></i>
+                                    </div>
+                                </x-slot>
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button theme="outline-dark" label="Clear" icon="fas fa-lg fa-ban text-danger"/>
+                                </x-slot>
 
-                        <div class="col-12">
-                            <x-adminlte-text-editor name="teConfig" label="Type Your Post" label-class="text-danger"
-                            igroup-size="sm" placeholder="Write some text..." :config="$config"/>
+                                @foreach ($accounts as $ac)
+                                    <option data-icon="fab fa-fw fa-{{$ac->provider}} text-info" value="{{$ac->id}}" data-subtext="{{$ac->provider}}">{{$ac->name}}</option>
+                                @endforeach
+                                
+                            </x-adminlte-select-bs>
+                            </div>
                         </div>
-
+                    
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="shorturl" id="flexCheckDefault">
@@ -60,16 +90,21 @@
                                 </label>
                               </div>
                         </div>
-                        
-                        <div class="col-6">
-                            <x-adminlte-input-file name="file" igroup-size="sm" placeholder="Choose a file..." label="Image" label-class="text-danger">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-lightblue">
-                                        <i class="fas fa-upload"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-file>
-                        </div>    
+                        <div class="row">
+                            <div class="col-6">
+                                <x-adminlte-input-file name="file" id="idinputfile" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" igroup-size="sm" placeholder="Choose a file..." label="Image" label-class="text-danger">
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text bg-lightblue">
+                                            <i class="fas fa-upload"></i>
+                                        </div>
+                                    </x-slot>
+                                </x-adminlte-input-file>
+                            </div>
+                            <div class="col-6 text-center">
+                                <img id="blah" alt="your image" width="150" />
+                            </div>  
+                        </div>
+                         
                         
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary">Post Now</button>
@@ -163,9 +198,10 @@
             @php
                 $json = $data->response;
                 $obj = json_decode($json);
-                $content = $obj->post;
+                $content = $data->post;
                 $status = $obj->status;
             @endphp
+
                 <div class="time-label">
                     @if ($status == 'success')
                         <span class="bg-green">{{$data->updated_at->format('d-m-Y')}}</span>
@@ -196,7 +232,7 @@
                         @else
                             {{$content}}<br>
                             @php
-                                print_r($obj->errors[0]->details)
+                                print_r($obj->reason)
                             @endphp
                         @endif
 
@@ -210,7 +246,13 @@
                     <div class="timeline-footer">
                     <small class="text-info">{{$data->updated_at->diffForHumans()}}</small><br>    
                     <a class="btn btn-primary btn-sm">Read more</a>
-                    <a class="btn btn-danger btn-sm">Delete</a>
+                        <form method="POST" enctype="multipart/form-data" action="/fbp_del">
+                            @csrf
+                                <input type="text" value="{{$data->id}}" name="id" hidden>
+                                <input type="text" value="{{$data->post}}" name="postIDtoDelete" hidden>
+                                <input type="text" value="{{$data->media_url}}" name="pageAccessToken" hidden>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
                     </div>
                 </div>
                 </div>
@@ -231,4 +273,5 @@
 
 @section('js')
     <script> console.log('Hi!'); </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 @stop

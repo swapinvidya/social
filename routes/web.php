@@ -58,9 +58,10 @@ Route::get('/connect/{id}','AyrshareController@connect');
 
 Route::get('/create_posts', 'PostController@index');
 
-//Route::post('/dd', 'PostController@post');
-Route::post('/tt', 'PostController@test');
+Route::post('/dd', 'PostController@post');
 
+Route::post('/tt', 'PostController@test');
+Route::post('/fbp_del', 'PostController@delete_post');
 
 
 
@@ -71,11 +72,11 @@ Route::group(['prefix' => 'auth/facebook', 'middleware' => 'auth'], function () 
 });
 
 Route::get('/fb_name', 'FacebookController@fb_connect');
-Route::get('/dd', 'FacebookController@fb_post');
+//Route::get('/dd', 'FacebookController@fb_post');
 
 
 Route::get('/create_account_fb','AccountsController@create_account_fb');
 Route::post('/save_account', 'AccountsController@save_account');
-
+Route::get('/fbp_refresh','SocialController@fbp_refresh');
 
 

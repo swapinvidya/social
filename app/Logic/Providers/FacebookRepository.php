@@ -90,6 +90,17 @@ class FacebookRepository
         }, $pages);
     }
 
+    public function delPost($postIDtoDelete,$pageAccessToken){
+        try {
+            return $this->facebook->delete('/'.$postIDtoDelete ,array(), $pageAccessToken);
+        } catch (\Exception $exception) {
+            //notify user about error
+            //throw new Exception("Error while posting : {$exception->getMessage()}", $exception->getCode());
+            return false;
+        }
+
+    }
+
     public function post($accountId, $accessToken, $content, $images = [])
     {
         $data = ['message' => $content];
@@ -104,8 +115,8 @@ class FacebookRepository
             return $this->postData($accessToken, "$accountId/feed", $data);
         } catch (\Exception $exception) {
             //notify user about error
-            throw new Exception("Error while posting: {$exception->getMessage()}", $exception->getCode());
-            //return false;
+            //throw new Exception("Error while posting : {$exception->getMessage()}", $exception->getCode());
+            return false;
         }
     }
 
@@ -124,7 +135,7 @@ class FacebookRepository
                 $response = $this->postData($accessToken, "$accountId/photos?published=false", $data);
                 if ($response) $attachments[] = $response['id'];
             } catch (\Exception $exception) {
-                throw new Exception("Error while posting: {$exception->getMessage()}", $exception->getCode());
+                throw new Exception("Error while posting : {$exception->getMessage()}", $exception->getCode());
             }
         }
 

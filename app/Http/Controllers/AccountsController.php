@@ -43,7 +43,7 @@ class AccountsController extends Controller
                         //dd('facebook - Page');
                         if (FacebookID::where('user_id',Auth::id())->exists()){
                             $fb_post = true;
-                            $fb_url = "/refresh_fbp";
+                            $fb_url = "/fbp_refresh";
                         }
                         else{
                             $fb_post = false;
@@ -72,6 +72,11 @@ class AccountsController extends Controller
 
         $connection_status = array(false , $fb_post , $fb_group , $insta);
         $connection_url = array("offset" , $fb_url , $fbg_url , $insta_url);
+        
+        $usr_pkg = Auth::user()->package_type;
+        $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;
+        $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
 
         
         try {
@@ -85,7 +90,8 @@ class AccountsController extends Controller
         }
 
 
-        return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url'));
+        return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
+        'Ac_qouta_used', 'Ac_qouta_avilable'));
     }
 
     public function create_account_fb (){
@@ -108,11 +114,35 @@ class AccountsController extends Controller
         $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
         $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
 
+        if ($Ac_qouta_total <= $Ac_qouta_used){
+            session(['ac_qouta_flag' => true]);
+        }
+
+       
+                
+        foreach ($Account as $ac) {
+            Account::find($ac->id)->update([
+            'page_token'=> FacebookPage::find($ac->page_id)->page_token,
+            ]);
+        }
+
+
         return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account','Ac_qouta_total',
         'Ac_qouta_used', 'Ac_qouta_avilable'));
     }
 
     public function save_account(Request $request){
+        $usr_pkg = Auth::user()->package_type;
+        $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;
+        $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
+
+        if ($Ac_qouta_total <= $Ac_qouta_used){
+            session(['ac_qouta_flag' => true]);
+            return redirect()->back();
+        }
+
+        
         $done = Account::create([
                     'user_id' => Auth::id(),
                     'page_id' => $request->input('page_id'),
@@ -128,7 +158,18 @@ class AccountsController extends Controller
                         ['user_id' => Auth::id()]
                     )->increment('used_qouta');
 
-                return redirect('/home');
+                //refresh exsisting tokens
+
+                $Account = Account::where('user_id',Auth::id())->get();
+                
+                foreach ($Account as $ac) {
+                   Account::find($ac->id)->update([
+                    'page_token'=> FacebookPage::find($ac->page_id)->page_token,
+                   ]);
+                }
+
+
+                return redirect('/manage');
             }
 
         else{

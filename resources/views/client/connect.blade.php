@@ -31,7 +31,7 @@
                         @if($connection_status[$data->id])
                             <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
                                 <h3 class="widget-user-username text-right">{{$data->name}}</h3>
-                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success">Refresh</a></h5>
+                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success" disabled>Connected</a></h5>
                             </div>
                             <div class="widget-user-image">
                                 <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">
@@ -40,15 +40,19 @@
                                 <div class="row">
                                 <div class="col-sm-6 border-right">
                                     <div class="description-block">
-                                    <h5 class="description-header">3,200</h5>
+                                    <h5 class="description-header">{{$Ac_qouta_total}}</h5>
                                     <span class="description-text">ACCOUNTS</span>
                                     </div>
-                                    <!-- /.description-block -->
+                                    <!-- /.description-block
+                                    Ac_qouta_total
+                                    Ac_qouta_used
+                                    Ac_qouta_avilable
+                                    -->
                                 </div>
                                 
                                 <div class="col-sm-6">
                                     <div class="description-block">
-                                    <h5 class="description-header">35</h5>
+                                    <h5 class="description-header">{{$Ac_qouta_used}}</h5>
                                     <span class="description-text">QUOTA</span>
                                     </div>
                                     <!-- /.description-block -->

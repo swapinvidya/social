@@ -7,12 +7,31 @@
 @stop
 
 @section('content')
+<div class="row">
+   
+    <div class="col-12">
+        @if(Session::get('ac_qouta_flag'))
+            <div class="alert alert-danger">
+                Account Qouta Exceded! Please Upgrade your package to add more
+            </div>
+        @endif
+        <a class="btn btn-app bg-info" href="/fbp_refresh?id={{Auth::id()}}">
+            <span class="badge bg-success">0</span>
+            <i class="fas fa-sync"></i> Refresh
+        </a>
+        <a class="btn btn-app">
+            <span class="badge bg-success">0</span>
+            <i class="fas fa-barcode"></i> Products
+        </a>
+    </div>
+</div>
     <div class="card">
         <img src="https://picsum.photos/400/20" class="card-img-top" alt="...">
         <div class="card-body">
             <div class="container">
+                
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <label>Select Your Page</label>
                         @foreach ($fb_pages as $item)
                         <div class="row">
@@ -39,7 +58,7 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="col-8">
+                    <div class="col-6">
                         @foreach ($fb_pages as $item)
                         <div id = "divId{{$item->id}}" class="row" style="display:none">
                             <form action="/save_account" method="POST">
@@ -55,6 +74,7 @@
                         </div>
                         @endforeach
                     </div>
+                    
                 </div>
             </div>
         </div>

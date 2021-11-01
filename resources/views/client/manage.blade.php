@@ -49,6 +49,12 @@ $config = [
         </x-slot>
     </x-adminlte-modal>
 
+    @if(Session::get('ac_qouta_flag'))
+        <div class="alert alert-danger">
+         Account Qouta Exceded!
+        </div>
+    @endif
+
     <div class="row">
         <a class="btn btn-app" href = "/create_account_fb">
             <span class="badge bg-purple">{{$bal}}</span>
