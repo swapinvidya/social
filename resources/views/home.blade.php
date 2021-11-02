@@ -193,7 +193,10 @@
                     @endphp
                         <tr>
                             <td>{{$row->id}}</td>
-                            <td>{{$row->post}}</td>
+                            <td>
+                                <i class="fab fa-{{$row->provider}}-square" aria-hidden="true"></i>
+                                {{$content}}
+                            </td>
                             <td>{{$status}}</td>
                             <td>
                                 <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
@@ -201,7 +204,7 @@
                                 </button>
                                 <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-toggle="modal" data-target="#modalPurple{{$row->id}}" title="Details">
                                      <i class="fa fa-lg fa-fw fa-eye"></i>
-                                </button>
+                                </button> 
                             </td>
                         </tr>
                         <x-adminlte-modal id="modalPurple{{$row->id}}" title="API Response" theme="purple"

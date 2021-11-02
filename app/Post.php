@@ -14,7 +14,8 @@ class Post extends Model
         'file',
         'shorten',
         'media_url',
-        'media_type'
+        'media_type',
+        'provider'
 
     ];
 }

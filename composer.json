@@ -17,7 +17,8 @@
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
-        "softon/indipay": "^1.2"
+        "softon/indipay": "^1.2",
+        "thujohn/twitter": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

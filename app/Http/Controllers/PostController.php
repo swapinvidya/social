@@ -14,6 +14,9 @@ use PhpParser\Node\Stmt\Catch_;
 use App\FacebookID;
 use App\FacebookPage;
 use App\Logic\Providers\FacebookRepository;
+use Atymic\Twitter\Facade\Twitter as FacadeTwitter;
+use App\Twitter;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -34,6 +37,11 @@ class PostController extends Controller
     public function post(Request $request){
         //dd($request);
         //Get user details
+        //check connections
+        //if facebook
+        if (FacebookID::where('user_id',Auth::id())->exists()){$fb = true;} else{$fb=false;}
+        //if twitter
+        if (Twitter::where('user_id',Auth::id())->exists()){$tw = true;} else{$tw=false;}
 
         //dd($request);
 
@@ -56,47 +64,97 @@ class PostController extends Controller
         }
 
         
+
+
+
+        
         
         foreach ($request->input('accounts') as $ac) {
-           //page toke
-           $page_token = Account::find($ac)->page_token;
-           //page_id
-           $page_id = FacebookPage::where('page_token',$page_token)->first()->page_id;
 
-           $post = strip_tags($request->input('teConfig'));
+           if($fb) {
+                //page toke
+            $page_token = Account::find($ac)->page_token;
+            //page_id
+            $page_id = FacebookPage::where('page_token',$page_token)->first()->page_id;
 
-           $img = array($path);
+            $post = strip_tags($request->input('teConfig'));
 
-           //dd( $page_token , $page_id ,  $post , $img);
+            $img = array($path);
+
+            //dd( $page_token , $page_id ,  $post , $img);
+                
+            $a = $this->facebook->post($page_id, $page_token, $post, $img);
             
-           $a = $this->facebook->post($page_id, $page_token, $post, $img);
-           
 
-            if ($a) {
+                if ($a) {
 
-                $b = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
-                $response = json_encode(array_merge(json_decode($a, true),$b));
-                $post_id = json_decode($a)->id;
+                    $b = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
+                    $response = json_encode(array_merge(json_decode($a, true),$b));
+                    $post_id = json_decode($a)->id;
+            
+                } else{
+                        
+                    $b = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
+                    $response = json_encode($b);
+                    $post_id = "NA";
+                }
+
+                Post::create([
+                    "post" => $post_id,
+                    "user_id" => Auth::id(),
+                    'response' => $response,
+                    'schedule' => false,
+                    'file' => $path,
+                    'shorten' => $shortUrl,
+                    'media_url' => $page_token,  //page token is passed here for convince
+                    'media_type' => $media_t,
+                    'provider' => 'facebook' //need to cahnge when multiple accounts
+                ]);
+            }
+            
            
-            } else{
-                    
-                $b = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
-                $response = json_encode($b);
-                $post_id = "NA";
+        }
+
+        if($tw){
+
+            $oauth_token = Twitter::where('user_id',Auth::id())->first()->oauth_token; 
+            $oauth_token_secret = Twitter::where('user_id',Auth::id())->first()->oauth_token_secret;
+            
+            $twitter = FacadeTwitter::usingCredentials($oauth_token, $oauth_token_secret);
+            if ($hasFile)
+            {
+                $uploaded_media = $twitter->uploadMedia(['media' => $path]);
+            
+                $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string]);
+            }
+           else{
+                $tw_response = $twitter->postTweet(['status' => $post, 'response_format' => 'json']);
             }
 
+           
+            
+            
+                //dd( $tw_response);
+            
+                $tw_true = array('status' => "success", 'reason' => "Posted Successfully", 'post' => json_decode($tw_response)->text);
+                $tw_false = array('status' => "Error", 'reason' => "API Error" , 'post' => json_decode($tw_response)->text);
+
+                $tw_resp = json_encode($tw_true);
+
+
             Post::create([
-                "post" => $post_id,
+                "post" => json_decode($tw_response)->id,
                 "user_id" => Auth::id(),
-                'response' => $response,
+                'response' => $tw_resp,
                 'schedule' => false,
                 'file' => $path,
                 'shorten' => $shortUrl,
-                'media_url' => $page_token,  //page token is passed here for convince
-                'media_type' => $media_t
+                'media_url' => json_decode($tw_response)->str,  //page token is passed here for convince
+                'media_type' => $media_t,
+                'provider' => 'twitter' //need to cahnge when multiple accounts
             ]);
-        }
 
+        }
 
         if ($a)
             {

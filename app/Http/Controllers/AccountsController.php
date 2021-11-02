@@ -13,6 +13,7 @@ use App\ayrshare;
 use App\FacebookID;
 use App\FacebookPage;
 use App\ProfileQuota;
+use App\Twitter;
 
 use phpDocumentor\Reflection\Types\Null_;
 
@@ -64,14 +65,26 @@ class AccountsController extends Controller
                        $insta_url = "/connect_insta";
                     break;
 
+                    case 4:
+                        // dd('Twitter');
+                        if (Twitter::where('user_id',Auth::id())->exists()){
+                            $twitter = true;
+                            $twitter_url = "/twitter/login";
+                        }
+                        else{
+                            $twitter = false;
+                            $twitter_url = "/twitter/login";
+                        }
+                    break;
+
                     default:
                         //dd('facebook - twitter');
                        // $connection_status = false;
                 }
             }
 
-        $connection_status = array(false , $fb_post , $fb_group , $insta);
-        $connection_url = array("offset" , $fb_url , $fbg_url , $insta_url);
+        $connection_status = array(false , $fb_post , $fb_group , $insta ,$twitter);
+        $connection_url = array("offset" , $fb_url , $fbg_url , $insta_url,$twitter_url);
         
         $usr_pkg = Auth::user()->package_type;
         $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;

@@ -63,7 +63,7 @@
                                     "actionsBox" => true,
                                 ];
                             @endphp
-                            <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Categories"
+                            <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Accounts"
                                 label-class="text-danger" igroup-size="sm" :config="$config" multiple required>
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-gradient-red">
@@ -198,7 +198,7 @@
             @php
                 $json = $data->response;
                 $obj = json_decode($json);
-                $content = $data->post;
+                $content = $obj->post;
                 $status = $obj->status;
             @endphp
 
