@@ -123,7 +123,7 @@ class PostController extends Controller
             $twitter = FacadeTwitter::usingCredentials($oauth_token, $oauth_token_secret);
             if ($hasFile)
             {
-                $uploaded_media = $twitter->uploadMedia(['media' => $path]);
+                $uploaded_media = $twitter->uploadMedia(['media' => base64_encode($path)]);
             
                 $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string]);
             }
