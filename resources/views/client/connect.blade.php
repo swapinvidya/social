@@ -29,9 +29,9 @@
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                     @if($data->status)
                         @if($connection_status[$data->id])
-                            <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
-                                <h3 class="widget-user-username text-right">{{$data->name}}</h3>
-                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success" disabled>Connected</a></h5>
+                            <div class="widget-user-header text-white" style="background: white center center;">
+                                <h3 class="widget-user-username text-left text-primary">{{$data->name}}</h3>
+                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-outline-success btn-sm" disabled>Connected</a></h5>
                             </div>
                             <div class="widget-user-image">
                                 <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">
@@ -62,9 +62,9 @@
                                 <!-- /.row -->
                             </div>
                         @else
-                            <div class="widget-user-header text-white" style="background: url('/img/h_img/1.jpg') center center;">
-                                <h3 class="widget-user-username text-right">{{$data->name}}</h3>
-                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-primary">Connect</a></h5>
+                            <div class="widget-user-header text-white" style="background: white center center;">
+                                <h3 class="widget-user-username text-left text-primary">{{$data->name}}</h3>
+                                <h5 class="widget-user-desc text-right"><a href="{{$connection_url[$data->id]}}" class="btn btn-primary btn-sm">Connect</a></h5>
                             </div>
                             <div class="widget-user-image">
                                 <img class="img-circle" src="{{$data->logo}}" alt="User Avatar">

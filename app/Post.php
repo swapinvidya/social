@@ -8,6 +8,7 @@ class Post extends Model
 {
     protected $fillable = [
         'post',
+        'post_text',
         'user_id',
         'response',
         'schedule',

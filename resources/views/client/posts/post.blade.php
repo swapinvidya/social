@@ -54,43 +54,61 @@
                                 igroup-size="sm" placeholder="Write some text..." :config="$config"/>
                             </div>
                             <div class="col-4">
-                                @php
-                                $config = [
-                                    "title" => "Select multiple options...",
-                                    "liveSearch" => true,
-                                    "liveSearchPlaceholder" => "Search...",
-                                    "showTick" => true,
-                                    "actionsBox" => true,
-                                ];
-                            @endphp
-                            <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Accounts"
-                                label-class="text-danger" igroup-size="sm" :config="$config" multiple required>
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-gradient-red">
-                                        <i class="fas fa-tag"></i>
+                                <div class="row">
+                                    <div class="col-12">
+                                        @php
+                                        $config = [
+                                            "title" => "Select multiple options...",
+                                            "liveSearch" => true,
+                                            "liveSearchPlaceholder" => "Search...",
+                                            "showTick" => true,
+                                            "actionsBox" => true,
+                                        ];
+                                        @endphp
+                                        <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Facebook Pages"
+                                            label-class="text-danger" igroup-size="sm" :config="$config" multiple required>
+                                            <x-slot name="prependSlot">
+                                                <div class="input-group-text bg-gradient-red">
+                                                    <i class="fas fa-tag"></i>
+                                                </div>
+                                            </x-slot>
+                                            <x-slot name="appendSlot">
+                                                <x-adminlte-button theme="outline-dark" label="Clear" icon="fas fa-lg fa-ban text-danger"/>
+                                            </x-slot>
+            
+                                            @foreach ($accounts as $ac)
+                                                <option data-icon="fab fa-fw fa-{{$ac->provider}} text-info" value="{{$ac->id}}" data-subtext="{{$ac->provider}}">{{$ac->name}}</option>
+                                            @endforeach
+                                            
+                                        </x-adminlte-select-bs>
                                     </div>
-                                </x-slot>
-                                <x-slot name="appendSlot">
-                                    <x-adminlte-button theme="outline-dark" label="Clear" icon="fas fa-lg fa-ban text-danger"/>
-                                </x-slot>
-
-                                @foreach ($accounts as $ac)
-                                    <option data-icon="fab fa-fw fa-{{$ac->provider}} text-info" value="{{$ac->id}}" data-subtext="{{$ac->provider}}">{{$ac->name}}</option>
-                                @endforeach
-                                
-                            </x-adminlte-select-bs>
-                            </div>
-                        </div>
-                    
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="shorturl" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                  Shorten Url
-                                </label>
-                              </div>
-                        </div>
-                        <div class="row">
+                                </div>
+                                <div class="row">
+                                    @foreach ($package as $item)
+                                    @if ($item != 1 && $item !=2 )
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked style="width: 20px; height: 20px;">
+                                                <label class="form-check-label pt-1 pl-1" for="flexCheckChecked">
+                                                <img src="{{$service->find($item)->logo}}" width="25px;" class="pl-1 pr-1">
+                                                {{$service->find($item)->name}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="shorturl" id="flexCheckDefault" checked style="width: 20px; height: 20px;">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                            Shorten Url
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
                             <div class="col-6">
                                 <x-adminlte-input-file name="file" id="idinputfile" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" igroup-size="sm" placeholder="Choose a file..." label="Image" label-class="text-danger">
                                     <x-slot name="prependSlot">
@@ -100,10 +118,12 @@
                                     </x-slot>
                                 </x-adminlte-input-file>
                             </div>
+                            
                             <div class="col-6 text-center">
                                 <img id="blah" alt="your image" width="150" />
                             </div>  
                         </div>
+                        
                          
                         
                         <div class="col-12">
@@ -189,70 +209,60 @@
         </x-adminlte-modal>
     </form>
    <h3>Time Line</h3>
-   <div class="row">
+     <div class="row">
        <div class="col-12">
             <!-- Main node for this component -->
             <div class="timeline">
                 <!-- Timeline time label -->
-            @foreach($post as $data)
-            @php
-                $json = $data->response;
-                $obj = json_decode($json);
-                $content = $obj->post;
-                $status = $obj->status;
-            @endphp
-
+            @foreach($post as $key => $data)
+            
                 <div class="time-label">
-                    @if ($status == 'success')
-                        <span class="bg-green">{{$data->updated_at->format('d-m-Y')}}</span>
-                    @else
-                        <span class="bg-red">{{$data->updated_at->format('d-m-Y')}}</span>
-                    @endif
-                
+                    <span class="bg-green">{{$data[0]->updated_at->format('d-m-Y g:i A')}}</span>
                 </div>
+
                 <div>
                 <!-- Before each timeline item corresponds to one icon on the left scale -->
                 <i class="fas fa-envelope bg-blue"></i>
                 <!-- Timeline item -->
                 <div class="timeline-item">
                 <!-- Time -->
-                    <span class="time"><i class="fas fa-clock"></i>{{$data->updated_at->format('g:i A')}}</span>
+                    <span class="time"><i class="fas fa-clock"></i>blah</span>
                     <!-- Header. Optional -->
                     <h3 class="timeline-header"><a href="#">New Post</a>
-                        @if ($status == 'success')
+                       
                         Was Sucessfull
-                        @else
-                        Was Not Sucessfull
-                        @endif
+                       
                     </h3>
                     <!-- Body -->
                     <div class="timeline-body">
-                        @if ($status == 'success')
-                            {{$content}}
-                        @else
-                            {{$content}}<br>
-                            @php
-                                print_r($obj->reason)
-                            @endphp
-                        @endif
+                        {{$data[0]->post_text}}
+                        <div class="col-6 text-center">
+                            <img src="{{$data[0]->file}}" width="200px" alt="">
+                        </div>
+                        <div class="col-6">
 
-                        @isset($data->file)
-                            <div class="text-center">
-                                <img src="{{$data->file}}" width="200px">
-                            </div>
-                        @endisset
+                        </div>
+                        <div class="row mt-3 ml-3">
+                            @foreach($data as $item)
+                            
+                                <i class="fab fa-{{$item->provider}}-square mr-5" aria-hidden="true"></i>
+                        
+                            @endforeach
+                        </div>
                     </div>
+                     
                     <!-- Placement of additional controls. Optional -->
                     <div class="timeline-footer">
-                    <small class="text-info">{{$data->updated_at->diffForHumans()}}</small><br>    
-                    <a class="btn btn-primary btn-sm">Read more</a>
-                        <form method="POST" enctype="multipart/form-data" action="/fbp_del">
-                            @csrf
-                                <input type="text" value="{{$data->id}}" name="id" hidden>
-                                <input type="text" value="{{$data->post}}" name="postIDtoDelete" hidden>
-                                <input type="text" value="{{$data->media_url}}" name="pageAccessToken" hidden>
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        <small class="text-info">{{$data[0]->updated_at->diffForHumans()}}</small><br>    
+                        
+                            <form method="POST" enctype="multipart/form-data" action="/fbp_del">
+                                @csrf
+                                    <input type="text" value="" name="id" hidden>
+                                    <input type="text" value="" name="postIDtoDelete" hidden>
+                                    <input type="text" value="" name="pageAccessToken" hidden>
+                                    <a class="btn btn-primary btn-sm">Read more</a>
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
                     </div>
                 </div>
                 </div>
@@ -269,9 +279,9 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+   
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+    
 @stop

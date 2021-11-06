@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Auth;
 use Atymic\Twitter\Facade\Twitter;
+use Illuminate\Routing\RouteGroup;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -102,3 +104,4 @@ Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
 }]);
 
 
+Route::get('/image_editor' , 'PostController@image_editor');

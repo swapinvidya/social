@@ -27,8 +27,11 @@ class PostController extends Controller
    
     public function index(){
         $accounts = Account::where('user_id',Auth::id())->get();
-        $post = post::where('user_id',Auth::id())->get();
-        return view('client.posts.post',compact('post','accounts'));
+        $post = post::where('user_id',Auth::id())->get()->groupBy('post_text');
+        $package = Package::find(Auth::user()->package_type)->service_in_package->pluck('service_name')->toArray();
+        $service = Service::all();
+        // dd($post);
+        return view('client.posts.post',compact('post','accounts','package','service'));
     }
 
 
@@ -101,6 +104,7 @@ class PostController extends Controller
 
                 Post::create([
                     "post" => $post_id,
+                    "post_text" => $post,
                     "user_id" => Auth::id(),
                     'response' => $response,
                     'schedule' => false,
@@ -123,9 +127,12 @@ class PostController extends Controller
             $twitter = FacadeTwitter::usingCredentials($oauth_token, $oauth_token_secret);
             if ($hasFile)
             {
-                $uploaded_media = $twitter->uploadMedia(['media' => base64_encode($path)]);
+                //dd("$path");
+                $uploaded_media = $twitter->uploadMedia(['media_data' => base64_encode(file_get_contents($path))]);
             
-                $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string]);
+                $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string ,  'response_format' => 'json']);
+
+               
             }
            else{
                 $tw_response = $twitter->postTweet(['status' => $post, 'response_format' => 'json']);
@@ -144,12 +151,13 @@ class PostController extends Controller
 
             Post::create([
                 "post" => json_decode($tw_response)->id,
+                "post_text" => $post,
                 "user_id" => Auth::id(),
                 'response' => $tw_resp,
                 'schedule' => false,
                 'file' => $path,
                 'shorten' => $shortUrl,
-                'media_url' => json_decode($tw_response)->str,  //page token is passed here for convince
+                'media_url' => json_decode($tw_response)->id_str,  //page token is passed here for convince
                 'media_type' => $media_t,
                 'provider' => 'twitter' //need to cahnge when multiple accounts
             ]);
@@ -198,6 +206,14 @@ class PostController extends Controller
             return redirect()->back();
         }
     }    
+
+    public function image_editor(Request $request){
+        return view('image');
+    }
+
+
+
+
     public function test(){     
        dd("SERVICE NOT ACTIVE IN DEMO!!");
     }
