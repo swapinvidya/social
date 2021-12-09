@@ -161,7 +161,7 @@ Send email- privacy@socialmediaconnect.in
                     <a href="#">Blog</a>
                     <a href="#">GitHub</a>
                     <a href="./privacypolicy">Privacy Policy</a>
-                    <a href="#">Terms and Conditions</a>
+                    <a href="./tandc">Terms and Conditions</a>
                     <a href="#">About us</a>
                 </div>
 
