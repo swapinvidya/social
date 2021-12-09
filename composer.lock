@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92fdee250c77efe82300fa2994f8fffc",
+    "content-hash": "64a75cdba5d6031b713e1e4ac8f5eacf",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -104,6 +104,95 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "atymic/twitter",
+            "version": "3.1.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/atymic/twitter.git",
+                "reference": "3c03dcb7c27618660762de77a46dd85527a20508"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/atymic/twitter/zipball/3c03dcb7c27618660762de77a46dd85527a20508",
+                "reference": "3c03dcb7c27618660762de77a46dd85527a20508",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.4 || ^7.0",
+                "guzzlehttp/oauth-subscriber": "^0.6",
+                "illuminate/support": "6 - 8",
+                "kamermans/guzzle-oauth2-subscriber": "^1.0",
+                "league/oauth2-client": "^2.6",
+                "nesbot/carbon": "^1.2 || ^2.26",
+                "php": "^7.4 || ^8.0",
+                "php-di/php-di": "^6.2",
+                "phpoption/phpoption": "^1.7",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "react/http": "^1.2",
+                "vlucas/phpdotenv": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.8 - 6",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^8.3 || ^9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Atymic\\Twitter\\ServiceProvider\\LaravelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Twitter": "Atymic\\Twitter\\Facade\\Twitter"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Atymic\\Twitter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "atymic",
+                    "email": "atymicq@gmail.com",
+                    "homepage": "https://atymic.dev"
+                },
+                {
+                    "name": "reliq",
+                    "email": "reliq@reliqarts.com",
+                    "homepage": "https://iamreliq.com"
+                }
+            ],
+            "description": "Twitter API for PHP & Laravel",
+            "keywords": [
+                "laravel",
+                "laravel5",
+                "laravel6",
+                "twitter"
+            ],
+            "support": {
+                "issues": "https://github.com/atymic/twitter/issues",
+                "source": "https://github.com/atymic/twitter/tree/3.1.14"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/atymic",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/reliq",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-10-21T00:19:25+00:00"
         },
         {
             "name": "brick/math",
@@ -3511,16 +3600,16 @@
         },
         {
             "name": "react/promise-timer",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise-timer.git",
-                "reference": "607dd79990e32fcb402cb0a176b4a4be12f97e7c"
+                "reference": "0bbbcc79589e5bfdddba68a287f1cb805581a479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/607dd79990e32fcb402cb0a176b4a4be12f97e7c",
-                "reference": "607dd79990e32fcb402cb0a176b4a4be12f97e7c",
+                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/0bbbcc79589e5bfdddba68a287f1cb805581a479",
+                "reference": "0bbbcc79589e5bfdddba68a287f1cb805581a479",
                 "shasum": ""
             },
             "require": {
@@ -3578,7 +3667,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/promise-timer/issues",
-                "source": "https://github.com/reactphp/promise-timer/tree/v1.7.0"
+                "source": "https://github.com/reactphp/promise-timer/tree/v1.8.0"
             },
             "funding": [
                 {
@@ -3590,20 +3679,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-11T13:08:51+00:00"
+            "time": "2021-12-06T11:08:48+00:00"
         },
         {
             "name": "react/socket",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/socket.git",
-                "reference": "aa6e3f8ebcd6dec3ad1ee92a449b4cc341994001"
+                "reference": "d132fde589ea97f4165f2d94b5296499eac125ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/socket/zipball/aa6e3f8ebcd6dec3ad1ee92a449b4cc341994001",
-                "reference": "aa6e3f8ebcd6dec3ad1ee92a449b4cc341994001",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/d132fde589ea97f4165f2d94b5296499eac125ec",
+                "reference": "d132fde589ea97f4165f2d94b5296499eac125ec",
                 "shasum": ""
             },
             "require": {
@@ -3662,7 +3751,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/socket/issues",
-                "source": "https://github.com/reactphp/socket/tree/v1.9.0"
+                "source": "https://github.com/reactphp/socket/tree/v1.10.0"
             },
             "funding": [
                 {
@@ -3674,7 +3763,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-03T12:37:06+00:00"
+            "time": "2021-11-29T10:08:24+00:00"
         },
         {
             "name": "react/stream",
@@ -6211,96 +6300,6 @@
                 }
             ],
             "time": "2021-09-24T15:59:58+00:00"
-        },
-        {
-            "name": "thujohn/twitter",
-            "version": "3.1.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/atymic/twitter.git",
-                "reference": "3c03dcb7c27618660762de77a46dd85527a20508"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/atymic/twitter/zipball/3c03dcb7c27618660762de77a46dd85527a20508",
-                "reference": "3c03dcb7c27618660762de77a46dd85527a20508",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^6.4 || ^7.0",
-                "guzzlehttp/oauth-subscriber": "^0.6",
-                "illuminate/support": "6 - 8",
-                "kamermans/guzzle-oauth2-subscriber": "^1.0",
-                "league/oauth2-client": "^2.6",
-                "nesbot/carbon": "^1.2 || ^2.26",
-                "php": "^7.4 || ^8.0",
-                "php-di/php-di": "^6.2",
-                "phpoption/phpoption": "^1.7",
-                "psr/log": "^1.1 || ^2.0 || ^3.0",
-                "react/http": "^1.2",
-                "vlucas/phpdotenv": "*"
-            },
-            "require-dev": {
-                "orchestra/testbench": "3.8 - 6",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^8.3 || ^9.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Atymic\\Twitter\\ServiceProvider\\LaravelServiceProvider"
-                    ],
-                    "aliases": {
-                        "Twitter": "Atymic\\Twitter\\Facade\\Twitter"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Atymic\\Twitter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "atymic",
-                    "email": "atymicq@gmail.com",
-                    "homepage": "https://atymic.dev"
-                },
-                {
-                    "name": "reliq",
-                    "email": "reliq@reliqarts.com",
-                    "homepage": "https://iamreliq.com"
-                }
-            ],
-            "description": "Twitter API for PHP & Laravel",
-            "keywords": [
-                "laravel",
-                "laravel5",
-                "laravel6",
-                "twitter"
-            ],
-            "support": {
-                "issues": "https://github.com/atymic/twitter/issues",
-                "source": "https://github.com/atymic/twitter/tree/3.1.14"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/atymic",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/reliq",
-                    "type": "github"
-                }
-            ],
-            "abandoned": "atymic/twitter",
-            "time": "2021-10-21T00:19:25+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
