@@ -27,6 +27,15 @@ class AccountsController extends Controller
         $activated_services = $packages->service_in_package->pluck('service_name');
         $services = Service::find($activated_services);
 
+        //set qouta
+        if (!ProfileQuota::where('user_id',Auth::id())->exists()){
+            ProfileQuota::create([
+                'user_id' => Auth::id(),
+                'used_qouta' => 0,
+                'flag' => 0
+            ]);
+        }
+
         $fb_group = false;
         $fb_post = false;
         $insta = false;
