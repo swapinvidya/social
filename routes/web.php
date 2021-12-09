@@ -24,6 +24,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/privacypolicy',function(){
+    return view('privacypolicy');
+});
+
+Route::get('/tandc',function(){
+    return view('tandc');
+});
+
+Route::get('/profile','profileController@profile');
+Route::post('/profile_update','profileController@profile_update');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

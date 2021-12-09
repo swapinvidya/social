@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'appname',
+    'title' => env('APP_NAME'),
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,9 +45,9 @@ return [
     |
     */
 
-    'logo' => '<b>App</b>NAME',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => "<b>SOCIAL</b><small>Mediaconnect</small>",
+    'logo_img' => './img/cms_logo/welcome_logo_no_brand.png',
+    'logo_img_class' => 'brand-image img-circle',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'AdminLTE',

@@ -1,7 +1,8 @@
 <?php
 
 namespace App;
-
+use App\Userdetails;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,9 +39,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function details()
+    {
+        return $this->hasOne(Userdetails::class);
+    }
+
     public function adminlte_image()
     {
-        return 'https://picsum.photos/300/300';
+       $photo = Userdetails::where('user_id',Auth::id())->first();
+       if (isset($photo)){
+           $out = $photo->photo;
+       }else{
+           $out = 'https://picsum.photos/200/200';
+       }
+        return $out;
     }
 
     public function adminlte_desc()
@@ -50,6 +62,6 @@ class User extends Authenticatable
 
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        return 'profile';
     }
 }

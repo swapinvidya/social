@@ -75,6 +75,22 @@
             .copyright{
                 margin-top: 5px;
             }
+
+            .textarea {
+                width: 1200px;
+                margin-right: auto;
+                margin-top: 20px;
+                background-color: white;
+                box-shadow: #3d4c50 1px 0px;
+                border-style: groove;
+                
+                padding: 15px 15px 15px 15px;
+                overflow-y: scroll;
+                max-height: 350px;
+                text-align: justify;
+                text-justify: inter-word;
+            }
+
         </style>
     </head>
     <body>
@@ -94,13 +110,48 @@
             @endif
 
             <div class="content">
-                <div class="logo m-b-md">
-                    <img src="{{config('cms.logo')}}" width="350px" >
+                <div class="logo m-b-md"> 
+                    <img src="{{config('cms.logo')}}" width="150px" >
                 </div>
 
-                <div class="subtitle" style="margin-bottom: 3px;">
-                    <strong>Social Media Management Application</strong> <br> Version 0.1.1
-                </div> 
+               
+                <div class='textarea'>
+<h2>Privacy and Cookie Policy</h2>
+<p>This Policy is to show that social media connect (we) respect every individual’s privacy and why we collect and use visitors’/customers’/clients’ (your) personal information (as provided by you), when you visit or login to our website. Your acceptance to our privacy policy is considered upon your first use of our site. You must read and agree to it to use it further. 
+Information About Us</p>
+<ul>
+    <li>Our Site, SocialMediaConnect, is owned and operated by 360 Digital Idea Agency, headquartered at Sewak Park, Dwarka Mod, New Delhi, India.</li>
+    <li>You can contact to our data protection team at privacy@socialmediaconnect.in</li>
+</ul>
+
+<strong>What happens with your collected data ?</strong>
+<p>
+When you visit our website, socialmediaconnect.in, stores your information to provide you a better experience on our site by using the information provided by you. 
+</p>
+<strong> data do we collect from you ?</strong>
+<p>
+On the basis of how much you use and visit our website, we collect the data from you, where some are automatically collected data by our log files or cookies, which might include user’s web browser version, IP address, time zone, searched things, your viewed items and how have you interacted with the site.
+</p>
+<strong> do we use your data ?</strong>
+<p>
+We use your data to provide you better services and better browser experience on our website. We store it in our records and do not remove it until we are asked from users’ end. 
+</p>
+<strong>GDPR (General Data Protection Regulation)</strong>
+<p>If you are a resident of India,</p>
+<p> 
+If you are an Indian resident, you have the right to fit and access the information we have collected about you, to port it to a new service or to ask to correct, remove or update them. And, to activate and exercise these rights, you can contact us on the contact information provided below. 
+</p>
+<strong>Updates</strong>
+<p>
+Any change made to our website or it’s privacy policy, we will be updating it from time to time to bring it to your notice and be up to date with legal, operational and regulatory things. 
+</p>
+<strong>Contact</strong>
+<p>
+For any business related or privacy policy related query or for any further information about our business, contact us here.
+Send email- privacy@socialmediaconnect.in
+</p>
+                </div>
+                
                 
 
                 <div class="links">
@@ -110,7 +161,7 @@
                     <a href="#">Blog</a>
                     <a href="#">GitHub</a>
                     <a href="./privacypolicy">Privacy Policy</a>
-                    <a href="./tandc">Terms and Conditions</a>
+                    <a href="#">Terms and Conditions</a>
                     <a href="#">About us</a>
                 </div>
 
