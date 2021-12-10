@@ -20,7 +20,7 @@
             <i class="fas fa-sync"></i> Refresh
         </a>
         <a class="btn btn-app">
-            <span class="badge bg-success">0</span>
+            <span class="badge bg-success">{{$balance_page}}</span>
             <i class="fas fa-barcode"></i> Products
         </a>
     </div>
@@ -38,7 +38,7 @@
                             <div class="col-6">
                                 <div class="form-check ml-2">
                                     <input class="form-check-input rd_page" type="radio" value="{{$item->id}}" name="page" id="radio{{$item->id}}"
-                                    if (in_array("Glenn", $people))
+                                    
                                     @php
                                         if (in_array($item->id, $Account->toArray())){
                                             echo "disabled";

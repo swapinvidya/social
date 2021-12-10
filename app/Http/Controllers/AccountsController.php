@@ -132,7 +132,10 @@ class AccountsController extends Controller
     public function create_account_fb (){
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
         $Account = Account::where('user_id',Auth::id())->pluck('page_id');
-        return view('client.facebook.create_account',compact('fb_pages','Account'));
+        $total_page_count = $fb_pages->count();
+        $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
+        $balance_page = $total_page_count - $maped_page_count;
+        return view('client.facebook.create_account',compact('fb_pages','Account','balance_page'));
     }
 
     public function manage_account (){
