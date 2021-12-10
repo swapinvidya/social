@@ -108,12 +108,12 @@ class FacebookRepository
 
           
           $me = $response->getGraphUser()->asArray();
-          return array_map(function ($item) {
-            return [
-                'id' => $item['id'],
-                'name' => $item['name'],
-            ];
-        }, $me);
+          
+        return [
+            'id' => $me['id'],
+            'name' => $me['name'],
+        ];
+      
     }
 
     public function getGroups($accessToken){
