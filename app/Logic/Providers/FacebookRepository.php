@@ -91,6 +91,26 @@ class FacebookRepository
         }, $pages);
     }
 
+    public function getGroups($accessToken){
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $this->facebook->get(
+              '/me/groups',
+              $accessToken
+            );
+          } catch(\Exception $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+          } catch(Exception $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+          }
+          $groups = $response->getGraphEdge()->asArray();
+
+          /* handle the result */
+          dd( $groups);
+    }
+
     public function delPost($postIDtoDelete,$pageAccessToken){
         try {
             return $this->facebook->delete('/'.$postIDtoDelete ,array(), $pageAccessToken);
