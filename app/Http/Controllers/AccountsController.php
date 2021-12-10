@@ -170,9 +170,12 @@ class AccountsController extends Controller
             ]);
         }
 
-
+        $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
+        $total_page_count = $fb_pages->count();
+        $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
+        $balance_page = $total_page_count - $maped_page_count;
         return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account','Ac_qouta_total',
-        'Ac_qouta_used', 'Ac_qouta_avilable'));
+        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page'));
     }
 
     public function save_account(Request $request){
