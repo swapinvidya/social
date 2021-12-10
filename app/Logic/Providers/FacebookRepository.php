@@ -106,7 +106,7 @@ class FacebookRepository
             exit;
           }
 
-          $me = $response->getGraphEdge()->asArray();
+          $me = $response->getGraphNode()->asArray();
           return array_map(function ($item) {
             return [
                 'id' => $item['id'],
