@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\FacebookID;
 use App\FacebookPage;
+use App\facebook_group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,7 @@ class SocialController extends Controller
         $group = $this->facebook->getgroups($d);
         $count = count($group);
         for ($i=0; $i < $count ; $i++) { 
-            FacebookPage::create([
+            facebook_group::create([
                 'user_id' => Auth::id(),
                 'token_id' => $f_id->id,
                 'group_id' => $group[$i]['id'],
