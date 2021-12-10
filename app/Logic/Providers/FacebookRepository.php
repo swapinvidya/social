@@ -108,7 +108,17 @@ class FacebookRepository
           $groups = $response->getGraphEdge()->asArray();
 
           /* handle the result */
-          dd( $groups);
+
+        return array_map(function ($item) {
+            return [
+                'provider' => 'facebook group',
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'privacy' => $item['privacy']
+            ];
+        }, $groups);
+
+
     }
 
     public function delPost($postIDtoDelete,$pageAccessToken){

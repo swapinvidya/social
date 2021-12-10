@@ -41,7 +41,7 @@ class SocialController extends Controller
         
 
         $d = FacebookID::find($f_id->id)->fb_token;
-        $page = $this->facebook->getgroups($d);
+        
         $page = $this->facebook->getPages($d);
 
         $count = count($page);
@@ -58,6 +58,20 @@ class SocialController extends Controller
             ]);
         }
 
+        $group = $this->facebook->getgroups($d);
+        $count = count($group);
+        for ($i=0; $i < $count ; $i++) { 
+            FacebookPage::create([
+                'user_id' => Auth::id(),
+                'token_id' => $f_id->id,
+                'group_id' => $group[$i]['id'],
+                'group_token' => "NA",
+                'image' => "NA",
+                'name' => $group[$i]['name'],
+                'privacy' => $group[$i]['privacy'],
+                'provider' => $group[$i]['provider'],
+            ]);
+        }
 
         return redirect('/create_account_fb');
     }
