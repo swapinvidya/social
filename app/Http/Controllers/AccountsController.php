@@ -9,7 +9,7 @@ use App\Package;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use App\ayrshare;
-
+use App\facebook_group;
 use App\FacebookID;
 use App\FacebookPage;
 use App\ProfileQuota;
@@ -137,11 +137,12 @@ class AccountsController extends Controller
 
     public function create_account_fb (){
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
+        $fb_groups = facebook_group::where("user_id",Auth::id())->get();
         $Account = Account::where('user_id',Auth::id())->pluck('page_id');
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
-        return view('client.facebook.create_account',compact('fb_pages','Account','balance_page'));
+        return view('client.facebook.create_account',compact('fb_pages','fb_groups','Account','balance_page'));
     }
 
     public function manage_account (){

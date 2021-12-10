@@ -91,6 +91,24 @@ class FacebookRepository
         }, $pages);
     }
 
+    public function getMe($accessToken){
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $this->facebook->get(
+              '/me',
+              $accessToken
+            );
+          } catch(\Exception $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+          } catch(Exception $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+          }
+
+          dd($response);
+    }
+
     public function getGroups($accessToken){
         try {
             // Returns a `Facebook\FacebookResponse` object
