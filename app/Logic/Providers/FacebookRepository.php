@@ -107,7 +107,13 @@ class FacebookRepository
           }
 
           
-         dd($response->getGraphUser());
+          $me = $response->getGraphUser()->asArray();
+          return array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['name'],
+            ];
+        }, $me);
     }
 
     public function getGroups($accessToken){
