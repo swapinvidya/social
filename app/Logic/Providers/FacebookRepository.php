@@ -18,8 +18,8 @@ class FacebookRepository
     public function __construct()
     {
         $this->facebook = new Facebook([
-            'app_id' => '619696736051134',
-            'app_secret' => '7322b7216c583d94068b05dea2289754',
+            'app_id' => config('facebook.config.app_id'),
+            'app_secret' => config('facebook.config.app_secret'),
             'default_graph_version' => 'v12.0'
         ]);
     }
@@ -33,8 +33,8 @@ class FacebookRepository
             'pages_read_engagement'
         ];
 
-        //$redirectUri = config('app.url') . '/auth/facebook/callback';
-        $redirectUri = 'https://f261-103-57-85-12.ngrok.io/auth/facebook/callback';
+        $redirectUri = config('app.url') . '/auth/facebook/callback';
+        //$redirectUri = 'https://f261-103-57-85-12.ngrok.io/auth/facebook/callback';
 
         return $helper->getLoginUrl($redirectUri, $permissions);
     }
