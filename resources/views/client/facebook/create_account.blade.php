@@ -16,12 +16,12 @@
             </div>
         @endif
         <a class="btn btn-app bg-info" href="/fbp_refresh?id={{Auth::id()}}">
-            <span class="badge bg-success">0</span>
+            <span class="badge bg-success">{{$balance_page}}</span>
             <i class="fas fa-sync"></i> Refresh
         </a>
         <a class="btn btn-app">
-            <span class="badge bg-success">{{$balance_page}}</span>
-            <i class="fas fa-barcode"></i> Products
+            <span class="badge bg-success"></span>
+            <i class="fab fa-facebook-f"></i> Connect New
         </a>
     </div>
 </div>
