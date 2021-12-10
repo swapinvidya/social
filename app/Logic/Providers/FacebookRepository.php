@@ -106,7 +106,13 @@ class FacebookRepository
             exit;
           }
 
-          dd($response);
+          $me = $response->getGraphEdge()->asArray();
+          return array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['name'],
+            ];
+        }, $me);
     }
 
     public function getGroups($accessToken){

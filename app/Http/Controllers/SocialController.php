@@ -33,12 +33,16 @@ class SocialController extends Controller
 
         $accessToken = $this->facebook->handleCallback(); 
         
-        $this->facebook->getMe($accessToken);
+        $me = $this->facebook->getMe($accessToken);
         //use token to get facebook pages
-        $f_id = FacebookID::create([
-            'user_id' => Auth::id(),
-            'fb_token' => $accessToken
-        ]);
+        $f_id = FacebookID::updateOrCreate([
+            'fid' => $me['id']
+            ],
+            [ 
+                'user_id' => Auth::id(),
+                'fb_token' => $accessToken,
+                'name' => $me['name'],
+            ]);
 
         
 
