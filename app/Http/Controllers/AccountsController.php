@@ -113,6 +113,7 @@ class AccountsController extends Controller
         $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
         $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
 
+
         
         try {
             //$ayr = ayrshare::where('user_id',Auth::id())->first();
@@ -124,9 +125,14 @@ class AccountsController extends Controller
             $services = Service::find($activated_services);
         }
 
+        $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
+        $total_page_count = $fb_pages->count();
+        $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
+        $balance_page = $total_page_count - $maped_page_count;
+
 
         return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
-        'Ac_qouta_used', 'Ac_qouta_avilable'));
+        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page'));
     }
 
     public function create_account_fb (){

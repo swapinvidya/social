@@ -61,7 +61,7 @@ $config = [
             <i class="fab fa-facebook-square text-blue"></i> Connect New
         </a>
         <a class="btn btn-app" href = "/create_account_fb">
-            <span class="badge bg-purple">{{$bal}}</span>
+            <span class="badge bg-purple">{{$balance_page}}</span>
             <i class="fab fa-facebook-square text-blue"></i> Add page
         </a>
         <a class="btn btn-app" href = "/create_account_fb">
