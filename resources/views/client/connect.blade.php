@@ -55,12 +55,11 @@
                     
                     @if ($data->id == 1 or $data->id ==2)
                         @foreach ($fb_id as $key => $fb)
-                            <button class="btn btn-info btn-sm mb-1" style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{"$key"}}</button>
+                            <a  href = "./fbp_refresh?id={{$fb}}" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{"$key"}}</a>
                         @endforeach
+                        <a  href="./auth/facebook" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
-                    <button class="btn btn-primary btn-sm mb-1" style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</button>
                 </div>
-               
             </div>
         </div>
         @endforeach

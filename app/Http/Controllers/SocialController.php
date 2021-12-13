@@ -83,10 +83,12 @@ class SocialController extends Controller
     }
 
     public function fbp_refresh(Request $request){
-       
-        $d = FacebookID::where('user_id',$request->input('id'))->first()->fb_token;
 
-        $id = FacebookID::where('user_id',$request->input('id'))->first()->id;
+        //dd($request);
+       
+        $d = FacebookID::find($request->input('id'))->fb_token;
+
+        $id = $request->input('id');
 
 
         $page = $this->facebook->getPages($d);
@@ -173,6 +175,7 @@ class SocialController extends Controller
                 return redirect('/create_account_fb');
 
             }
+            
 
         else {
 

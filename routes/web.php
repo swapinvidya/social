@@ -116,3 +116,9 @@ Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
 
 
 Route::get('/image_editor' , 'PostController@image_editor');
+
+Route::get('/fb_pages/get', 'AccountsController@fb_pages');
+Route::get('/fb_groups/get', 'AccountsController@fb_groups');
+
+Route::get('/fb_page/get', 'AccountsController@fb_page');
+Route::get('/fb_group/get', 'AccountsController@fb_group');

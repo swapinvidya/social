@@ -139,13 +139,14 @@ class AccountsController extends Controller
     }
 
     public function create_account_fb (){
+        $fb_id = FacebookID::where('user_id',Auth::id())->pluck('id','name')->toArray();
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
         $fb_groups = facebook_group::where("user_id",Auth::id())->get();
-        $Account = Account::where('user_id',Auth::id())->pluck('page_id');
+        $Account = Account::where('user_id',Auth::id())->get();
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
-        return view('client.facebook.create_account',compact('fb_pages','fb_groups','Account','balance_page'));
+        return view('client.facebook.create_account',compact('fb_id','fb_pages','fb_groups','Account','balance_page'));
     }
 
     public function manage_account (){
@@ -227,7 +228,29 @@ class AccountsController extends Controller
 
                 dd("Something went worng !");
             }
+
+        
     }
 
-    
+    public function fb_pages   (Request $request){
+        $fb_pages = FacebookPage::where("user_id",Auth::id())
+                    ->where('token_id',$request->input('id'))->get();
+        return $fb_pages;
+    } 
+
+    public function fb_groups   (Request $request){
+        $fb_groups = facebook_group::where("user_id",Auth::id())
+                    ->where('token_id',$request->input('id'))->get();
+        return $fb_groups;
+    } 
+
+    public function fb_page   (Request $request){
+        $fb_pages = FacebookPage::find($request->input('id'));
+        return $fb_pages;
+    } 
+
+    public function fb_group   (Request $request){
+        $fb_groups = facebook_group::find($request->input('id'));
+        return $fb_groups;
+    } 
 }
