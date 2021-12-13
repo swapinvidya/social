@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
- 
+   
 
     <div class="row">
         <div class="col-12">
@@ -41,6 +41,7 @@
                             <img src="" id = "page_img" width="100px"/>
                         </div>
                     </div>
+                    
                     <h5>Create Account from Groups</h5>
                     <small>Please refresh this page an reselect the profile if your group is not properly maped</small>
                     <hr>
@@ -113,13 +114,52 @@
             </div>
         </div>
     </div>
+    <div class="modal"><!-- Place at bottom of page --></div>
 @stop
 
 @section('css')
-    
+    <style>
+            /* Start by setting display:none to make this hidden.
+        Then we position it in relation to the viewport window
+        with position:fixed. Width, height, top and left speak
+        for themselves. Background we set to 80% white with
+        our animation centered, and no-repeating */
+                .modal {
+                    display:    none;
+                    position:   fixed;
+                    z-index:    1000;
+                    top:        0;
+                    left:       0;
+                    height:     100%;
+                    width:      100%;
+                    background: rgba( 255, 255, 255, .8 ) 
+                                url('http://i.stack.imgur.com/FhHRx.gif') 
+                                50% 50% 
+                                no-repeat;
+                }
+
+        /* When the body has the loading class, we turn
+        the scrollbar off with overflow:hidden */
+        body.loading .modal {
+            overflow: hidden;   
+        }
+
+        /* Anytime the body has the loading class, our
+        modal element will be visible */
+        body.loading .modal {
+            display: block;
+        }
+    </style>    
 @stop
 
 @section('js')
+<script>
+    $body = $("body");
+    $(document).on({
+        ajaxStart: function() { $body.addClass("loading");    },
+        ajaxStop: function() { $body.removeClass("loading"); }    
+    });
+</script>    
 <script>
     $(document).ready(function(){
         $("#sel_acc").change(function(){
@@ -128,6 +168,7 @@
                     url: '/fb_pages/get?id='+id,
                     type: 'get',
                     dataType: 'json',
+                   
                     success:function(response){
 
                         var len = response.length;
@@ -140,6 +181,7 @@
                             $("#sel").append("<option value='"+id+"'>"+name+"</option>");
 
                         }
+                       
                     }
                 })
             $.ajax({
@@ -194,5 +236,6 @@
             })
         });
     });
+
 </script>   
 @stop
