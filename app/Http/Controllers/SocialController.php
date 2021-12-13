@@ -90,10 +90,13 @@ class SocialController extends Controller
 
 
         $page = $this->facebook->getPages($d);
-
+        $group = $this->facebook->getGroups($d);
+        
         $count = count($page);
+        $g_count = count($group);
 
         $existing_page = FacebookPage::where('user_id',Auth::id())->count();
+        $existing_group = facebook_group::where('user_id',Auth::id())->count();
 
         $existing_page_id_array = FacebookPage::where('user_id',Auth::id())->pluck('page_id')->toArray();
 
@@ -105,9 +108,6 @@ class SocialController extends Controller
         if ($count > $existing_page){
                 //dd ($page);
                 //check page id to exlude exisiting pages its logic
-            
-                 
-
                 if ($existing_page == 0){
                     for ($i=0; $i < $count; $i++) { 
                         FacebookPage::create([
@@ -120,25 +120,56 @@ class SocialController extends Controller
                             'provider' => $page[$i]['provider'],
                         ]);
                     }
-
-                    return redirect('/create_account_fb');
+                    
+                }else{
+                    for ($i=0; $i < $count; $i++) { 
+                        $flight = FacebookPage::updateOrCreate(
+                            ['page_id' => $page[$i]['id']],
+                            [
+                                'user_id' => Auth::id(),
+                                'token_id' => $id,
+                                'page_id' => $page[$i]['id'],
+                                'page_token' => $page[$i]['access_token'],
+                                'image'=> $page[$i]['image'],
+                                'name' => $page[$i]['name'],
+                                'provider' => $page[$i]['provider'],
+                            ]
+                        );
+                    }
                 }
-                 
-                for ($i=0; $i < $count; $i++) { 
-                    $flight = FacebookPage::updateOrCreate(
-                        ['page_id' => $page[$i]['id']],
-                        [
+
+                if ($existing_group == 0){
+                    for ($i=0; $i < $g_count ; $i++) { 
+                        facebook_group::create([
                             'user_id' => Auth::id(),
                             'token_id' => $id,
-                            'page_id' => $page[$i]['id'],
-                            'page_token' => $page[$i]['access_token'],
-                            'image'=> $page[$i]['image'],
-                            'name' => $page[$i]['name'],
-                            'provider' => $page[$i]['provider'],
-                        ]
-                    );
-                }
+                            'group_id' => $group[$i]['id'],
+                            'group_token' => "NA",
+                            'image' => "NA",
+                            'name' => $group[$i]['name'],
+                            'privacy' => $group[$i]['privacy'],
+                            'provider' => $group[$i]['provider'],
+                        ]);
+                    }
+                }else{
+                    for ($i=0; $i < $g_count; $i++) { 
+                        $flight = FacebookPage::updateOrCreate(
+                            ['group_id' => $group[$i]['id']],
+                            [
+                                'user_id' => Auth::id(),
+                                'token_id' => $id,
+                                'group_id' => $group[$i]['id'],
+                                'group_token' => "NA",
+                                'image' => "NA",
+                                'name' => $group[$i]['name'],
+                                'privacy' => $group[$i]['privacy'],
+                                'provider' => $group[$i]['provider'],
+                            ]
+                        );
+                    }
 
+                }
+            
                 return redirect('/create_account_fb');
 
             }
@@ -160,6 +191,18 @@ class SocialController extends Controller
                         ]
                     );
 
+                }
+
+                for ($i=0; $i < $g_count ; $i++) { 
+                    facebook_group::where('group_id',$group[$i]['id'])->first()->update([
+                        'user_id' => Auth::id(),
+                        'token_id' => $id,
+                        'group_token' => "NA",
+                        'image' => "NA",
+                        'name' => $group[$i]['name'],
+                        'privacy' => $group[$i]['privacy'],
+                        'provider' => $group[$i]['provider'],
+                    ]);
                 }
 
 

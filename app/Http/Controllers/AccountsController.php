@@ -37,6 +37,7 @@ class AccountsController extends Controller
         }
 
         $fb_group = false;
+        $fb_id =[];
         $fb_post = false;
         $insta = false;
 
@@ -54,6 +55,8 @@ class AccountsController extends Controller
                         //dd('facebook - Page');
                         if (FacebookID::where('user_id',Auth::id())->exists()){
                             $fb_post = true;
+                            $fb_id = FacebookID::where('user_id',Auth::id())->pluck('id','name')->toArray();
+                            //$fb_id = array_values($fb_id);
                             $fb_url = "/fbp_refresh";
                         }
                         else{
@@ -132,7 +135,7 @@ class AccountsController extends Controller
 
 
         return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
-        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page'));
+        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page','fb_id'));
     }
 
     public function create_account_fb (){
