@@ -275,7 +275,7 @@ class SocialController extends Controller
         foreach($insta_accounts as $ia){
             $insta_id = FacebookPage::find($ia->id)->instagarm_id;
             $accessToken = FacebookID::find(FacebookPage::find($ia->id)->token_id)->fb_token;
-            $result = getInstabasic($insta_id,$accessToken);
+            $result = $this->facebook->getInstabasic($insta_id,$accessToken);
             /*
             FacebookPage::find($ia->id)->update([
                 'profile_picture_url',
