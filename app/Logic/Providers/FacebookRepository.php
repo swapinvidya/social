@@ -187,6 +187,39 @@ class FacebookRepository
 
 
     }
+    
+    public function getInstabasic($insta_id,$accessToken){
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $this->facebook->get(
+              '/'.$insta_id.'?fields=name,profile_picture_url',
+              $accessToken
+            );
+          } catch(\Exception $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+          } catch(Exception $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+          }
+          $instadetails = $response->getGraphEdge()->asArray();
+          dd($instadetails);
+
+
+
+          /* handle the result */
+
+        return array_map(function ($item) {
+            return [
+                'provider' => 'facebook group',
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'privacy' => $item['privacy']
+            ];
+        }, $groups);
+
+
+    }
 
     public function delPost($postIDtoDelete,$pageAccessToken){
         try {

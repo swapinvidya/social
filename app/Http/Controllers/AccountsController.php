@@ -37,6 +37,9 @@ class AccountsController extends Controller
         }
 
         //check fb
+
+        //fill other details
+       
         
        
         $fb_group = false;

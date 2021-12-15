@@ -18,6 +18,7 @@ class FacebookPage extends Model
         'connected',
         'profile_picture_url',
         'instagarm_id',
+        'instagram_name'
     ];
 
 }

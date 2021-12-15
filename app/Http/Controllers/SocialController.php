@@ -266,7 +266,23 @@ class SocialController extends Controller
                 }
             
             }
+            
        }
+
+       //update other insta detals
+       $insta_accounts = FacebookPage::where('user_id',Auth::id())
+                            ->where('present',true)->get();
+        foreach($insta_accounts as $ia){
+            $insta_id = FacebookPage::find($ia->id)->instagarm_id;
+            $accessToken = FacebookID::find(FacebookPage::find($ia->id)->token_id)->fb_token;
+            $result = getInstabasic($insta_id,$accessToken);
+            /*
+            FacebookPage::find($ia->id)->update([
+                'profile_picture_url',
+                'instagram_name'
+            ]);
+            */
+        }
 
        return redirect()->back();
 
