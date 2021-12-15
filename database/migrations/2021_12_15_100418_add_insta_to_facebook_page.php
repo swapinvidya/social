@@ -8,7 +8,7 @@ class AddInstaToFacebookPage extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * c swapin vidya
      * @return void
      */
     public function up()
