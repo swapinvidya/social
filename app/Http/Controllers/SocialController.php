@@ -53,6 +53,8 @@ class SocialController extends Controller
         $count = count($page);
 
         for ($i=0; $i < $count ; $i++) { 
+            //check for instagram
+          
             FacebookPage::create([
                 'user_id' => Auth::id(),
                 'token_id' => $f_id->id,
@@ -63,6 +65,8 @@ class SocialController extends Controller
                 'provider' => $page[$i]['provider'],
             ]);
         }
+
+
 
         $group = $this->facebook->getgroups($d);
         $count = count($group);
@@ -213,6 +217,59 @@ class SocialController extends Controller
 
 
         return redirect('/create_account_fb');
+    }
+
+    public function instagram_connect(){
+        //find out how many Accounts are configured by particular user
+        //$registred_accounts = FacebookID::where('user_id',Auth::id())->get();
+        $registred_accounts = FacebookID::where('id',2)->get();
+        $registerd_accounts_count = $registred_accounts->count();
+        $pages_maped = FacebookPage::where('user_id',Auth::id())->get();
+
+        $array_ids = FacebookPage::where('user_id',Auth::id())->pluck('id')->toArray();
+
+       foreach ($registred_accounts as $ra) { 
+           $token = $ra->fb_token;
+           //update pages
+           $page = $this->facebook->getPages($token);
+           for ($j=0; $j < count($page); $j++) { 
+                $flight = FacebookPage::updateOrCreate(
+                    ['page_id' => $page[$j]['id']],
+                    [
+                        'user_id' => Auth::id(),
+                        'token_id' => $ra->id,
+                        'page_id' => $page[$j]['id'],
+                        'page_token' => $page[$j]['access_token'],
+                        'image'=> $page[$j]['image'],
+                        'name' => $page[$j]['name'],
+                        'provider' => $page[$j]['provider'],
+                    ]
+                );
+            }
+
+            foreach ( $pages_maped as $pm) {
+            //check if instaaccount is prestent or not
+                $p_id = $pm->page_id;
+                $response = $this->facebook->getInsta($p_id,$token);
+
+                for ($i=0; $i < count($response); $i++) { 
+                    //update instagram details
+                    if (FacebookPage::where('page_id',$response[$i]['id']) != null){
+                        FacebookPage::where('page_id',$response[$i]['id'])->first()->update([
+                            'present' => $response[$i]['instagram'],
+                            'instagarm_id'  =>$response[$i]['instagram_id'],
+                        ]);
+                    }
+                    else{
+                        dd("Fatal Error");
+                    }
+                }
+            
+            }
+       }
+
+       return redirect()->back();
+
     }
 
    

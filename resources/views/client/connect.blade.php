@@ -52,28 +52,35 @@
                 <div class="card-header d-flex align-items-center" style="height: 2.5rem"><i class="{{$fa_fa}}"></i>&nbsp;{{$data->name}}</div>
                 <div class="card-body bg-white text-center">
                     <img src="{{$data->logo}}" class="img-round mb-2" width="75px"><br>
-                    
+                    <!-- Facebook Page and Group -->
                     @if ($data->id == 1 or $data->id ==2)
                         @foreach ($fb_id as $key => $fb)
                             <a  href = "./fbp_refresh?id={{$fb}}" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{"$key"}}</a>
                         @endforeach
                         <a  href="./auth/facebook" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
+                    <!--Twitter -->
+                    @if ($data->id == 4)
+                        @isset($twitter_all)
+                            @foreach ($twitter_all as $tw)
+                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{"$tw->screen_name"}}</a>
+                            @endforeach    
+                        @endisset
+                        <a  href="./twitter/login" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
+                    @endif
+                    <!--Instagram-->
+                    @if ($data->id == 3)
+                        @isset($instagrams)
+                            @foreach ($instagrams as $instagram)
+                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; blah</a>
+                            @endforeach    
+                        @endisset
+                        <a  href="./instagram_connect" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
+                    @endif
                 </div>
             </div>
         </div>
         @endforeach
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="callout callout-danger">
-                <h5>I am a danger callout!</h5>
-
-                <p>There is a problem that we need to fix. A wonderful serenity has taken possession of my entire
-                    soul,
-                    like these sweet mornings of spring which I enjoy with my whole heart.</p>
-            </div>
-        </div>
     </div>
 @endif  
 @stop

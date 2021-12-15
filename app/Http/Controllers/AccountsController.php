@@ -26,7 +26,7 @@ class AccountsController extends Controller
         $packages = Package::find(Auth::user()->package_type);
         $activated_services = $packages->service_in_package->pluck('service_name');
         $services = Service::find($activated_services);
-
+        
         //set qouta
         if (!ProfileQuota::where('user_id',Auth::id())->exists()){
             ProfileQuota::create([
@@ -36,6 +36,9 @@ class AccountsController extends Controller
             ]);
         }
 
+        //check fb
+        
+       
         $fb_group = false;
         $fb_id =[];
         $fb_post = false;
@@ -129,13 +132,16 @@ class AccountsController extends Controller
         }
 
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
+        $twitter_all = Twitter::where("user_id",Auth::id())->get();
+        $instagrams = FacebookPage::where("user_id",Auth::id())->where('present',true)->get();
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
 
 
         return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
-        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page','fb_id'));
+        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page','fb_id'
+            ,'twitter_all','instagrams'));
     }
 
     public function create_account_fb (){
@@ -146,6 +152,7 @@ class AccountsController extends Controller
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
+
         return view('client.facebook.create_account',compact('fb_id','fb_pages','fb_groups','Account','balance_page'));
     }
 
@@ -194,40 +201,63 @@ class AccountsController extends Controller
             return redirect()->back();
         }
 
-        
-        $done = Account::create([
-                    'user_id' => Auth::id(),
-                    'page_id' => $request->input('page_id'),
-                    'page_token'=> FacebookPage::find($request->input('page_id'))->page_token,
-                    'name' => $request->input('name'),
-                    'provider' => $request->input('provider'),
-                ]);
+        if ($request->input('type') == 'page'){
+            $done = Account::create([
+                        'user_id' => Auth::id(),
+                        'page_id' => $request->input('page_id'),
+                        'page_token'=> FacebookPage::find($request->input('page_id'))->page_token,
+                        'name' => $request->input('name'),
+                        'provider' => $request->input('provider'),
+                    ]);
 
-        if ($done){
+            if ($done){
 
-                $q = ProfileQuota::updateOrCreate(
-                        ['user_id' => Auth::id()],
-                        ['user_id' => Auth::id()]
-                    )->increment('used_qouta');
+                    $q = ProfileQuota::updateOrCreate(
+                            ['user_id' => Auth::id()],
+                            ['user_id' => Auth::id()]
+                        )->increment('used_qouta');
 
-                //refresh exsisting tokens
+                    //refresh exsisting tokens
 
-                $Account = Account::where('user_id',Auth::id())->get();
-                
-                foreach ($Account as $ac) {
-                   Account::find($ac->id)->update([
-                    'page_token'=> FacebookPage::find($ac->page_id)->page_token,
-                   ]);
+                    $Account = Account::where('user_id',Auth::id())->get();
+                    
+                    foreach ($Account as $ac) {
+                    Account::find($ac->id)->update([
+                        'page_token'=> FacebookPage::find($ac->page_id)->page_token,
+                    ]);
+                    }
+
+
+                    return redirect('/manage');
                 }
 
+            else{
 
-                return redirect('/manage');
-            }
+                    dd("Something went worng !");
+                }
+        }
+        elseif ($request->input('type')=='group'){
+            dd($request,'face book group api down please retry');
+        }
+        //Twitter
+        elseif ($request->input('type')=='twitter'){
+            dd($request,'twitter api down please retry');
+        }
+        //Instagram
+        elseif ($request->input('type')=='instagram'){
+            dd($request,'Insta api down please retry');
+        }
 
-        else{
+        //Pinterst
+        elseif ($request->input('type')=='pin'){
+            dd($request,'Pintrest api down please retry');
+        }
 
-                dd("Something went worng !");
-            }
+        //linkedin
+        elseif ($request->input('type')=='linkedin'){
+            dd($request,'linkedIn api down please retry');
+        }
+        //
 
         
     }
@@ -252,5 +282,7 @@ class AccountsController extends Controller
     public function fb_group   (Request $request){
         $fb_groups = facebook_group::find($request->input('id'));
         return $fb_groups;
-    } 
+    }
+    
+   
 }

@@ -38,7 +38,33 @@
                             </div>
                         </div>
                         <div class="col-md-4" id="divfbp" style="display: none">
-                            <img src="" id = "page_img" width="100px"/>
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="" id = "page_img" width="100px"/>
+                                </div>
+                                <div class="col-8">
+                                    <form action="/save_account" method="POST">
+                                        @csrf
+                                        <div class="hidden">
+                                            <input value="" id = "page_id" name="page_id" hidden>
+                                            <input value="" id = "provider" name="provider" hidden>
+                                            <input value="page" id = "type" name="type" hidden>
+                                        </div>    
+                                        <div class="row">
+                                            <div class="form-group">
+                                            <label for="">Account Name</label>
+                                            <input type="text"
+                                                class="form-control" name="name" id="ac_name" aria-describedby="helpId" value="" placeholder="" >
+                                            <small id="helpId" class="form-text text-muted">Please eneter a unique account name</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-primary">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                     
@@ -216,6 +242,10 @@
                     //alert(response['name']);
                     $("#divfbp").show();
                     $("#page_img").attr("src",response['image']);
+                    $('#ac_name').attr("value",response['name']);
+
+                    $('#page_id').attr("value",response['id']);
+                    $('#provider').attr("value",response['provider']);
                 }
             })
             

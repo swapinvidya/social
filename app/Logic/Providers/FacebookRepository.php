@@ -116,6 +116,48 @@ class FacebookRepository
       
     }
 
+    public function getInsta($page_id,$accessToken){
+        $params = array('fields'=>'instagram_business_account');
+        //dd($page_id,$accessToken);
+        try{
+            $response = $this->facebook->get(
+                '/me/accounts?fields=instagram_business_account',
+                $accessToken
+            );
+
+            $insta = $response->getGraphEdge()->asArray();
+            //dd($insta);
+            
+            return array_map(function ($item) {
+                if (array_key_exists("instagram_business_account",$item)){
+                    $ins = true;
+                    $data = $item['instagram_business_account'];
+                    //$decoded = json_decode($data);
+                    $i_id = $data['id'];
+                }
+                else{
+                    $ins = false;
+                    $i_id = "";
+                }
+                
+                return [
+                    'provider' => 'Instagram',
+                    'id' => $item['id'],
+                    'instagram' => $ins,
+                    'instagram_id' => $i_id
+                ];
+            }, $insta);
+        }
+        catch(\Exception $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } 
+        catch(Exception $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+    }
+
     public function getGroups($accessToken){
         try {
             // Returns a `Facebook\FacebookResponse` object

@@ -14,6 +14,10 @@ class FacebookPage extends Model
         'image',
         'name',
         'provider',
+        'present',
+        'connected',
+        'profile_picture_url',
+        'instagarm_id',
     ];
 
 }

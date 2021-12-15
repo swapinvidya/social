@@ -94,6 +94,9 @@ Route::get('/create_account_fb','AccountsController@create_account_fb');
 Route::post('/save_account', 'AccountsController@save_account');
 Route::get('/fbp_refresh','SocialController@fbp_refresh');
 
+//instagram
+Route::get('/instagram_connect','SocialController@instagram_connect');
+
 //twitter
 Route::get('/tweet', function()
 {
