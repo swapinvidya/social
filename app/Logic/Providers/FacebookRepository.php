@@ -202,7 +202,7 @@ class FacebookRepository
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
           }
-          $instadetails = $response->getGraphEdge()->asArray();
+          $instadetails = $response->getGraphNode()->asArray();
           dd($instadetails);
 
 
