@@ -203,20 +203,13 @@ class FacebookRepository
             exit;
           }
           $instadetails = $response->getGraphNode()->asArray();
-          dd($instadetails);
+          
 
 
 
           /* handle the result */
 
-        return array_map(function ($item) {
-            return [
-                'provider' => 'facebook group',
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'privacy' => $item['privacy']
-            ];
-        }, $groups);
+        return $instadetails;
 
 
     }

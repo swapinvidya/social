@@ -276,12 +276,10 @@ class SocialController extends Controller
             $insta_id = FacebookPage::find($ia->id)->instagarm_id;
             $accessToken = FacebookID::find(FacebookPage::find($ia->id)->token_id)->fb_token;
             $result = $this->facebook->getInstabasic($insta_id,$accessToken);
-            /*
             FacebookPage::find($ia->id)->update([
-                'profile_picture_url',
-                'instagram_name'
+                'profile_picture_url' => $result["profile_picture_url"],
+                'instagram_name' => $result["name"]
             ]);
-            */
         }
 
        return redirect()->back();
