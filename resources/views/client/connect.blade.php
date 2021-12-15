@@ -72,7 +72,8 @@
                     @if ($data->id == 3)
                         @isset($instagrams)
                             @foreach ($instagrams as $instagram)
-                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; blah</a>
+                                <img src="{{$instagram->profile_picture_url}}" width="50px" class="img-thumbnail"/>
+                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$instagram->instagram_name}}</a>
                             @endforeach    
                         @endisset
                         <a  href="./instagram_connect" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
