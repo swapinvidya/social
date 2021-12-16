@@ -93,6 +93,16 @@
                         @endisset
                         <a  href="./instagram_connect" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
+                    <!-- Pinterest -->
+                    @if ($data->id == 5)
+                        @if(Auth::user()->pinterest)
+                            <div class="user-details">...</div>
+                        @else
+                            <a href="/login/pinterest">
+                                <button class="btn btn-primary">Authorize Pinterest</button>
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'pinterest' => [    
+        'client_id' => env('PINTEREST_KEY'),  
+        'client_secret' => env('PINTEREST_SECRET'),  
+        'redirect' => env('PINTEREST_REDIRECT_URI') 
+      ],
+
 ];

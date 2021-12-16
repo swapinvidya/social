@@ -162,6 +162,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        \WaleedAhmad\Pinterest\ServiceProviders\PinterestServiceProvider::class,
+
 
         /*
          * Package Service Providers...

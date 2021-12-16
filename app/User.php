@@ -64,4 +64,8 @@ class User extends Authenticatable
     {
         return 'profile';
     }
+
+    public function pinterest(){
+        return $this->hasOne('App\pinterest', 'user_id', 'id');
+    }
 }
