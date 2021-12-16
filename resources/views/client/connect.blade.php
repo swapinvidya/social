@@ -72,8 +72,23 @@
                     @if ($data->id == 3)
                         @isset($instagrams)
                             @foreach ($instagrams as $instagram)
-                                <img src="{{$instagram->profile_picture_url}}" width="50px" class="img-thumbnail"/>
-                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$instagram->instagram_name}}</a>
+                            <div class="d-flex row mb-1">
+                                <div class="col-2">
+                                    <img src="{{$instagram->profile_picture_url}}" class="img-thumbnail"/>
+                                </div>
+                                <div class="col-10">
+                                    <form method="POST" action="/instagram_account">
+                                        @csrf
+                                        <input value="{{$instagram->id}}" name="id" hidden>
+                                        @if ($instagram->connected)
+                                        <button type="submit" class="btn btn-success btn-sm" width="100%" disabled><i class="fas fa-check"></i> &nbsp; {{$instagram->instagram_name}}</button>    
+                                        @else
+                                        <button type="submit" class="btn btn-outline-info btn-sm" width="100%"><i class="fas fa-undo"></i> &nbsp; {{$instagram->instagram_name}}</button>
+                                        @endif
+                                        
+                                    </form>    
+                                </div>
+                            </div>    
                             @endforeach    
                         @endisset
                         <a  href="./instagram_connect" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>

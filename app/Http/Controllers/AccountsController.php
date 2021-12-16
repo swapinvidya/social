@@ -164,6 +164,7 @@ class AccountsController extends Controller
         $packages = Package::all();
         $FacebookID = FacebookID::where('user_id',Auth::id())->get();
         $FacebookPage = FacebookPage::where('user_id',Auth::id())->get();
+        $FacebookGroup = facebook_group::where('user_id',Auth::id())->get();
         $Account = Account::where('user_id',Auth::id())->get();
 
         //Qoutas
@@ -190,13 +191,19 @@ class AccountsController extends Controller
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
         return view('client.manage',compact('services','packages','FacebookID','FacebookPage','Account','Ac_qouta_total',
-        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page'));
+        'Ac_qouta_used', 'Ac_qouta_avilable','balance_page',
+            'FacebookGroup'));
     }
 
     public function save_account(Request $request){
         $usr_pkg = Auth::user()->package_type;
         $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;
-        $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        if (ProfileQuota::where('user_id',Auth::id())->first() != null){
+            $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        }
+        else{
+            $Ac_qouta_used = 0;
+        }
         $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
 
         if ($Ac_qouta_total <= $Ac_qouta_used){
@@ -210,7 +217,9 @@ class AccountsController extends Controller
                         'page_id' => $request->input('page_id'),
                         'page_token'=> FacebookPage::find($request->input('page_id'))->page_token,
                         'name' => $request->input('name'),
+                        'image' => FacebookPage::find($request->input('page_id'))->image,
                         'provider' => $request->input('provider'),
+                        'fa_fa' => 'fab fa-facebook-f'
                     ]);
 
             if ($done){
@@ -230,6 +239,7 @@ class AccountsController extends Controller
                     ]);
                     }
 
+                     
 
                     return redirect('/manage');
                 }
@@ -240,16 +250,54 @@ class AccountsController extends Controller
                 }
         }
         elseif ($request->input('type')=='group'){
-            dd($request,'face book group api down please retry');
+            //dd($request,'face book group api down please retry');
+
+            $done = Account::create([
+                'user_id' => Auth::id(),
+                'page_id' => $request->input('group_id'),
+                'page_token'=> FacebookPage::find($request->input('group_id'))->page_token,
+                'name' => $request->input('name'),
+                'image' => env('BRAND_LOGO'),
+                'provider' => $request->input('provider'),
+                'fa_fa' => 'fab fa-facebook-square'
+            ]);
+
+            if ($done){
+
+                    $q = ProfileQuota::updateOrCreate(
+                            ['user_id' => Auth::id()],
+                            ['user_id' => Auth::id()]
+                        )->increment('used_qouta');
+
+                    //refresh exsisting tokens
+
+                    $Account = Account::where('user_id',Auth::id())->get();
+                    
+                    foreach ($Account as $ac) {
+                    Account::find($ac->id)->update([
+                        'page_token'=> FacebookPage::find($ac->page_id)->page_token,
+                    ]);
+                    }
+
+                    facebook_group::find($request->input('group_id'))->update([
+                        "connected" => true
+                    ]); 
+
+                    return redirect('/manage');
+                }
+
+            else{
+
+                    dd("Something went worng !");
+                }
+
+
         }
         //Twitter
         elseif ($request->input('type')=='twitter'){
             dd($request,'twitter api down please retry');
         }
-        //Instagram
-        elseif ($request->input('type')=='instagram'){
-            dd($request,'Insta api down please retry');
-        }
+       
 
         //Pinterst
         elseif ($request->input('type')=='pin'){
@@ -287,5 +335,40 @@ class AccountsController extends Controller
         return $fb_groups;
     }
     
+    public function instagram_account(Request $request){
+        $id = $request->input('id');
+
+        $usr_pkg = Auth::user()->package_type;
+        $Ac_qouta_total = Package::Find($usr_pkg)->accounts_no;
+        $Ac_qouta_used = ProfileQuota::where('user_id',Auth::id())->first()->used_qouta;
+        $Ac_qouta_avilable = $Ac_qouta_total - $Ac_qouta_used;
+
+
+        if ($Ac_qouta_total <= $Ac_qouta_used){
+            session(['ac_qouta_flag' => true]);
+            return redirect()->back();
+        }
+
+        Account::create([
+                'user_id' => Auth::id(),
+                'page_id'=> $id,
+                'page_token' => FacebookPage::find($id)->page_token,
+                'name' => FacebookPage::find($id)->instagram_name,
+                'image' => FacebookPage::find($id)->profile_picture_url,
+                'provider' => 'Instagram',
+                'fa_fa' => 'fab fa-instagram' 
+            ]);
+
+        $q = ProfileQuota::updateOrCreate(
+            ['user_id' => Auth::id()],
+            ['user_id' => Auth::id()]
+        )->increment('used_qouta');
+
+        FacebookPage::find($id)->update([
+            "connected" => true
+        ]);    
+         
+        return redirect()->back();
+    }
    
 }

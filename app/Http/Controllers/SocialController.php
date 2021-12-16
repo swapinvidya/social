@@ -53,7 +53,6 @@ class SocialController extends Controller
         $count = count($page);
 
         for ($i=0; $i < $count ; $i++) { 
-            //check for instagram
           
             FacebookPage::create([
                 'user_id' => Auth::id(),
@@ -91,131 +90,60 @@ class SocialController extends Controller
         //dd($request);
        
         $d = FacebookID::find($request->input('id'))->fb_token;
-
+        $token_id = FacebookID::find($request->input('id'))->token_id;
         $id = $request->input('id');
 
-
+        //dd($d,$id);
         $page = $this->facebook->getPages($d);
         $group = $this->facebook->getGroups($d);
         
         $count = count($page);
         $g_count = count($group);
 
-        $existing_page = FacebookPage::where('user_id',Auth::id())->count();
-        $existing_group = facebook_group::where('user_id',Auth::id())->count();
+        $existing_page = FacebookPage::where('user_id',Auth::id())->where('token_id',$token_id)->count();
+        $existing_group = facebook_group::where('user_id',Auth::id())->where('token_id',$token_id)->count();
 
-        $existing_page_id_array = FacebookPage::where('user_id',Auth::id())->pluck('page_id')->toArray();
+        $existing_page_id_array = FacebookPage::where('user_id',Auth::id())->where('token_id',$token_id)->pluck('page_id')->toArray();
 
         $no_of_new_pages = $count - $existing_page;
 
-        //dd($no_of_new_pages);
-        
+        $no_of_new_group = $g_count - $existing_group;
 
         if ($count > $existing_page){
-                //dd ($page);
-                //check page id to exlude exisiting pages its logic
-                if ($existing_page == 0){
-                    for ($i=0; $i < $count; $i++) { 
-                        FacebookPage::create([
-                            'user_id' => Auth::id(),
-                            'token_id' => $id,
-                            'page_id' => $page[$i]['id'],
-                            'page_token' => $page[$i]['access_token'],
-                            'image'=> $page[$i]['image'],
-                            'name' => $page[$i]['name'],
-                            'provider' => $page[$i]['provider'],
-                        ]);
-                    }
-                    
-                }else{
-                    for ($i=0; $i < $count; $i++) { 
-                        $flight = FacebookPage::updateOrCreate(
-                            ['page_id' => $page[$i]['id']],
-                            [
-                                'user_id' => Auth::id(),
-                                'token_id' => $id,
-                                'page_id' => $page[$i]['id'],
-                                'page_token' => $page[$i]['access_token'],
-                                'image'=> $page[$i]['image'],
-                                'name' => $page[$i]['name'],
-                                'provider' => $page[$i]['provider'],
-                            ]
-                        );
-                    }
-                }
-
-                if ($existing_group == 0){
-                    for ($i=0; $i < $g_count ; $i++) { 
-                        facebook_group::create([
-                            'user_id' => Auth::id(),
-                            'token_id' => $id,
-                            'group_id' => $group[$i]['id'],
-                            'group_token' => "NA",
-                            'image' => "NA",
-                            'name' => $group[$i]['name'],
-                            'privacy' => $group[$i]['privacy'],
-                            'provider' => $group[$i]['provider'],
-                        ]);
-                    }
-                }else{
-                    for ($i=0; $i < $g_count; $i++) { 
-                        $flight = FacebookPage::updateOrCreate(
-                            ['group_id' => $group[$i]['id']],
-                            [
-                                'user_id' => Auth::id(),
-                                'token_id' => $id,
-                                'group_id' => $group[$i]['id'],
-                                'group_token' => "NA",
-                                'image' => "NA",
-                                'name' => $group[$i]['name'],
-                                'privacy' => $group[$i]['privacy'],
-                                'provider' => $group[$i]['provider'],
-                            ]
-                        );
-                    }
-
-                }
-            
-                return redirect('/create_account_fb');
-
-            }
-            
-
-        else {
-
-                //dd("No new page Found");
-                for ($i=0; $i < $count ; $i++) { 
-
-                    FacebookPage::where('page_id',$page[$i]['id'])->first()->update(
-                        [
-                            'user_id' => Auth::id(),
-                            'token_id' => $id,
-                            'page_id' => $page[$i]['id'],
-                            'page_token' => $page[$i]['access_token'],
-                            'image'=> $page[$i]['image'],
-                            'name' => $page[$i]['name'],
-                            'provider' => $page[$i]['provider'],
-                        ]
-                    );
-
-                }
-
-                for ($i=0; $i < $g_count ; $i++) { 
-                    facebook_group::where('group_id',$group[$i]['id'])->first()->update([
+            for ($i=0; $i < $count; $i++) { 
+                $flight = FacebookPage::updateOrCreate(
+                    ['page_id' => $page[$i]['id']],
+                    [
                         'user_id' => Auth::id(),
                         'token_id' => $id,
+                        'page_id' => $page[$i]['id'],
+                        'page_token' => $page[$i]['access_token'],
+                        'image'=> $page[$i]['image'],
+                        'name' => $page[$i]['name'],
+                        'provider' => $page[$i]['provider'],
+                    ]
+                );
+            }
+        }
+
+        if ($g_count > $existing_group){
+            for ($i=0; $i < $g_count; $i++) { 
+                $flight = facebook_group::updateOrCreate(
+                    ['group_id' => $group[$i]['id']],
+                    [
+                        'user_id' => Auth::id(),
+                        'token_id' => $id,
+                        'group_id' => $group[$i]['id'],
                         'group_token' => "NA",
                         'image' => "NA",
                         'name' => $group[$i]['name'],
                         'privacy' => $group[$i]['privacy'],
                         'provider' => $group[$i]['provider'],
-                    ]);
-                }
-
-
+                    ]
+                );
             }
-
-
+        }
+            
         return redirect('/create_account_fb');
     }
 

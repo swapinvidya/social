@@ -65,7 +65,7 @@
                                             "actionsBox" => true,
                                         ];
                                         @endphp
-                                        <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Facebook Pages"
+                                        <x-adminlte-select-bs id="selBsCategory" name="accounts[]" label="Select where to post"
                                             label-class="text-danger" igroup-size="sm" :config="$config" multiple required>
                                             <x-slot name="prependSlot">
                                                 <div class="input-group-text bg-gradient-red">
@@ -77,35 +77,10 @@
                                             </x-slot>
             
                                             @foreach ($accounts as $ac)
-                                                <option data-icon="fab fa-fw fa-{{$ac->provider}} text-info" value="{{$ac->id}}" data-subtext="{{$ac->provider}}">{{$ac->name}}</option>
+                                                <option data-icon="{{$ac->fa_fa}} fa-fw text-info" value="{{$ac->id}}" data-subtext="{{$ac->provider}}">{{$ac->name}}</option>
                                             @endforeach
                                             
                                         </x-adminlte-select-bs>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @foreach ($package as $item)
-                                    @if ($item != 1 && $item !=2 )
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked style="width: 20px; height: 20px;">
-                                                <label class="form-check-label pt-1 pl-1" for="flexCheckChecked">
-                                                <img src="{{$service->find($item)->logo}}" width="25px;" class="pl-1 pr-1">
-                                                {{$service->find($item)->name}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @endforeach
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="shorturl" id="flexCheckDefault" checked style="width: 20px; height: 20px;">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                            Shorten Url
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>    

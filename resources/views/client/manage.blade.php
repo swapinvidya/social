@@ -8,13 +8,23 @@
 @stop
 @php
     $per =($Ac_qouta_used / $Ac_qouta_total) * 100;
-    $bal = $Ac_qouta_total - $Ac_qouta_used;    
+    $bal = $Ac_qouta_total - $Ac_qouta_used;
+    
+    $page_count = count($FacebookPage);
+    $group_count = count($FacebookGroup);
+    $insta_count = count($FacebookPage->where('present',true));
+
+    $page_bal = $page_count - count($Account->where('provider','facebook'));
+    $group_bal = $group_count - count($Account->where('provider','facebook group'));
+    $insta_bal = $insta_count - count($Account->where('provider','Instagram'));
+
 @endphp
 {{-- Setup data for datatables --}}
 @php
 $heads = [
     ['label' => 'Id','no-export' => true, 'width' =>2],
     ['label' => 'Name','no-export' => true, 'width' => 5],
+    ['label' => 'Type','no-export' => true, 'width' => 5],
     ['label' => 'Actions', 'no-export' => true, 'width' => 3],
 ];
 
@@ -61,20 +71,32 @@ $config = [
             <i class="fab fa-facebook-square text-blue"></i> Connect New
         </a>
         <a class="btn btn-app" href = "/create_account_fb">
-            <span class="badge bg-purple">{{$balance_page}}</span>
+            <span class="badge bg-purple">{{$page_bal}}</span>
             <i class="fab fa-facebook-square text-blue"></i> Add page
         </a>
         <a class="btn btn-app" href = "/create_account_fb">
-            <span class="badge bg-purple">{{$bal}}</span>
+            <span class="badge bg-purple">{{$group_bal}}</span>
             <i class="fab fa-facebook-square text-blue"></i> Add Group
         </a>
-        <a class="btn btn-app" href = "/create_account_fb">
-            <span class="badge bg-purple">{{$bal}}</span>
+        <a class="btn btn-app" href = "/connect">
+            <span class="badge bg-purple">{{$insta_bal}}</span>
             <i class="fab fa-instagram text-danger"></i> Instagram
         </a>
-        <a class="btn btn-app" href = "/create_account_fb">
-            <span class="badge bg-purple">{{$bal}}</span>
-            <i class="fab fa-linkedin"></i> Linkedin
+        <a class="btn btn-app" href = "#">
+            <span class="badge bg-purple">NA</span>
+            <i class="fab fa-twitter text-blue"></i> Twitter
+        </a>
+        <a class="btn btn-app" href = "#">
+            <span class="badge bg-purple">NA</span>
+            <i class="fab fa-pinterest text-danger"></i> Pinterest
+        </a>
+        <a class="btn btn-app" href = "#">
+            <span class="badge bg-purple">NA</span>
+            <i class="fab fa-linkedin text-blue"></i> Linkedin
+        </a>
+        <a class="btn btn-app" href = "#">
+            <span class="badge bg-purple">NA</span>
+            <i class="fab fa-google text-warning"></i> Google
         </a>
         <a class="btn btn-app bg-secondary">
             <span class="badge bg-success">300</span>
@@ -163,9 +185,10 @@ $config = [
                             @foreach($Account as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>
-                                        <img src="{{$FacebookPage->where('page_token',$row->page_token)->first()->image}}" width="25px">&nbsp;{{$row->name}}
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
                                     </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
                                     <td>
                                     @php
                                         echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
@@ -177,12 +200,13 @@ $config = [
                     </div>
                     <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                         <x-adminlte-datatable id="table2" :heads="$heads" bordered >
-                            @foreach($Account as $row)
+                            @foreach($Account->where('provider','facebook') as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>
-                                        <img src="{{$FacebookPage->where('page_token',$row->page_token)->first()->image}}" width="25px">&nbsp;{{$row->name}}
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
                                     </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
                                     <td>
                                     @php
                                         echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
@@ -193,12 +217,13 @@ $config = [
                         </x-adminlte-datatable> </div>
                     <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
                         <x-adminlte-datatable id="table3" :heads="$heads" bordered >
-                            @foreach($Account as $row)
+                            @foreach($Account->where('provider','facebook group') as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>
-                                        <img src="{{$FacebookPage->where('page_token',$row->page_token)->first()->image}}" width="25px">&nbsp;{{$row->name}}
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
                                     </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
                                     <td>
                                     @php
                                         echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
@@ -209,12 +234,13 @@ $config = [
                         </x-adminlte-datatable></div>
                     <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
                         <x-adminlte-datatable id="table4" :heads="$heads" bordered >
-                            @foreach($Account as $row)
+                            @foreach($Account->where('provider','Instagram') as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>
-                                        <img src="{{$FacebookPage->where('page_token',$row->page_token)->first()->image}}" width="25px">&nbsp;{{$row->name}}
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
                                     </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
                                     <td>
                                     @php
                                         echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';

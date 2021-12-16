@@ -80,14 +80,40 @@
                             </div>
                         </div>
                         <div class="col-md-4" id="divfbg" style="display: none">
-                            <img src="{{env('BRAND_LOGO')}}" width="75px"/>
+                            
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="{{env('BRAND_LOGO')}}" width="75px"/>
+                                </div>
+                                <div class="col-8">
+                                    <form action="/save_account" method="POST">
+                                        @csrf
+                                        <div class="hidden">
+                                            <input value="" id = "group_id" name="group_id" hidden>
+                                            <input value="" id = "g_provider" name="provider" hidden>
+                                            <input value="group" id = "g_type" name="type" hidden>
+                                        </div>    
+                                        <div class="row">
+                                            <div class="form-group">
+                                            <label for="">Account Name</label>
+                                            <input type="text"
+                                                class="form-control" name="name" id="g_ac_name" aria-describedby="helpId" value="" placeholder="" >
+                                            <small id="helpId2" class="form-text text-muted">Please eneter a unique account name</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-primary">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </p>
             </div>
         </div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -139,7 +165,7 @@
                 
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="modal"><!-- Place at bottom of page --></div>
 @stop
 
@@ -261,6 +287,10 @@
                     //alert(response['name']);
                     $("#divfbg").show();
                     //$("#my_image").attr("src","second.jpg");
+                    $('#g_ac_name').attr("value",response['name']);
+
+                    $('#group_id').attr("value",response['id']);
+                    $('#g_provider').attr("value",response['provider']);
                     
                 }
             })

@@ -125,3 +125,5 @@ Route::get('/fb_groups/get', 'AccountsController@fb_groups');
 
 Route::get('/fb_page/get', 'AccountsController@fb_page');
 Route::get('/fb_group/get', 'AccountsController@fb_group');
+
+Route::post('/instagram_account','AccountsController@instagram_account');

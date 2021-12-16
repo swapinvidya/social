@@ -11,6 +11,8 @@ class Account extends Model
         'page_id',
         'page_token',
         'name',
-        'provider'
+        'provider',
+        'image',
+        'fa_fa'
     ];
 }
