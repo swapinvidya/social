@@ -126,49 +126,6 @@ Route::get('/fb_groups/get', 'AccountsController@fb_groups');
 Route::get('/fb_page/get', 'AccountsController@fb_page');
 Route::get('/fb_group/get', 'AccountsController@fb_group');
 
-Route::post('/instagram_account','AccountsController@instagram_account');
 
-Route::get('/login/pinterest', 'PinterestController@redirectToPinterestProvider');
  
 
-Route::group(['middleware' => ['auth']], function(){
-    /**
-     * API Routes
-     */
- 
-    Route::get('/user', 'PinterestController@getAuthUser');
- 
-    Route::get('/pins', 'PinterestController@getPins');
- 
-    Route::get('/boards', 'PinterestController@getBoards');
- 
-    Route::post('/pin', 'PinterestController@createPin');
- 
-    Route::post('/pin/edit', 'PinterestController@editPin');
- 
-    Route::get('/following/users', 'PinterestController@getFollowingUsers');
- 
-    Route::get('/following/boards', 'PinterestController@getFollowingBoards');
- 
-    Route::get('/following/interest', 'PinterestController@getFollowingInterests');
- 
-    Route::post('/follow/user', 'PinterestController@followUser');
- 
-    Route::post('/follow/board', 'PinterestController@followBoard');
- 
-    Route::post('/follow/interest', 'PinterestController@followInterest');
- 
-    Route::post('/unfollow/user', 'PinterestController@unfollowUser');
- 
-    Route::post('/unfollow/board', 'PinterestController@unfollowBoard');
- 
-    Route::post('/unfollow/interest', 'PinterestController@unfollowInterest');
- 
-    /**
-     * Authorization Routes
-     */
-
-    Route::get('/login/pinterest', 'PinterestController@redirectToPinterestProvider');
- 
-    Route::get('/login/pinterest/callback', 'PinterestController@handlePinterestProviderCallback');
-});
