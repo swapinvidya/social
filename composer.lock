@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c362a74a8ca14f2bca7124c4bce8eae6",
+    "content-hash": "be1c471c27d1f52caced8ace3d6acdfc",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -6721,6 +6721,65 @@
                 }
             ],
             "time": "2020-11-12T00:07:28+00:00"
+        },
+        {
+            "name": "waleedahmad/pinterest-laravel",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/waleedahmad/laravel-pinterest.git",
+                "reference": "63801451d0ef755474865efcb40175fe9f40e228"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/waleedahmad/laravel-pinterest/zipball/63801451d0ef755474865efcb40175fe9f40e228",
+                "reference": "63801451d0ef755474865efcb40175fe9f40e228",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.7.*",
+                "vlucas/phpdotenv": "^2.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "WaleedAhmad\\Pinterest\\ServiceProviders\\PinterestServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "WaleedAhmad\\Pinterest\\": "src/Pinterest"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Waleed Ahmad",
+                    "email": "waleedgplus@gmail.com",
+                    "homepage": "https://github.com/waleedahmad",
+                    "role": "Creator/Developer"
+                }
+            ],
+            "description": "Laravel Package for the official Pinterest API",
+            "keywords": [
+                "api",
+                "laravel",
+                "pinterest"
+            ],
+            "support": {
+                "issues": "https://github.com/waleedahmad/laravel-pinterest/issues",
+                "source": "https://github.com/waleedahmad/laravel-pinterest/tree/master"
+            },
+            "time": "2018-06-18T09:10:27+00:00"
         }
     ],
     "packages-dev": [

@@ -18,10 +18,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            // add your listeners (aka providers) here
+            // ... other providers
             \SocialiteProviders\Pinterest\PinterestExtendSocialite::class.'@handle',
         ],
+        
     ];
 
 

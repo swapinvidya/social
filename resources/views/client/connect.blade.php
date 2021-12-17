@@ -95,13 +95,20 @@
                     @endif
                     <!-- Pinterest -->
                     @if ($data->id == 5)
-                        @if(Auth::user()->pinterest)
-                            <div class="user-details">...</div>
-                        @else
-                            <a href="/login/pinterest">
-                                <button class="btn btn-primary">Authorize Pinterest</button>
-                            </a>
-                        @endif
+                        @isset($twitter_all)
+                            @foreach ($pinterests as $pin)
+                                @if ($pin->connected)
+                                    <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
+                                @else
+                                    <form action="/connect_pinterest" method="POST">
+                                    @csrf
+                                        <input type="text" value="{{$pin->id}}" name="id" id="pin_id" hidden>
+                                        <button  type="submit" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$pin->Pinterest_id}}</button>
+                                    </form>
+                                @endif
+                            @endforeach    
+                        @endisset
+                        <a  href="./login/pinterest" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
                 </div>
             </div>

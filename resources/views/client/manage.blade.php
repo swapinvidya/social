@@ -86,16 +86,13 @@ $config = [
             <span class="badge bg-purple">NA</span>
             <i class="fab fa-twitter text-blue"></i> Twitter
         </a>
-        <a class="btn btn-app" href = "#">
-            <span class="badge bg-purple">NA</span>
+        <a class="btn btn-app" href = "/connect">
             <i class="fab fa-pinterest text-danger"></i> Pinterest
         </a>
-        <a class="btn btn-app" href = "#">
-            <span class="badge bg-purple">NA</span>
+        <a class="btn btn-app" href = "/connect">
             <i class="fab fa-linkedin text-blue"></i> Linkedin
         </a>
-        <a class="btn btn-app" href = "#">
-            <span class="badge bg-purple">NA</span>
+        <a class="btn btn-app" href = "/connect">
             <i class="fab fa-google text-warning"></i> Google
         </a>
         <a class="btn btn-app bg-secondary">
@@ -176,6 +173,7 @@ $config = [
                     <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Facebook Page</a>
                     <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">Facebook Group</a>
                     <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Instagram</a>
+                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-pin" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Pinterest</a>
                   </div>
                 </div>
                 <div class="col-9 col-sm-9">
@@ -248,7 +246,26 @@ $config = [
                                     </td>
                                 </tr>
                             @endforeach
-                        </x-adminlte-datatable></div>
+                        </x-adminlte-datatable>
+                    </div>
+                    <div class="tab-pane fade" id="vert-tabs-pin" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                        <x-adminlte-datatable id="table5" :heads="$heads" bordered >
+                            @foreach($Account->where('provider','Pinterest') as $row)
+                                <tr>
+                                    <td>{{$row->id}}</td>
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
+                                    </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
+                                    <td>
+                                    @php
+                                        echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
+                                    @endphp 
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </x-adminlte-datatable>
+                    </div>
                   </div>
                 </div>
               </div>

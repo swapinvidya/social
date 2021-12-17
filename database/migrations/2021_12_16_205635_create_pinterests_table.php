@@ -16,7 +16,8 @@ class CreatePinterestsTable extends Migration
         Schema::create('pinterests', function (Blueprint $table) {
             $table->id();
             $table->string('token');
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->boolean('connected')->nullable()->default(false);
             $table->timestamps();
         });
     }

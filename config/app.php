@@ -162,8 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        \SocialiteProviders\Manager\ServiceProvider::class,
-        \WaleedAhmad\Pinterest\ServiceProviders\PinterestServiceProvider::class,
+        
 
 
         /*
@@ -179,6 +178,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FacebookServiceProvider::class,
+
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        \WaleedAhmad\Pinterest\ServiceProviders\PinterestServiceProvider::class,
     ],
 
     /*

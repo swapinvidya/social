@@ -126,6 +126,13 @@ Route::get('/fb_groups/get', 'AccountsController@fb_groups');
 Route::get('/fb_page/get', 'AccountsController@fb_page');
 Route::get('/fb_group/get', 'AccountsController@fb_group');
 
+Route::post('/instagram_account','AccountsController@instagram_account');
 
  
+Route::get('/login/pinterest', 'PinterestController@redirectToPinterestProvider');
 
+Route::get('/login/pinterest/callback', 'PinterestController@handlePinterestProviderCallback');
+
+Route::get('/pinterestuser', 'PinterestController@getAuthUser');
+
+Route::post('/connect_pinterest','AccountsController@connect_pinterest');

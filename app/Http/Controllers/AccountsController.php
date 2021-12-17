@@ -12,6 +12,7 @@ use App\ayrshare;
 use App\facebook_group;
 use App\FacebookID;
 use App\FacebookPage;
+use App\Pinterest;
 use App\ProfileQuota;
 use App\Twitter;
 
@@ -130,6 +131,7 @@ class AccountsController extends Controller
         $fb_pages = FacebookPage::where("user_id",Auth::id())->get();
         $twitter_all = Twitter::where("user_id",Auth::id())->get();
         $instagrams = FacebookPage::where("user_id",Auth::id())->where('present',true)->get();
+        $pinterests = Pinterest::where("user_id",Auth::id())->get();
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
@@ -137,7 +139,7 @@ class AccountsController extends Controller
 
         return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
         'Ac_qouta_used', 'Ac_qouta_avilable','balance_page','fb_id'
-            ,'twitter_all','instagrams'));
+            ,'twitter_all','instagrams','pinterests'));
     }
 
     public function create_account_fb (){
@@ -362,6 +364,22 @@ class AccountsController extends Controller
         ]);    
          
         return redirect()->back();
+    }
+
+    public function connect_pinterest(Request $request){
+        $pin_id = $request->input('id');
+        $pinterest = Pinterest::find($pin_id);
+        $done = Account::create([
+            'user_id' => Auth::id(),
+            'page_id'=> $pin_id,
+            'page_token' => $pinterest->token,
+            'name' => $pinterest->Pinterest_id,
+            'image' => $pinterest->profile_image,
+            'provider' => 'Pinterest',
+            'fa_fa' => 'fab fa-pinterest'
+        ]);
+        Pinterest::find($pin_id)->update(['connected'=>true]);
+        return redirect('/manage');
     }
    
 }
