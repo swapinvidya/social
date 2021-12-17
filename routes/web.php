@@ -10,6 +10,8 @@ use Atymic\Twitter\Facade\Twitter;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use App\Twitter as AppTwitter;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -135,11 +137,20 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', static function () {
             // This is also the moment to log in your users if you're using Laravel's Auth class
             // Auth::login($user) should do the trick.
 
-            dd($token);
+            $done = AppTwitter::updateOrCreate(
+                ['user_id' => Auth::id()],
+                [
+                    'user_id' => Auth::id(),
+                    "oauth_token" => $token['oauth_token'],
+                    "oauth_token_secret" => $token['oauth_token_secret'],
+                    "u_id" => $token['user_id'],
+                    "screen_name" => $token['screen_name'],
+                ]
+            );
 
             Session::put('access_token', $token);
 
-            return Redirect::to('/')->with('notice', 'Congrats! You\'ve successfully signed in!');
+            return Redirect::to('/connect')->with('notice', 'Congrats! You\'ve successfully signed in!');
         }
     }
 
