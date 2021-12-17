@@ -402,17 +402,17 @@ class AccountsController extends Controller
     public function connect_twitter(Request $request){
         $pin_id = $request->input('id');
         $twitter = Twitter::find($pin_id);
-        dd($twitter);
+        //dd($twitter);
         $done = Account::create([
             'user_id' => Auth::id(),
             'page_id'=> $pin_id,
-            'page_token' => $twitter->token,
-            'name' => $twitter->linkedin_id,
+            'page_token' => "",
+            'name' => $twitter->screen_name,
             'image' => $twitter->avatar,
             'provider' => 'Twitter',
             'fa_fa' => 'fab fa-twitter'
         ]);
-        LinkedIn::find($pin_id)->update(['connected'=>true]);
+        Twitter::find($pin_id)->update(['connected'=>true]);
         return redirect('/manage');
     }
 }

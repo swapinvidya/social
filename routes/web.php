@@ -127,7 +127,7 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', static function () {
         // use new tokens
         $twitter = Twitter::usingCredentials($token['oauth_token'], $token['oauth_token_secret']);
         $credentials = $twitter->getCredentials();
-
+        dd($credentials);
         if (is_object($credentials) && !isset($credentials->error)) {
             // $credentials contains the Twitter user object with all the info about the user.
             // Add here your own user logic, store profiles, create new users on your tables...you name it!
@@ -138,7 +138,7 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', static function () {
             // Auth::login($user) should do the trick.
 
             $done = AppTwitter::updateOrCreate(
-                ['user_id' => Auth::id()],
+                ['user_id' => Auth::id(),"u_id" => $token['user_id']],
                 [
                     'user_id' => Auth::id(),
                     "oauth_token" => $token['oauth_token'],
