@@ -12,6 +12,7 @@ use App\ayrshare;
 use App\facebook_group;
 use App\FacebookID;
 use App\FacebookPage;
+use App\LinkedIn;
 use App\Pinterest;
 use App\ProfileQuota;
 use App\Twitter;
@@ -132,6 +133,7 @@ class AccountsController extends Controller
         $twitter_all = Twitter::where("user_id",Auth::id())->get();
         $instagrams = FacebookPage::where("user_id",Auth::id())->where('present',true)->get();
         $pinterests = Pinterest::where("user_id",Auth::id())->get();
+        $linkedins = LinkedIn::where("user_id",Auth::id())->get();
         $total_page_count = $fb_pages->count();
         $maped_page_count = Account::where('user_id',Auth::id())->where('provider','facebook')->count();
         $balance_page = $total_page_count - $maped_page_count;
@@ -139,7 +141,7 @@ class AccountsController extends Controller
 
         return view('client.connect',compact('services','packages','activated_services','connection_status','connection_url','Ac_qouta_total',
         'Ac_qouta_used', 'Ac_qouta_avilable','balance_page','fb_id'
-            ,'twitter_all','instagrams','pinterests'));
+            ,'twitter_all','instagrams','pinterests','linkedins'));
     }
 
     public function create_account_fb (){
@@ -379,6 +381,22 @@ class AccountsController extends Controller
             'fa_fa' => 'fab fa-pinterest'
         ]);
         Pinterest::find($pin_id)->update(['connected'=>true]);
+        return redirect('/manage');
+    }
+
+    public function connect_linkedin(Request $request){
+        $pin_id = $request->input('id');
+        $pinterest = LinkedIn::find($pin_id);
+        $done = Account::create([
+            'user_id' => Auth::id(),
+            'page_id'=> $pin_id,
+            'page_token' => $pinterest->token,
+            'name' => $pinterest->linkedin_id,
+            'image' => $pinterest->avatar,
+            'provider' => 'LinkedIn',
+            'fa_fa' => 'fab fa-linkedin'
+        ]);
+        LinkedIn::find($pin_id)->update(['connected'=>true]);
         return redirect('/manage');
     }
    

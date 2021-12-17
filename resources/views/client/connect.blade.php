@@ -42,6 +42,14 @@
                 $fa_fa = "fab fa-pinterest";
                 break;
 
+            case 6:
+                $fa_fa = "fab fa-linkedin";
+                break;
+            
+            case 7:
+                $fa_fa = "fab fa-google";
+                break;
+
             default:
                 $fa_fa = "fa fa-question-circle";
             }
@@ -110,6 +118,23 @@
                         @endisset
                         <a  href="./login/pinterest" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
+                    <!--LinkedIn -->
+                    @if ($data->id == 6)
+                    @isset($twitter_all)
+                        @foreach ($linkedins as $lin)
+                            @if ($lin->connected)
+                                <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
+                            @else
+                                <form action="/connect_linkedin" method="POST">
+                                @csrf
+                                    <input type="text" value="{{$lin->id}}" name="id" id="pin_id" hidden>
+                                    <button  type="submit" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$lin->name}}</button>
+                                </form>
+                            @endif
+                        @endforeach    
+                    @endisset
+                    <a  href="./auth/linkedin" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
+                @endif
                 </div>
             </div>
         </div>

@@ -106,7 +106,7 @@ Route::get('/tweet', function()
 
 Route::get('twitter/login', 'TwitterController@twitter_login')->name('twitter.login');
 Route::get('twitter/callback', 'TwitterController@twitter_callback')->name('twitter.callback');
-
+/*
 Route::get('twitter/error', ['as' => 'twitter.error', function () {
     // Something went wrong, add your own error handling here
 }]);
@@ -117,6 +117,7 @@ Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
     return Redirect::to('/')->with('notice', 'You\'ve successfully logged out!');
 }]);
 
+*/
 
 Route::get('/image_editor' , 'PostController@image_editor');
 
@@ -136,3 +137,10 @@ Route::get('/login/pinterest/callback', 'PinterestController@handlePinterestProv
 Route::get('/pinterestuser', 'PinterestController@getAuthUser');
 
 Route::post('/connect_pinterest','AccountsController@connect_pinterest');
+
+
+//linked in
+
+Route::get('auth/linkedin', 'LinkedInController@redirectToLinkedin');
+Route::get('callback/linkedin', 'LinkedInController@handleCallback');
+Route::post('/connect_linkedin','AccountsController@connect_linkedin');

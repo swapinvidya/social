@@ -36,4 +36,10 @@ return [
         'redirect' => env('PINTEREST_REDIRECT_URI') 
       ],
 
+    'linkedin' => [
+        'client_id' => '78r5z4gtubnyqt',
+        'client_secret' => 'IRpm79U4fapkooyt',
+        'redirect' => 'http://localhost:8000/callback/linkedin',
+      ], 
+
 ];
