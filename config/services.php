@@ -40,6 +40,13 @@ return [
         'client_id' => '78r5z4gtubnyqt',
         'client_secret' => 'IRpm79U4fapkooyt',
         'redirect' => 'http://localhost:8000/callback/linkedin',
-      ], 
+      ],
+
+    'twitter' => [
+        'client_id' => env('TWITTER_API_KEY'),
+        'client_secret' => env('TWITTER_API_SECRET_KEY'),
+        'redirect' => env('TWITTER_CALLBACK_URL'),
+    ],
+     
 
 ];

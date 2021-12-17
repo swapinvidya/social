@@ -170,10 +170,11 @@ $config = [
                 <div class="col-3 col-sm-3">
                   <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">All Accounts</a>
-                    <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Facebook Page</a>
-                    <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">Facebook Group</a>
-                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Instagram</a>
-                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-pin" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Pinterest</a>
+                    <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false"><i class="fab fa-facebook" aria-hidden="true"></i> Facebook Page</a>
+                    <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false"><i class="fab fa-facebook-square" aria-hidden="true"></i> Facebook Group</a>
+                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false"><i class="fab fa-instagram text-danger" aria-hidden="true"></i> Instagram</a>
+                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-pin" role="tab" aria-controls="vert-tabs-settings" aria-selected="false"><i class="fab fa-pinterest text-pink" aria-hidden="true"></i> Pinterest</a>
+                    <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-link" role="tab" aria-controls="vert-tabs-settings" aria-selected="false"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
                   </div>
                 </div>
                 <div class="col-9 col-sm-9">
@@ -251,6 +252,24 @@ $config = [
                     <div class="tab-pane fade" id="vert-tabs-pin" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
                         <x-adminlte-datatable id="table5" :heads="$heads" bordered >
                             @foreach($Account->where('provider','Pinterest') as $row)
+                                <tr>
+                                    <td>{{$row->id}}</td>
+                                    <td>                                     
+                                        <img src="{{$row->image}}" width="25px">&nbsp;{{$row->name}}
+                                    </td>
+                                    <td><i class="{{$row->fa_fa}}" aria-hidden="true"></i>&nbsp;{{$row->provider}}</td>
+                                    <td>
+                                    @php
+                                        echo '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
+                                    @endphp 
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </x-adminlte-datatable>
+                    </div>
+                    <div class="tab-pane fade" id="vert-tabs-link" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                        <x-adminlte-datatable id="table6" :heads="$heads" bordered >
+                            @foreach($Account->where('provider','LinkedIn') as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
                                     <td>                                     

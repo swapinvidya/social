@@ -49,7 +49,8 @@ class TwitterController extends Controller
                 // This is also the moment to log in your users if you're using Laravel's Auth class
                 // Auth::login($user) should do the trick.
                 Session::put('access_token', $token);
-
+                dd($token);
+                
                 $done = AppTwitter::updateOrCreate(
                     ['user_id' => Auth::id()],
                     [
@@ -69,5 +70,9 @@ class TwitterController extends Controller
         return Redirect::route('twitter.error')
                 ->with('error', 'Crab! Something went wrong while signing you up!');
 
+     }
+
+     public function twitter_error(){
+         dd("something went wrong");
      }
 }

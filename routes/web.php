@@ -81,61 +81,44 @@ Route::post('/fbp_del', 'PostController@delete_post');
 
 
 
+
+
+
+
+
+//twitter
+Route::get('twitter/login','TwitterController@twitter_login')->name('twitter.login');
+Route::get('twitter/callback','TwitterController@twitter_login')->name('twitter.callback');
+Route::get('twitter/error','TwitterController@twitter_error')->name('twitter.error');
+
+
+
+
+//instagram
 Route::group(['prefix' => 'auth/facebook', 'middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\SocialController::class, 'redirectToProvider']);
     Route::get('/callback', [\App\Http\Controllers\SocialController::class, 'handleProviderCallback']);
 });
 
 Route::get('/fb_name', 'FacebookController@fb_connect');
-//Route::get('/dd', 'FacebookController@fb_post');
 
 
 Route::get('/create_account_fb','AccountsController@create_account_fb');
 Route::post('/save_account', 'AccountsController@save_account');
 Route::get('/fbp_refresh','SocialController@fbp_refresh');
-
-//instagram
-Route::get('/instagram_connect','SocialController@instagram_connect');
-
-//twitter
-Route::get('/tweet', function()
-{
-    return Twitter::getUserTimeline(['screen_name' => 'thujohn', 'count' => 20, 'response_format' => 'json']);
-    // return Twitter::postTweet(array('status' => 'Tweet sent using Laravel and the Twitter API!', 'format' => 'json'));
-});
-
-Route::get('twitter/login', 'TwitterController@twitter_login')->name('twitter.login');
-Route::get('twitter/callback', 'TwitterController@twitter_callback')->name('twitter.callback');
-/*
-Route::get('twitter/error', ['as' => 'twitter.error', function () {
-    // Something went wrong, add your own error handling here
-}]);
-
-Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
-    Session::forget('access_token');
-
-    return Redirect::to('/')->with('notice', 'You\'ve successfully logged out!');
-}]);
-
-*/
-
 Route::get('/image_editor' , 'PostController@image_editor');
 
 Route::get('/fb_pages/get', 'AccountsController@fb_pages');
 Route::get('/fb_groups/get', 'AccountsController@fb_groups');
-
 Route::get('/fb_page/get', 'AccountsController@fb_page');
 Route::get('/fb_group/get', 'AccountsController@fb_group');
-
 Route::post('/instagram_account','AccountsController@instagram_account');
+Route::get('/instagram_connect','SocialController@instagram_connect');
 
- 
+//Pinterest
 Route::get('/login/pinterest', 'PinterestController@redirectToPinterestProvider');
-
 Route::get('/login/pinterest/callback', 'PinterestController@handlePinterestProviderCallback');
-
 Route::get('/pinterestuser', 'PinterestController@getAuthUser');
-
 Route::post('/connect_pinterest','AccountsController@connect_pinterest');
 
 
