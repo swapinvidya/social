@@ -399,5 +399,20 @@ class AccountsController extends Controller
         LinkedIn::find($pin_id)->update(['connected'=>true]);
         return redirect('/manage');
     }
-   
+    public function connect_twitter(Request $request){
+        $pin_id = $request->input('id');
+        $twitter = Twitter::find($pin_id);
+        dd($twitter);
+        $done = Account::create([
+            'user_id' => Auth::id(),
+            'page_id'=> $pin_id,
+            'page_token' => $twitter->token,
+            'name' => $twitter->linkedin_id,
+            'image' => $twitter->avatar,
+            'provider' => 'LinkedIn',
+            'fa_fa' => 'fab fa-twitter$twitter'
+        ]);
+        LinkedIn::find($pin_id)->update(['connected'=>true]);
+        return redirect('/manage');
+    }
 }

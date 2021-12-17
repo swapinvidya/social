@@ -67,15 +67,7 @@
                         @endforeach
                         <a  href="./auth/facebook" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
                     @endif
-                    <!--Twitter -->
-                    @if ($data->id == 4)
-                        @isset($twitter_all)
-                            @foreach ($twitter_all as $tw)
-                                <a  href = "#" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{"$tw->screen_name"}}</a>
-                            @endforeach    
-                        @endisset
-                        <a  href="./twitter/login" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
-                    @endif
+                    
                     <!--Instagram-->
                     @if ($data->id == 3)
                         @isset($instagrams)
@@ -103,7 +95,7 @@
                     @endif
                     <!-- Pinterest -->
                     @if ($data->id == 5)
-                        @isset($twitter_all)
+                        @isset($pinterests)
                             @foreach ($pinterests as $pin)
                                 @if ($pin->connected)
                                     <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
@@ -120,21 +112,38 @@
                     @endif
                     <!--LinkedIn -->
                     @if ($data->id == 6)
-                    @isset($twitter_all)
-                        @foreach ($linkedins as $lin)
-                            @if ($lin->connected)
-                                <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
-                            @else
-                                <form action="/connect_linkedin" method="POST">
-                                @csrf
-                                    <input type="text" value="{{$lin->id}}" name="id" id="pin_id" hidden>
-                                    <button  type="submit" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$lin->name}}</button>
-                                </form>
-                            @endif
-                        @endforeach    
-                    @endisset
+                        @isset($linkedins)
+                            @foreach ($linkedins as $lin)
+                                @if ($lin->connected)
+                                    <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
+                                @else
+                                    <form action="/connect_linkedin" method="POST">
+                                    @csrf
+                                        <input type="text" value="{{$lin->id}}" name="id" id="pin_id" hidden>
+                                        <button  type="submit" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$lin->name}}</button>
+                                    </form>
+                                @endif
+                            @endforeach    
+                        @endisset
                     <a  href="./auth/linkedin" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
-                @endif
+                    @endif
+                    <!--Twitter -->
+                    @if ($data->id == 4)
+                        @isset($twitter_all)
+                            @foreach ($twitter_all as $tw)
+                                @if ($lin->connected)
+                                    <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$tw->screen_name}}</a>
+                                @else
+                                    <form action="/connect_twitter" method="POST">
+                                    @csrf
+                                        <input type="text" value="{{$tw->id}}" name="id" id="pin_id" hidden>
+                                        <button  type="submit" class="btn btn-outline-info btn-sm mb-1 " style = "width:100%"><i class="fas fa-undo"></i> &nbsp; {{$tw->screen_name}}</button>
+                                    </form>
+                                @endif
+                            @endforeach    
+                        @endisset
+                        <a  href="./twitter/login" class="btn btn-outline-primary btn-sm mb-1 " style = "width:100%" ><i class="fas fa-plug"></i>  &nbsp; Connect New</a>
+                    @endif
                 </div>
             </div>
         </div>

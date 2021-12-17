@@ -168,7 +168,7 @@ Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
     return Redirect::to('/')->with('notice', 'You\'ve successfully logged out!');
 }]);
 
-
+Route::post('/connect_twitter','AccountsController@connect_twitter');
 
 //instagram
 Route::group(['prefix' => 'auth/facebook', 'middleware' => 'auth'], function () {
