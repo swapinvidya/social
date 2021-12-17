@@ -409,8 +409,8 @@ class AccountsController extends Controller
             'page_token' => $twitter->token,
             'name' => $twitter->linkedin_id,
             'image' => $twitter->avatar,
-            'provider' => 'LinkedIn',
-            'fa_fa' => 'fab fa-twitter$twitter'
+            'provider' => 'Twitter',
+            'fa_fa' => 'fab fa-twitter'
         ]);
         LinkedIn::find($pin_id)->update(['connected'=>true]);
         return redirect('/manage');

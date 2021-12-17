@@ -13,5 +13,7 @@ class Twitter extends Model
     "oauth_token",
     "oauth_token_secret",
     "u_id",
-    "screen_name"];
+    "screen_name",
+    'connected',
+    'avatar'];
 }

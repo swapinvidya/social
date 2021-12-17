@@ -131,7 +131,7 @@
                     @if ($data->id == 4)
                         @isset($twitter_all)
                             @foreach ($twitter_all as $tw)
-                                @if ($lin->connected)
+                                @if ($tw->connected)
                                     <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$tw->screen_name}}</a>
                                 @else
                                     <form action="/connect_twitter" method="POST">
