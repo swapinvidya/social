@@ -187,6 +187,33 @@ class FacebookRepository
 
 
     }
+
+    public function postGroup($accessToken,$groupId,$post){
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $this->facebook->post(
+              '/'.$groupId.'/feed',
+              array (
+                'message' => $post,
+              ),
+              $accessToken
+            );
+          } catch(\Exception $e) {
+              //need to be corrected in production once graph group permission is alloted
+            $b = array('status' => "Error", 'reason' => "API Error : Some permissions and features require business or individual verification to access certain types of data. You can start the verification process at any time" , 'post' => $post);
+            $resp = json_encode($b);
+            return $resp;
+            exit;
+
+          } catch(Exception $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+          }
+
+          $graphNode = $response->getGraphNode();
+
+          return $graphNode;
+    }
     
     public function getInstabasic($insta_id,$accessToken){
         try {

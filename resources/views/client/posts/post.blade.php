@@ -189,10 +189,10 @@
             <!-- Main node for this component -->
             <div class="timeline">
                 <!-- Timeline time label -->
-            @foreach($post as $key => $data)
+            @foreach($post_batch as $key => $data)
             
                 <div class="time-label">
-                    <span class="bg-green">{{$data[0]->updated_at->format('d-m-Y g:i A')}}</span>
+                    <span class="bg-green">{{today()->format('d-m-Y g:i A')}}</span>
                 </div>
 
                 <div>
@@ -203,32 +203,37 @@
                 <!-- Time -->
                     <span class="time"><i class="fas fa-clock"></i>blah</span>
                     <!-- Header. Optional -->
-                    <h3 class="timeline-header"><a href="#">New Post</a>
-                       
-                        Was Sucessfull
-                       
+                    <h3 class="timeline-header"><a href="#">New Post ID:{{$data->post_id}}</a>&nbsp;
+                        Was {{$data->status}}
                     </h3>
                     <!-- Body -->
                     <div class="timeline-body">
-                        {{$data[0]->post_text}}
-                        <div class="col-6 text-center">
-                            <img src="{{$data[0]->file}}" width="200px" alt="">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    @if ($data->media_type == "image")
+                                        <img class="img img-thumbnail" src="{{$data->file}}" width="150px">
+                                    @endif
+                                </div>
+                                <div class="col-md-8">
+                                    @foreach ($post->where('post_id',$data->post_id) as $pt)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{$pt->id}} &nbsp; : &nbsp; The post &nbsp; {{$pt->post}} | &nbsp; <i class="{{$pt->fa_icon}}" aria-hidden="true"></i>
+                                            {{$pt->provider}} &nbsp; was {{$pt->status}}
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6">
-
-                        </div>
-                        <div class="row mt-3 ml-3">
-                            @foreach($data as $item)
-                            
-                                <i class="fab fa-{{$item->provider}}-square mr-5" aria-hidden="true"></i>
-                        
-                            @endforeach
-                        </div>
+                      
                     </div>
                      
                     <!-- Placement of additional controls. Optional -->
                     <div class="timeline-footer">
-                        <small class="text-info">{{$data[0]->updated_at->diffForHumans()}}</small><br>    
+                        <small class="text-info">blah</small><br>    
                         
                             <form method="POST" enctype="multipart/form-data" action="/fbp_del">
                                 @csrf
