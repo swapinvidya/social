@@ -15,6 +15,7 @@ use PhpParser\Node\Stmt\Catch_;
 use App\FacebookID;
 use App\FacebookPage;
 use App\Logic\Providers\FacebookRepository;
+use App\Pinterest;
 use Atymic\Twitter\Facade\Twitter as FacadeTwitter;
 use App\Twitter;
 use Illuminate\Support\Facades\Session;
@@ -173,10 +174,133 @@ class PostController extends Controller
 
                     break;
                 case   "Instagram":
-                    //dd('Insta');
+                    //
                     break;
                 case   "Pinterest":
-                    //dd('pint');
+                        $page_id = Account::find($id);
+                        $pinterest = Pinterest::find($page_id->page_id);
+                        $pintrest_token = $pinterest->token;
+                       // dd($pintrest_token);
+                        $post = strip_tags($request->input('teConfig'));
+                        $img = array($path);
+
+                        /* create the board and get id */
+                        $payload = json_encode(array(
+                            "name" => $post,
+                           // "description" => $post,
+                            "privacy" => "PUBLIC"
+                        ),JSON_FORCE_OBJECT);
+
+                        //dd($payload);
+
+                        $curl_header = array(
+                            'Authorization: Bearer '.$pintrest_token,
+                            'Content-Type: application/json',
+                            'Cookie: _auth=0; _pinterest_sess=TWc9PSZvTE5TY2VhYVF3MTY5TVNNY2JRekIraEtabERkWmRyOVhTSTBJSnFvUWJyVWU1dUt2UytUbGpLc1JaMnN5MGlzZmRsNUtZTE40dmVKMVczMm90WkpMdW90OXY0MExrZVRtNUxBT3lmS1FiUjN1QmRpZ1JzNzZ2NnROaXVNTW8xLyZVcjRiOHhLK0pCNHY4c1cvYk9aNVlSdXZNR3M9; _ir=0'
+                        );
+
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://api.pinterest.com/v5/boards',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => $payload,
+                        CURLOPT_HTTPHEADER => $curl_header,
+                        ));
+
+                        $response = curl_exec($curl);
+
+                        curl_close($curl);
+                        if (json_decode($response) != null){
+                            $board_id = json_decode($response)->id;
+                        }
+                        else{
+                            dd("Fatal error", $response);
+                        }
+                        
+                        //dd($response);
+                        /** BOARD CREATED */
+
+                        $imagedata = file_get_contents($path);
+                                    // alternatively specify an URL, if PHP settings allow
+                       // $base64 = base64_encode($imagedata);
+                        $data = base64_encode($imagedata);
+                        $ms = array(
+                                "source_type" => "image_base64",
+                                "content_type" => "image/jpeg",
+                                "data" => $data 
+                            );
+                        $pf = array(
+                            "title" => $post,
+                            // "description" => "string",
+                            // "alt_text" => "string",
+                            "board_id" => $board_id,
+                            "media_source" => $ms );
+                        $postfield = json_encode($pf);
+
+                       
+
+                       // dd($postfield);
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://api.pinterest.com/v5/pins',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => $postfield,
+                        CURLOPT_HTTPHEADER => $curl_header,
+                        ));
+
+                        $a = curl_exec($curl);
+
+                        curl_close($curl);
+
+                        $r = json_decode($a,true);
+
+                        if (isset($r["id"])){
+
+                            $b = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
+                            $response = json_encode(array_merge(json_decode($a, true),$b));
+                            $post_id = json_decode($a)->id;
+                            $status = "success";
+                    
+                        } else{
+                                
+                            $b = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
+                            $response = json_encode($b);
+                            $post_id = "NA";
+                            $status = "failed";
+                        }
+
+                        Post::create([
+                            "user_id" => Auth::id(),
+                            "post" => $post,
+                            "response" => $response,
+                            "schedule" => false,
+                            "file" => implode(",", $img),
+                            "shorten" => false,
+                            "media_url" => false,
+                            "media_type" => $media_t,
+                            "provider" => $provider,
+                            "fa_icon" => $fafa,  
+                            "account_id" => $id,
+                            "status" => $status,
+                            "post_id"=> $bacth_id,
+                            "post_id_str" => $post_id,
+                            "page_token" =>"",
+                        ]);
+
                     break;
                 case   "LinkedIn":
                     //dd('Linkedin');
@@ -192,22 +316,7 @@ class PostController extends Controller
 
         dd($user_accouts->pluck('provider'));
 
-        $bacth_id = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(10/strlen($x)) )),1,10);
-        foreach ($request->input('accounts') as $ac) {
-            Post::create([
-                "post_id" => $bacth_id,
-                "post" => $request->input('teConfig'),
-                "user_id" => Auth::id(),
-                'schedule' => false,
-                'file' => "",
-                'shorten' => "",
-                'media_url' =>"",  //page token is passed here for convince
-                'media_type' => "",
-                'provider' => '', //need to cahnge when multiple accounts
-                'account_id' =>$ac
-            ]);
-        }
-         dd(Post::all());
+       
         return redirect()->back();
 
     }

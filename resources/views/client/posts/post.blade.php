@@ -218,9 +218,17 @@
                                 <div class="col-md-8">
                                     @foreach ($post->where('post_id',$data->post_id) as $pt)
                                     <div class="row">
+                                        @php
+                                            if ($pt->status == "success"){
+                                                $span = "text-success";
+                                            }
+                                            else{
+                                                $span = "text-danger";
+                                            }
+                                        @endphp
                                         <div class="col-md-12">
                                             {{$pt->id}} &nbsp; : &nbsp; The post &nbsp; {{$pt->post}} | &nbsp; <i class="{{$pt->fa_icon}}" aria-hidden="true"></i>
-                                            {{$pt->provider}} &nbsp; was {{$pt->status}}
+                                            {{$pt->provider}} &nbsp; was <span class="{{$span}}">{{$pt->status}}</span>
                                             <hr>
                                         </div>
                                     </div>
@@ -263,5 +271,6 @@
 @stop
 
 @section('js')
+
     
 @stop
