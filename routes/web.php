@@ -149,6 +149,8 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', static function () {
                 ]
             );
 
+            //9810711235;
+
             Session::put('access_token', $token);
 
             return Redirect::to('/connect')->with('notice', 'Congrats! You\'ve successfully signed in!');
@@ -165,7 +167,6 @@ Route::get('twitter/error', ['as' => 'twitter.error', function () {
 
 Route::get('twitter/logout', ['as' => 'twitter.logout', function () {
     Session::forget('access_token');
-
     return Redirect::to('/')->with('notice', 'You\'ve successfully logged out!');
 }]);
 

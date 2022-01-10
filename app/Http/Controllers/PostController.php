@@ -306,7 +306,68 @@ class PostController extends Controller
                     //dd('Linkedin');
                     break;  
                 case   "Twitter":
-                    //dd('Twitter');
+                    $post = strip_tags($request->input('teConfig'));
+                    $img = array($path);
+
+                    $twitter_account_id = $user_accouts->find($id)->page_id;
+                    $twitter_account = Twitter::find($twitter_account_id);
+                    $oauth_request_token = $twitter_account->oauth_token;
+                    $oauth_request_token_secret = $twitter_account->oauth_token_secret;
+                    $twiter_user_id = $twitter_account->u_id;
+                
+
+                    $twitter = FacadeTwitter::usingCredentials($oauth_request_token, $oauth_request_token_secret);
+                    if ($hasFile)
+                    {
+                        //dd("$path");
+                        $uploaded_media = $twitter->uploadMedia(['media_data' => base64_encode(file_get_contents($path))]);
+                    
+                        $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string ,  'response_format' => 'json']);
+
+                        
+                    }
+                    else
+                    {
+                        $tw_response = $twitter->postTweet(['status' => $post, 'response_format' => 'json']);
+                    }
+
+        
+                    if (!isset($tw_response->id))
+                    {
+                        $tw = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
+                        $tw_resp = json_encode(array_merge($tw,json_decode($tw_response, true)));
+                        $post_id = json_decode($tw_resp)->id;
+                        $status = "success";
+                    }
+                    else
+                    {
+                        $tw = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
+                        $tw_resp = json_encode($tw);
+                        $post_id = "NA";
+                        $status = "failed";
+                    }
+
+
+                    Post::create([
+                        "user_id" => Auth::id(),
+                        "post" => $post,
+                        "response" => $tw_resp,
+                        "schedule" => false,
+                        "file" => implode(",", $img),
+                        "shorten" => false,
+                        "media_url" => false,
+                        "media_type" => $media_t,
+                        "provider" => $provider,
+                        "fa_icon" => $fafa,  
+                        "account_id" => $id,
+                        "status" => $status,
+                        "post_id"=> $bacth_id,
+                        "post_id_str" => $post_id,
+                        "page_token" =>"",
+                    ]);
+                   
+    	
+    	return back();
                     break;
                 default:
                   dd("provider not configured");
@@ -417,10 +478,12 @@ class PostController extends Controller
             
                 $tw_response = $twitter->postTweet(['status' => $post, 'media_ids' => $uploaded_media->media_id_string ,  'response_format' => 'json']);
 
-               
+                $tw_true = array('status' => "success", 'reason' => "Posted Successfully", 'post' => json_decode($tw_response)->text);
             }
-           else{
+           else
+            {
                 $tw_response = $twitter->postTweet(['status' => $post, 'response_format' => 'json']);
+                $tw_true = array('status' => "success", 'reason' => "Posted Successfully", 'post' => json_decode($tw_response)->text);
             }
 
            
