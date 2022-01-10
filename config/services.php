@@ -22,7 +22,6 @@ return [
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
-        'in' => 'swapin',
     ],
 
     'ses' => [
