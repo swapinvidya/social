@@ -39,7 +39,7 @@ return [
     'linkedin' => [
         'client_id' => '78r5z4gtubnyqt',
         'client_secret' => 'IRpm79U4fapkooyt',
-        'redirect' => 'http://localhost:8000/callback/linkedin',
+        'redirect' => 'https://socialmediaconnect.in/callback/linkedin',
       ],
 
     'twitter' => [
