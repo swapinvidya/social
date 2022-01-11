@@ -40,11 +40,14 @@ class PostController extends Controller
     public function post(Request $request){
 
         //privent similar text from posting
-        $lastpost = Post::where('user_id',Auth::id())->latest()->get()[0]->post;
-        similar_text(strtoupper(strip_tags($request->input('teConfig'))),strtoupper($lastpost),$percent);
-        if($percent > 60){
-            dd("cannot post similar text");
+        if (Post::where('user_id',Auth::id())->get()->count() != 0){
+            $lastpost = Post::where('user_id',Auth::id())->latest()->get()[0]->post;
+            similar_text(strtoupper(strip_tags($request->input('teConfig'))),strtoupper($lastpost),$percent);
+            if($percent > 60){
+                dd("cannot post similar text");
+            }
         }
+        
 
         //allot batch id
         $bacth_id = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(10/strlen($x)) )),1,10);
