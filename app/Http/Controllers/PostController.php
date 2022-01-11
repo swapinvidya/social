@@ -69,8 +69,8 @@ class PostController extends Controller
         if ($hasFile){
 
             $file = time().'.'.$request->file->getClientOriginalExtension();
-            $path = '/post_img/'.$file;
-            $request->file->move('/post_img/', $file);
+            $path = './public/post_img/'.$file;
+            $request->file->move('./public/post_img/', $file);
             $media_t="image";
             
         }
