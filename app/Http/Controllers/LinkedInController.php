@@ -49,7 +49,7 @@ class LinkedInController extends Controller
                     'user_id' => Auth::id(),'linkedin_id' => $user->id,
                     ],$details);
 
-            return redirect()->back();
+            return redirect('/manage');
             
             /*
             $finduser = User::where('social_id', $user->id)->first();

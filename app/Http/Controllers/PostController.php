@@ -14,6 +14,7 @@ use App\Service;
 use PhpParser\Node\Stmt\Catch_;
 use App\FacebookID;
 use App\FacebookPage;
+use App\LinkedIn;
 use App\Logic\Providers\FacebookRepository;
 use App\Pinterest;
 use Atymic\Twitter\Facade\Twitter as FacadeTwitter;
@@ -307,6 +308,54 @@ class PostController extends Controller
                     break;
                 case   "LinkedIn":
                     //dd('Linkedin');
+                    $page_id = Account::find($id);
+                    $pinterest = LinkedIn::find($page_id->page_id);
+                    $linkedin_token = $pinterest->token;
+                    $linkedin_id = $pinterest->linkedin_id;
+                    // dd($pintrest_token);
+                    $post = strip_tags($request->input('teConfig'));
+                    $img = array($path);
+                    if ($hasFile){
+                        dd("image found");
+                    }else{
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                            CURLOPT_URL => 'https://api.linkedin.com/v2/ugcPosts',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS =>'{
+                                "author": "urn:li:person:"'.$linkedin_id.',
+                                "lifecycleState": "PUBLISHED",
+                                "specificContent": {
+                                    "com.linkedin.ugc.ShareContent": {
+                                        "shareCommentary": {
+                                            "text": '.$post.'
+                                        },
+                                        "shareMediaCategory": "NONE"
+                                    }
+                                },
+                                "visibility": {
+                                    "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+                                }
+                            }',
+                            CURLOPT_HTTPHEADER => array(
+                                'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
+                                'Content-Type: application/json',
+                            ),
+                            ));
+
+                            $response = curl_exec($curl);
+
+                            curl_close($curl);
+                            dd( $response);
+
+                    }
+
                     break;  
                 case   "Twitter":
                     $post = strip_tags($request->input('teConfig'));

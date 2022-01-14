@@ -115,7 +115,7 @@
                         @isset($linkedins)
                             @foreach ($linkedins as $lin)
                                 @if ($lin->connected)
-                                    <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$pin->Pinterest_id}}</a>
+                                    <a  href = "#" class="btn btn-info btn-sm mb-1 " style = "width:100%" disabled><i class="fas fa-check"></i> &nbsp; {{$lin->name}}</a>
                                 @else
                                     <form action="/connect_linkedin" method="POST">
                                     @csrf
