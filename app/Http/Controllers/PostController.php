@@ -318,6 +318,24 @@ class PostController extends Controller
                     if ($hasFile){
                         dd("image found");
                     }else{
+                            
+                            //variables for payload
+                            $payload = array(
+                                "author" => "urn:li:person:".$linkedin_id,
+                                "lifecycleState" => "PUBLISHED",
+                                "specificContent" => array(
+                                        "com.linkedin.ugc.ShareContent" => array(
+                                            "shareCommentary" => array(
+                                                "text" => $post,
+                                            ),
+                                        ),
+                                    ) ,
+                                    
+                                "shareMediaCategory" => "NONE"
+                            );
+
+                            $pl_json = json_encode($payload);
+
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
                             CURLOPT_URL => 'https://api.linkedin.com/v2/ugcPosts',
@@ -328,21 +346,7 @@ class PostController extends Controller
                             CURLOPT_FOLLOWLOCATION => true,
                             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                             CURLOPT_CUSTOMREQUEST => 'POST',
-                            CURLOPT_POSTFIELDS =>'{
-                                "author": "urn:li:person:"'.$linkedin_id.',
-                                "lifecycleState": "PUBLISHED",
-                                "specificContent": {
-                                    "com.linkedin.ugc.ShareContent": {
-                                        "shareCommentary": {
-                                            "text": '.$post.'
-                                        },
-                                        "shareMediaCategory": "NONE"
-                                    }
-                                },
-                                "visibility": {
-                                    "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-                                }
-                            }',
+                            CURLOPT_POSTFIELDS => $pl_json,
                             CURLOPT_HTTPHEADER => array(
                                 'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
                                 'Content-Type: application/json',
