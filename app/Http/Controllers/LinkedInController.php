@@ -17,7 +17,7 @@ class LinkedInController extends Controller
      */
     public function redirectToLinkedin()
     {
-        return Socialite::driver('linkedin')->with(['scope' => 'w_member_social'])->redirect();
+        return Socialite::driver('linkedin')->redirect();
     }
        
     /**
