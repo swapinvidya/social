@@ -365,11 +365,45 @@ class PostController extends Controller
                             ),
                             ));
 
-                            $response = curl_exec($curl);
+                            $a = curl_exec($curl);
 
                             curl_close($curl);
-                            dd( $response);
+                            $r = json_decode($a,true);
 
+                        if (isset($r["id"])){
+
+                            $b = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
+                            $response = json_encode(array_merge(json_decode($a, true),$b));
+                            $post_id = json_decode($a)->id;
+                            $status = "success";
+                    
+                        } else{
+                                
+                            $b = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
+                            $response = json_encode($b);
+                            $post_id = "NA";
+                            $status = "failed";
+                        }
+
+                        Post::create([
+                            "user_id" => Auth::id(),
+                            "post" => $post,
+                            "response" => $response,
+                            "schedule" => false,
+                            "file" => implode(",", $img),
+                            "shorten" => false,
+                            "media_url" => false,
+                            "media_type" => $media_t,
+                            "provider" => $provider,
+                            "fa_icon" => $fafa,  
+                            "account_id" => $id,
+                            "status" => $status,
+                            "post_id"=> $bacth_id,
+                            "post_id_str" => $post_id,
+                            "page_token" =>"",
+                        ]);
+
+                            
                     }
 
                     break;  
