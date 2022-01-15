@@ -318,20 +318,22 @@ class PostController extends Controller
                     if ($hasFile){
                         //dd("image found");
                         //register upload
-                    $postfield = '{
-                        "registerUploadRequest": {
-                            "recipes": [
+                    $postfield = [
+                        "registerUploadRequest" => [
+                            "recipes" => [
                                 "urn:li:digitalmediaRecipe:feedshare-image"
                             ],
-                            "owner": "urn:li:person:"'.$linkedin_id.',
-                            "serviceRelationships": [
-                                {
-                                    "relationshipType": "OWNER",
-                                    "identifier": "urn:li:userGeneratedContent"
-                                }
+                            "owner" => "urn:li:person:".$linkedin_id,
+                            "serviceRelationships" => [
+                                [
+                                    "relationshipType" => "OWNER",
+                                    "identifier" => "urn:li:userGeneratedContent"
+                                ]
                             ]
-                        }
-                    }';
+                        ]
+                    ];
+
+                    $payload_json = json_encode($postfield);
 
                     $curl = curl_init();
 
@@ -344,7 +346,7 @@ class PostController extends Controller
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $postfield,
+                    CURLOPT_POSTFIELDS => $payload_json,
                     CURLOPT_HTTPHEADER => array(
                         'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
                         'Content-Type: application/json',
