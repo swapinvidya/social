@@ -370,7 +370,7 @@ class PostController extends Controller
                     // $base64 = base64_encode($imagedata);
                     $data = base64_encode($imagedata);
 
-                    $postfield = array("upload-file" => $path );
+                    $postfield =  curl_file_create($path, $this->mimetype);
 
                     $curl = curl_init();
 
