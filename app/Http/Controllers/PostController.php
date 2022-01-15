@@ -389,6 +389,61 @@ class PostController extends Controller
                     $response = curl_exec($curl);
 
                     curl_close($curl);
+
+                    //upldate text
+
+                        $postfield = [
+                            "author" => "urn:li:person:A52bt2lcA2",
+                            "lifecycleState" => "PUBLISHED",
+                            "specificContent" => [
+                                "com.linkedin.ugc.ShareContent" => [
+                                    "shareCommentary" => [
+                                        "text" => $post
+                                    ],
+                                    "shareMediaCategory" => "IMAGE",
+                                    "media" => [
+                                        [
+                                            "status" => "READY",
+                                            "description" => [
+                                                "text" => "Posted by social media connect"
+                                            ],
+                                            "media" => $asset,
+                                            "title" => [
+                                                "text" => $post
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                                            ],
+                            "visibility"=> [
+                                "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC"
+                            ]
+                        ];
+                        $pl = json_encode($postfield);
+
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://api.linkedin.com/v2/ugcPosts',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => $pl,
+                        CURLOPT_HTTPHEADER => array(
+                            'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
+                            'Content-Type: application/json',
+                           
+                        ),
+                        ));
+
+                        $response = curl_exec($curl);
+
+                        curl_close($curl);
+
                     dd($response);
 
 
