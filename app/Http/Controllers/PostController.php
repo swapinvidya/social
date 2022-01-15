@@ -365,34 +365,25 @@ class PostController extends Controller
                    
                     //use upload url to send image to create asset
 
-                    $imagedata = file_get_contents($path);
-                    // alternatively specify an URL, if PHP settings allow
-                    // $base64 = base64_encode($imagedata);
-                    $data = base64_encode($imagedata);
+                    $file = $path;
+$uploadurl = $uploadUrl;
+$accesstoken = $linkedin_token;
+$curl_handle=curl_init();
+curl_setopt($curl_handle, CURLOPT_URL, $uploadurl);
+curl_setopt($curl_handle, CURLOPT_PUT, 1);
+curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, "PUT");
+$fh_res = fopen($file, 'r');
+curl_setopt($curl_handle, CURLOPT_INFILE, $fh_res);
+curl_setopt($curl_handle, CURLOPT_INFILESIZE, filesize($file));
+curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+$headers[] = "Authorization: Bearer $accesstoken"; //linkedin says to add 'redacted' instead of access token (that's bullshit)
+$headers[] = 'Connection: Keep-Alive';
+$headers[] = "X-RestLi-Protocol-Version:2.0.0";
+curl_setopt($curl_handle,CURLOPT_HTTPHEADER,$headers);
+$rcurl = curl_exec($curl_handle);
+curl_close($curl_handle);
 
-                    $postfield =  curl_file_create($path, $this->mimetype);
 
-                    $curl = curl_init();
-
-                    curl_setopt_array($curl, array(
-                    CURLOPT_URL => $uploadUrl,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $postfield,
-                    CURLOPT_HTTPHEADER => array(
-                        $auth_tok,
-                        'Content-Type: image/jpeg',
-                    ),
-                    ));
-
-                    $response = curl_exec($curl);
-
-                    curl_close($curl);
 
                     //upldate text
 
