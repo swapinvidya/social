@@ -325,19 +325,26 @@ class PostController extends Controller
                                 );
 
                             $com_ugc = array(
-                                "shareCommentary" => $share_commentary
+                                "shareCommentary" => $share_commentary,
+                                "shareMediaCategory" => "NONE"
                                 );
 
                             $com_specfic_content = array(
                                 "com.linkedin.ugc.ShareContent" => $com_ugc,                           
-                                "shareMediaCategory" => "NONE"
+                                );
+                            
+                            $visibility = array(
+                                "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC"
                                 );
 
                             $payload = array(
                                 "author" => "urn:li:person:".$linkedin_id,
                                 "lifecycleState" => "PUBLISHED",
-                                "specificContent" => $com_specfic_content
-                            );
+                                "specificContent" => $com_specfic_content,
+                                "visibility" => $visibility
+                                );
+
+        
 
                             $pl_json = json_encode($payload);
 
