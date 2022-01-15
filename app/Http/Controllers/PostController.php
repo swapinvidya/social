@@ -312,6 +312,8 @@ class PostController extends Controller
                     $pinterest = LinkedIn::find($page_id->page_id);
                     $linkedin_token = $pinterest->token;
                     $linkedin_id = $pinterest->linkedin_id;
+
+                    $auth_tok = 'Authorization: Bearer '.$linkedin_token;
                     // dd($pintrest_token);
                     $post = strip_tags($request->input('teConfig'));
                     $img = array($path);
@@ -348,7 +350,7 @@ class PostController extends Controller
                     CURLOPT_CUSTOMREQUEST => 'POST',
                     CURLOPT_POSTFIELDS => $payload_json,
                     CURLOPT_HTTPHEADER => array(
-                        'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
+                        $auth_tok,
                         'Content-Type: application/json',
                         ),
                     ));
@@ -381,7 +383,7 @@ class PostController extends Controller
                     CURLOPT_CUSTOMREQUEST => 'POST',
                     CURLOPT_POSTFIELDS => $data,
                     CURLOPT_HTTPHEADER => array(
-                        'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
+                        $auth_tok,
                         'Content-Type: image/jpeg',
                     ),
                     ));
@@ -434,17 +436,49 @@ class PostController extends Controller
                         CURLOPT_CUSTOMREQUEST => 'POST',
                         CURLOPT_POSTFIELDS => $pl,
                         CURLOPT_HTTPHEADER => array(
-                            'Authorization: Bearer AQXnQH8bXC5C3jVRVyLcVX6wS8HxGsh_74A--SkmPVzPHENq4zmNL1vBun4q0qMfahrRG5nl9DaxYObRokaTf3KUl0Wucxl5V94I5C44GDnWQD3qzNhlcziPG6a-xTmrTookuBqwjyWZ5dbUtBJ1RLnc75FeUUQrUMmktGkTSEDbv6rntBK8CrdcD_E_fqIlw5UbY77_r37VQB_xkAc3QoebEj6zf0qoHro86pO0Pv7AYozPevSU3WMfNsDsAqgWUiY-_liqYAcBQpXmJ9eQ3099bOidpCTnuECe-BlV-cpi-NXfH4AbNvS8VS_utmoNjFbK6_PxF3azZttwa4jelivrScyy4Q',
+                            $auth_tok,
                             'Content-Type: application/json',
                            
                         ),
                         ));
 
-                        $response = curl_exec($curl);
+                        $a = curl_exec($curl);
 
-                        curl_close($curl);
+                            curl_close($curl);
+                            $r = json_decode($a,true);
 
-                    dd($response);
+                        if (isset($r["id"])){
+
+                            $b = array('status' => "success", 'reason' => "Posted Successfully", 'post' => $post);
+                            $response = json_encode(array_merge(json_decode($a, true),$b));
+                            $post_id = json_decode($a)->id;
+                            $status = "success";
+                    
+                        } else{
+                                
+                            $b = array('status' => "Error", 'reason' => "API Error" , 'post' => $post);
+                            $response = json_encode($b);
+                            $post_id = "NA";
+                            $status = "failed";
+                        }
+
+                        Post::create([
+                            "user_id" => Auth::id(),
+                            "post" => $post,
+                            "response" => $response,
+                            "schedule" => false,
+                            "file" => implode(",", $img),
+                            "shorten" => false,
+                            "media_url" => false,
+                            "media_type" => $media_t,
+                            "provider" => $provider,
+                            "fa_icon" => $fafa,  
+                            "account_id" => $id,
+                            "status" => $status,
+                            "post_id"=> $bacth_id,
+                            "post_id_str" => $post_id,
+                            "page_token" =>"",
+                        ]);
 
 
                     }else{
