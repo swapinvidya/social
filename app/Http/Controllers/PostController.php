@@ -320,18 +320,23 @@ class PostController extends Controller
                     }else{
                             
                             //variables for payload
+                            $share_commentary = array(
+                                "text" => $post
+                                );
+
+                            $com_ugc = array(
+                                "shareCommentary" => $share_commentary
+                                );
+
+                            $com_specfic_content = array(
+                                "com.linkedin.ugc.ShareContent" => $com_ugc,                           
+                                "shareMediaCategory" => "NONE"
+                                );
+
                             $payload = array(
                                 "author" => "urn:li:person:".$linkedin_id,
                                 "lifecycleState" => "PUBLISHED",
-                                "specificContent" => array(
-                                        "com.linkedin.ugc.ShareContent" => array(
-                                            "shareCommentary" => array(
-                                                "text" => $post,
-                                            ),
-                                        ),
-                                    ) ,
-                                    
-                                "shareMediaCategory" => "NONE"
+                                "specificContent" => $com_specfic_content
                             );
 
                             $pl_json = json_encode($payload);
