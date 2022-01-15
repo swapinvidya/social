@@ -360,7 +360,7 @@ class PostController extends Controller
                     $uploadUrl = $data_output["value"]["uploadMechanism"]["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"]["uploadUrl"];
                     $asset = $data_output["value"]["asset"];
 
-                    dd($uploadUrl,$asset);
+                   
                     //use upload url to send image to create asset
 
                     $imagedata = file_get_contents($path);
