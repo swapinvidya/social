@@ -356,7 +356,11 @@ class PostController extends Controller
                     $response = curl_exec($curl);
 
                     curl_close($curl);
-                    dd( json_decode($response,true));
+                    $data_output =  json_decode($response,true);
+                    $uploadUrl = $data_output["value"]["uploadMechanism"]["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"]["uploadUrl"];
+                    $asset = $data_output["value"]["asset"];
+
+                    dd($uploadUrl,$asset);
 
                     }else{
                             
