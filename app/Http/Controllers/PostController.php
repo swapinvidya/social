@@ -370,6 +370,8 @@ class PostController extends Controller
                     // $base64 = base64_encode($imagedata);
                     $data = base64_encode($imagedata);
 
+                    $postfield = array("upload-file" => $path );
+
                     $curl = curl_init();
 
                     curl_setopt_array($curl, array(
@@ -381,7 +383,7 @@ class PostController extends Controller
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $data,
+                    CURLOPT_POSTFIELDS => $postfield,
                     CURLOPT_HTTPHEADER => array(
                         $auth_tok,
                         'Content-Type: image/jpeg',
@@ -395,7 +397,7 @@ class PostController extends Controller
                     //upldate text
 
                         $postfield = [
-                            "author" => "urn:li:person:A52bt2lcA2",
+                            "author" => "urn:li:person:".$linkedin_id,
                             "lifecycleState" => "PUBLISHED",
                             "specificContent" => [
                                 "com.linkedin.ugc.ShareContent" => [
@@ -411,7 +413,7 @@ class PostController extends Controller
                                             ],
                                             "media" => $asset,
                                             "title" => [
-                                                "text" => $post
+                                                "text" => "text and image"
                                             ]
                                         ]
                                     ]
