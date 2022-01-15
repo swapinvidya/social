@@ -316,7 +316,7 @@ class PostController extends Controller
                     $post = strip_tags($request->input('teConfig'));
                     $img = array($path);
                     if ($hasFile){
-                        dd("image found");
+                        //dd("image found");
                         //register upload
                         $recipes = array(
                             "recipes" => [
