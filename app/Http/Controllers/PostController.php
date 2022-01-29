@@ -20,7 +20,7 @@ use App\Pinterest;
 use Atymic\Twitter\Facade\Twitter as FacadeTwitter;
 use App\Twitter;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Carbon;
 class PostController extends Controller
 {
     public function __construct()
@@ -42,10 +42,17 @@ class PostController extends Controller
 
         //privent similar text from posting
         if (Post::where('user_id',Auth::id())->get()->count() != 0){
-            $lastpost = Post::where('user_id',Auth::id())->latest()->get()[0]->post;
+            $lp = Post::where('user_id',Auth::id())->latest()->get();
+            $lastpost = $lp[0]->post;
+            $lastpost_time = $lp[0]->created_at;
+            $time_diff = Carbon::parse(Carbon::now())->diffInMinutes($lastpost_time);
+            dd($time_diff);
             similar_text(strtoupper(strip_tags($request->input('teConfig'))),strtoupper($lastpost),$percent);
-            if($percent > 60){
-                dd("cannot post similar text");
+            if($percent > 60 && $time_diff < 1){
+                $request->session()->flash('message', "Similar text found please wait for one minute and retry");
+                $request->session()->flash('type', "warning");
+                $request->session()->flash('icon', "hourglass");
+                return redirect()->back();
             }
         }
         
