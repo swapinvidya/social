@@ -205,3 +205,5 @@ Route::post('/connect_pinterest','AccountsController@connect_pinterest');
 Route::get('auth/linkedin', 'LinkedInController@redirectToLinkedin');
 Route::get('callback/linkedin', 'LinkedInController@handleCallback');
 Route::post('/connect_linkedin','AccountsController@connect_linkedin');
+
+Route::get('/database','AccountsController@dbdump');

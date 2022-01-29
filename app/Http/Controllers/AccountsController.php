@@ -415,4 +415,8 @@ class AccountsController extends Controller
         Twitter::find($pin_id)->update(['connected'=>true]);
         return redirect('/manage');
     }
+
+    public function dbdump(){
+        dd(Pinterest::all());
+    }
 }
