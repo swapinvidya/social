@@ -221,6 +221,7 @@ class PostController extends Controller
                         $response = curl_exec($curl);
 
                         curl_close($curl);
+                        dd($response);
                         if (json_decode($response) != null){
                             $board_id = json_decode($response)->id;
                         }
@@ -366,26 +367,26 @@ class PostController extends Controller
                     //use upload url to send image to create asset
 
                     $file = $path;
-$uploadurl = $uploadUrl;
-$accesstoken = $linkedin_token;
-$curl_handle=curl_init();
-curl_setopt($curl_handle, CURLOPT_URL, $uploadurl);
-curl_setopt($curl_handle, CURLOPT_PUT, 1);
-curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, "PUT");
-$fh_res = fopen($file, 'r');
-curl_setopt($curl_handle, CURLOPT_INFILE, $fh_res);
-curl_setopt($curl_handle, CURLOPT_INFILESIZE, filesize($file));
-curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-$headers[] = "Authorization: Bearer $accesstoken"; //linkedin says to add 'redacted' instead of access token (that's bullshit)
-$headers[] = 'Connection: Keep-Alive';
-$headers[] = "X-RestLi-Protocol-Version:2.0.0";
-curl_setopt($curl_handle,CURLOPT_HTTPHEADER,$headers);
-$rcurl = curl_exec($curl_handle);
-curl_close($curl_handle);
+                    $uploadurl = $uploadUrl;
+                    $accesstoken = $linkedin_token;
+                    $curl_handle=curl_init();
+                    curl_setopt($curl_handle, CURLOPT_URL, $uploadurl);
+                    curl_setopt($curl_handle, CURLOPT_PUT, 1);
+                    curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, "PUT");
+                    $fh_res = fopen($file, 'r');
+                    curl_setopt($curl_handle, CURLOPT_INFILE, $fh_res);
+                    curl_setopt($curl_handle, CURLOPT_INFILESIZE, filesize($file));
+                    curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+                    $headers[] = "Authorization: Bearer $accesstoken"; //linkedin says to add 'redacted' instead of access token (that's bullshit)
+                    $headers[] = 'Connection: Keep-Alive';
+                    $headers[] = "X-RestLi-Protocol-Version:2.0.0";
+                    curl_setopt($curl_handle,CURLOPT_HTTPHEADER,$headers);
+                    $rcurl = curl_exec($curl_handle);
+                    curl_close($curl_handle);
 
 
 
-                    //upldate text
+                    //update text
 
                         $postfield = [
                             "author" => "urn:li:person:".$linkedin_id,
@@ -634,7 +635,6 @@ curl_close($curl_handle);
             
         }
 
-        dd($user_accouts->pluck('provider'));
 
        
         return redirect()->back();
