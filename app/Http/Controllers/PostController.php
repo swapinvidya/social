@@ -45,7 +45,7 @@ class PostController extends Controller
             $lp = Post::where('user_id',Auth::id())->latest()->get();
             $lastpost = $lp[0]->post;
             $lastpost_time = $lp[0]->created_at;
-            $time_diff = Carbon::parse(Carbon::now())->diffInMinutes($lastpost_time);
+            $time_diff = Carbon::now()->diffInMinutes($lastpost_time);
             dd($time_diff);
             similar_text(strtoupper(strip_tags($request->input('teConfig'))),strtoupper($lastpost),$percent);
             if($percent > 60 && $time_diff < 1){
