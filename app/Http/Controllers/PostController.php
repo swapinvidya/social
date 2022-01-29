@@ -49,7 +49,7 @@ class PostController extends Controller
             if($percent > 60 ){
                 $lastpost_time = $lp[0]->created_at;
                 $time_diff = Carbon::now()->diffInMinutes($lastpost_time);
-                dd($time_diff);
+                //dd($time_diff);
                 if ($time_diff < 1){
                     $request->session()->flash('message', "Similar text found please wait for one minute and retry");
                     $request->session()->flash('type', "warning");
