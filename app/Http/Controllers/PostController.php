@@ -194,6 +194,8 @@ class PostController extends Controller
 
                     if ($path == ""){
                         $request->session()->flash('message', "No image found for pin");
+                        $request->session()->flash('type', "warning");
+                        $request->session()->flash('icon', "hourglass");
                         break;
                     }
                         $page_id = Account::find($id);
