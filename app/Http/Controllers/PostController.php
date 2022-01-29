@@ -191,6 +191,11 @@ class PostController extends Controller
                     //
                     break;
                 case   "Pinterest":
+
+                    if ($path == ""){
+                        $request->session()->flash('message', "No image found for pin");
+                        break;
+                    }
                         $page_id = Account::find($id);
                         $pinterest = Pinterest::find($page_id->page_id);
                         $pintrest_token = $pinterest->token;
