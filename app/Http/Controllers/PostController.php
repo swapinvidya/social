@@ -200,7 +200,7 @@ class PostController extends Controller
                         $curl_header = array(
                             'Authorization: Bearer '.$pintrest_token,
                             'Content-Type: application/json',
-                            'Cookie: _auth=0; _pinterest_sess=TWc9PSZvTE5TY2VhYVF3MTY5TVNNY2JRekIraEtabERkWmRyOVhTSTBJSnFvUWJyVWU1dUt2UytUbGpLc1JaMnN5MGlzZmRsNUtZTE40dmVKMVczMm90WkpMdW90OXY0MExrZVRtNUxBT3lmS1FiUjN1QmRpZ1JzNzZ2NnROaXVNTW8xLyZVcjRiOHhLK0pCNHY4c1cvYk9aNVlSdXZNR3M9; _ir=0'
+                            
                         );
 
                         $curl = curl_init();
@@ -221,7 +221,7 @@ class PostController extends Controller
                         $response = curl_exec($curl);
 
                         curl_close($curl);
-                        dd($response);
+                        //dd($response);
                         if (json_decode($response) != null){
                             $board_id = json_decode($response)->id;
                         }
